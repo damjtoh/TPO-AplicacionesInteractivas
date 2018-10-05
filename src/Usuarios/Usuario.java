@@ -15,7 +15,7 @@ public class Usuario {
 
 	public Usuario(String nombre, String email, String password,
 			String nombreUsuario, String domicilio, int dni,
-			LocalDate fechaNacimiento, ArrayList roles) {
+			LocalDate fechaNacimiento, ArrayList<Rol> roles) {
 		super();
 		this.nombre = nombre;
 		this.email = email;
