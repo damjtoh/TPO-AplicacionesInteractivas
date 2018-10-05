@@ -11,6 +11,7 @@ public class Usuario {
 	private String domicilio;
 	private int dni;
 	private LocalDate fechaNacimiento;
+	private boolean activo = true;
 	private ArrayList<Rol> roles; // Falta definir la interfaz del rol 
 
 	public Usuario(String nombre, String email, String password,
@@ -25,6 +26,19 @@ public class Usuario {
 		this.dni = dni;
 		this.fechaNacimiento = fechaNacimiento;
 		this.roles = roles;
+	}
+	
+	
+	public void desactivar() {
+		this.activo = false;
+	}
+	
+	public void activar() {
+		this.activo = true;
+	}
+	
+	public void editar(String nombre, String email, String password, String domicilio) {
+		
 	}
 
 }
