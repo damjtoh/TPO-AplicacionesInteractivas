@@ -1,4 +1,4 @@
-package cinesClases;
+package sistemaCine.cinesClases;
 
 public class AsinentoVirtual {
 	private String numero;
