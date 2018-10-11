@@ -19,7 +19,10 @@ import Usuarios.Rol;
 
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UsuariosCrearView extends JPanel {
 	private JTextField txtNombreApellido;
@@ -107,6 +110,11 @@ public class UsuariosCrearView extends JPanel {
 		 add(listRoles);
 		 
 		 JButton btnCrearUsuario = new JButton("Crear Usuario");
+		 btnCrearUsuario.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		
+		 	}
+		 });
 		 btnCrearUsuario.setBounds(310, 345, 117, 29);
 		 add(btnCrearUsuario);
 

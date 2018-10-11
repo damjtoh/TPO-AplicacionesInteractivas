@@ -13,6 +13,9 @@ import javax.swing.JMenuItem;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+
+
 
 public class CineView extends JFrame {
 
@@ -80,5 +83,7 @@ public class CineView extends JFrame {
 		contentPane.add(usuariosCrearView, "usuariosCrearView");
 		contentPane.add(usuariosListarView, "usuariosListarView");
 	}
+	
+	private getFormData()
 
 }
