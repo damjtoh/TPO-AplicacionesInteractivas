@@ -10,7 +10,7 @@ import sistemaCine.cinesClases.Sala;
 
 public class SalaDAO {
 
-	public void insert(Object object, int cuitEstablecimiento) {
+	public static void insert(Object object, int cuitEstablecimiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -29,7 +29,7 @@ public class SalaDAO {
 		}
 	}
 
-	public void updateSala(Object object, int cuitEstablecimiento, String salaOldName) {
+	public static void updateSala(Object object, int cuitEstablecimiento, String salaOldName) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -45,7 +45,7 @@ public class SalaDAO {
 		}
 	}
 
-	public void updateAsientosSala(Object object, int cuitEstablecimiento, AsinentoFisico asiento) {
+	public static void updateAsientosSala(Object object, int cuitEstablecimiento, AsinentoFisico asiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -62,7 +62,7 @@ public class SalaDAO {
 		}
 	}
 
-	public void delete(Object object, int cuitEstablecimiento) {
+	public static void delete(Object object, int cuitEstablecimiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -74,15 +74,6 @@ public class SalaDAO {
 		} catch (Exception e) {
 			System.out.println();
 		}
-
-	}
-
-	public List<Object> select(Object o) {
-		return null;
-	}
-
-	public void insert(Object o) {
-		// TODO Auto-generated method stub
 
 	}
 
