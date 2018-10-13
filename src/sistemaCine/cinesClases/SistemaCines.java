@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemacine.cinesClases;
 
 import java.util.Collection;
 
