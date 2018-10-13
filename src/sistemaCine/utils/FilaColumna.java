@@ -1,4 +1,4 @@
-package utils;
+package sistemaCine.utils;
 
 public class FilaColumna {
 	String fila;

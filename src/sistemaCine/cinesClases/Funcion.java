@@ -1,10 +1,10 @@
-package sistemacine.cinesClases;
+package sistemaCine.cinesClases;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sistemacine.utils.FilaColumna;
+import sistemaCine.utils.FilaColumna;
 
 public class Funcion {
 	private Date fechaYHora;

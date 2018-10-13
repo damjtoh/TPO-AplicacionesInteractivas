@@ -1,11 +1,11 @@
-package sistemacine.cinesClases;
+package sistemaCine.cinesClases;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sistemacine.utils.FilaColumna;
+import sistemaCine.utils.FilaColumna;
 
 public class Sala {
 	private String nombre;

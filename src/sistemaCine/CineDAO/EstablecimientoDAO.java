@@ -1,16 +1,12 @@
-package sistemacine.CineDAO;
+package sistemaCine.CineDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import javax.crypto.CipherInputStream;
-
-import Persistencas.AdministradorPersistencia;
 import Persistencas.PoolConnection;
-import sistemacine.cinesClases.Establecimiento;
-import sistemacine.cinesClases.Sala;
+import sistemaCine.cinesClases.Establecimiento;
 
 public class EstablecimientoDAO {
 

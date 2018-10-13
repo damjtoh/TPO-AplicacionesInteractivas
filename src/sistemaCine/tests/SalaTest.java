@@ -1,16 +1,15 @@
-package tests;
+package sistemaCine.tests;
 
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Test;
 
-import cinesClases.AsinentoFisico;
-import cinesClases.Funcion;
-import cinesClases.Pelicula;
-import cinesClases.Sala;
+import sistemaCine.cinesClases.AsinentoFisico;
+import sistemaCine.cinesClases.Funcion;
+import sistemaCine.cinesClases.Pelicula;
+import sistemaCine.cinesClases.Sala;
 
 public class SalaTest {
 

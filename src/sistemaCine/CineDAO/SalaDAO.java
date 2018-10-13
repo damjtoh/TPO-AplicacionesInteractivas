@@ -1,14 +1,12 @@
-package sistemacine.CineDAO;
+package sistemaCine.CineDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.Vector;
 
-import Persistencas.AdministradorPersistencia;
 import Persistencas.PoolConnection;
-import sistemacine.cinesClases.AsinentoFisico;
-import sistemacine.cinesClases.Sala;
+import sistemaCine.cinesClases.AsinentoFisico;
+import sistemaCine.cinesClases.Sala;
 
 public class SalaDAO {
 
