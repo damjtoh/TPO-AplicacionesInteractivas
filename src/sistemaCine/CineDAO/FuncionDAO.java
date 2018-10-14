@@ -99,6 +99,7 @@ public class FuncionDAO {
 		}
 		return new ArrayList<>();
 	}
+
 	public static Map<FilaColumna, AsinentoVirtual> selectAsientos(Funcion funcion) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -106,12 +107,12 @@ public class FuncionDAO {
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
 			query.setInt(1, funcion.getId());
 
-			ResultSet rs= query.executeQuery();
+			ResultSet rs = query.executeQuery();
 			Map<FilaColumna, AsinentoVirtual> mapaDeAsientos = new HashMap<>();
 			while (rs.next()) {
 				AsinentoVirtual asiento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
 				asiento.setOcupado(rs.getBoolean(4));
-				mapaDeAsientos.put(new FilaColumna(rs.getString(2), rs.getString(3)),asiento);
+				mapaDeAsientos.put(new FilaColumna(rs.getString(2), rs.getString(3)), asiento);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return mapaDeAsientos;

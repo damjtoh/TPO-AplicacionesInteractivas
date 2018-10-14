@@ -16,6 +16,7 @@ public class Entrada {
 	public void setFuncion(Funcion funcion) {
 		this.funcion = funcion;
 	}
+
 	public Entrada(AsinentoVirtual asiento, Funcion funcion) {
 		super();
 		this.asiento = asiento;

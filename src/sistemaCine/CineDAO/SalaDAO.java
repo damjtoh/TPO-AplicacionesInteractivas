@@ -71,7 +71,8 @@ public class SalaDAO {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("deleta from sala_asientos where cuit = ? and nombre = ?");
+			PreparedStatement query = coneccion
+					.prepareStatement("deleta from sala_asientos where cuit = ? and nombre = ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();
@@ -81,35 +82,40 @@ public class SalaDAO {
 		}
 
 	}
+
 	public static List<Sala> selectSalas(int cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("select nombre from sala_asientos where cuit = ? group by nombre");
+			PreparedStatement query = coneccion
+					.prepareStatement("select nombre from sala_asientos where cuit = ? group by nombre");
 			query.setInt(1, cuitEstablecimiento);
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			List<Sala> salas = new ArrayList<>();
 			while (rs.next()) {
 				salas.add(new Sala(rs.getString(1)));
-			} 
+			}
 			return salas;
 		} catch (Exception e) {
 			System.out.println();
 		}
 		return new ArrayList<>();
 	}
-	public static void selectAsientosSala(Sala sala,int cuitEstablecimiento) {
+
+	public static void selectAsientosSala(Sala sala, int cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("select fila,comlumna,usable from sala_asientos where cuit = ? and nombre = ?");
+			PreparedStatement query = coneccion
+					.prepareStatement("select fila,comlumna,usable from sala_asientos where cuit = ? and nombre = ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			Map<FilaColumna, AsinentoFisico> asientos = new HashMap<>();
 			while (rs.next()) {
-				asientos.put(new FilaColumna(rs.getString(1), rs.getString(2)),new AsinentoFisico(rs.getString(1), rs.getString(2),rs.getBoolean(3)));
-			} 
+				asientos.put(new FilaColumna(rs.getString(1), rs.getString(2)),
+						new AsinentoFisico(rs.getString(1), rs.getString(2), rs.getBoolean(3)));
+			}
 			sala.setMapaDeAsientos(asientos);
 		} catch (Exception e) {
 			System.out.println();

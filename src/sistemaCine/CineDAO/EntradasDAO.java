@@ -67,7 +67,7 @@ public class EntradasDAO {
 			query.setInt(1, entrada.getFuncion().getId());
 			query.setString(2, entrada.getAsiento().getColumna());
 			query.setString(3, entrada.getAsiento().getFila());
-			ResultSet rs= query.executeQuery();
+			ResultSet rs = query.executeQuery();
 			rs.next();
 			AsinentoVirtual asinento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
 			asinento.setOcupado(rs.getBoolean(4));
