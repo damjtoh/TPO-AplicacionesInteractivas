@@ -28,6 +28,14 @@ public class Sala {
 		return nombre;
 	}
 
+	public void setFunciones(List<Funcion> funciones) {
+		this.funciones = funciones;
+	}
+
+	public void setMapaDeAsientos(Map<FilaColumna, AsinentoFisico> mapaDeAsientos) {
+		this.mapaDeAsientos = mapaDeAsientos;
+	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}

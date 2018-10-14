@@ -1,72 +1,65 @@
 package sistemaCine.CineDAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.cinesClases.AsinentoVirtual;
+import sistemaCine.cinesClases.Funcion;
+import sistemaCine.cinesClases.Pelicula;
+import sistemaCine.cinesClases.Sala;
+import sistemaCine.utils.FilaColumna;
 
 public class FuncionDAO {
-	public static void insert(Object object) {
+	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) {
 		try {
-			Establecimiento establecimiento = (Establecimiento) object;
-			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into establecimientos values (?,?,?)");
-
-			query.setInt(1, establecimiento.getCuit());
-			query.setString(2, establecimiento.getNombre());
-			query.setString(3, establecimiento.getDomicilio());
-			query.execute();
-//		query = coneccion.prepareStatement("insert into establecimientos_salas values (?,?)");
-//		for (String sala : establecimiento.getSalas().keySet()) {
-//			query.setInt(1, establecimiento.getCuit());
-//			query.setString(2, sala);
-//			query.execute();
-//		}
-			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
-
-	}
-
-	public static void update(Object object) {
-		try {
-			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("update establecimientos set nombre = ?,domicilio = ? where cuit = ?");
-			query.setString(1, establecimiento.getNombre());
-			query.setString(2, establecimiento.getDomicilio());
-			query.setInt(3, establecimiento.getCuit());
+					.prepareStatement("insert into funciones values ((select max(id)+1 from peliculas),?,?,?,?,?)");
+			query.setInt(1, funcion.getPelicula().getId());
+			query.setInt(2, cuitEstablecimiento);
+			query.setString(3, funcion.getSala().getNombre());
+			query.setDate(4, funcion.getFechaYHora());
+			query.setDouble(5, funcion.getValor());
 			query.execute();
-//		query = coneccion.prepareStatement("delete from establecimientos_salas where cuit = ?");
-//		query.setInt(1, establecimiento.getCuit());
-//		query.execute();
-//		for (String sala : establecimiento.getSalas().keySet()) {
-//			query.setInt(1, establecimiento.getCuit());
-//			query.setString(2, sala);
-//			query.execute();
-//		}
-//		
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 		} catch (Exception e) {
 			System.out.println();
 		}
 	}
 
-	public static void delete(Object object) {
+	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query = coneccion.prepareStatement(
+					"update funciones set id_pelicula = ?,cuit_establecimiento = ?, nombre_sala = ?,fecha_hora = ?,valor = ? where id = ?");
+			query.setInt(1, funcion.getPelicula().getId());
+			query.setInt(2, cuitEstablecimiento);
+			query.setString(3, funcion.getSala().getNombre());
+			query.setDate(4, funcion.getFechaYHora());
+			query.setDouble(5, funcion.getValor());
+			query.setInt(6, funcion.getId());
+			query.execute();
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		} catch (Exception e) {
+			System.out.println();
+		}
+	}
+
+	public static void deleteFuncion(Funcion funcion) {
 
 		try {
-			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("delete from establecimientos where cuit = ?");
-			query.setInt(1, establecimiento.getCuit());
+			PreparedStatement query = coneccion.prepareStatement("delete from funciones where id = ?");
+			query.setInt(1, funcion.getId());
 			query.execute();
-//		query = coneccion.prepareStatement("delete from establecimientos_salas where cuit = ?");
-//		query.setInt(1, establecimiento.getCuit());
-//		query.execute();
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 
 		} catch (Exception e) {
@@ -75,21 +68,56 @@ public class FuncionDAO {
 
 	}
 
-	public static Establecimiento selectEstablecimieto(int cuit) {
+	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("select * from establecimientos where cuit = ?");
-			query.setInt(1, cuit);
+			String consultaSql = "select fecha_hora,nombre_sala,valor from funciones where  cuit_establecimiento = ? and id_pelicula = ?, fecha_hora >= ? order by fecha_hora ASC";
+//			if (cuitEstablecimiento !=null) {
+//				consultaSql = consultaSql.replace("cuit"," cuit_establecimiento = ? and ");
+//			}else {
+//				consultaSql = consultaSql.replace("cuit","");
+//			}
+//			
+			PreparedStatement query = coneccion.prepareStatement(consultaSql);
+//			if (cuitEstablecimiento !=null) {
+			query.setInt(1, cuitEstablecimiento);
+			query.setInt(2, pelicula.getId());
+			query.setDate(3, fecha);
+//			}else {
+//				query.setInt(1, funcion.getPelicula().getId());
+//				query.setDate(2, funcion.getFechaYHora());
+//			}
 			ResultSet rs = query.executeQuery();
-			Establecimiento establecimiento = null;
+			List<Funcion> funciones = new ArrayList<>();
 			if (rs.next()) {
-				establecimiento = new Establecimiento(rs.getInt(1), rs.getString(2), rs.getString(2));
+				funciones.add(new Funcion(rs.getDate(1), pelicula, new Sala(rs.getString(2)), rs.getDouble(3)));
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return establecimiento;
+			return funciones;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<>();
+	}
+	public static Map<FilaColumna, AsinentoVirtual> selectAsientos(Funcion funcion) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			String statementSql = "select * from entradas where id_funcion = ?";
+			PreparedStatement query = coneccion.prepareStatement(statementSql);
+			query.setInt(1, funcion.getId());
+
+			ResultSet rs= query.executeQuery();
+			Map<FilaColumna, AsinentoVirtual> mapaDeAsientos = new HashMap<>();
+			while (rs.next()) {
+				AsinentoVirtual asiento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
+				asiento.setOcupado(rs.getBoolean(4));
+				mapaDeAsientos.put(new FilaColumna(rs.getString(2), rs.getString(3)),asiento);
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return mapaDeAsientos;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return new HashMap<>();
 	}
 }

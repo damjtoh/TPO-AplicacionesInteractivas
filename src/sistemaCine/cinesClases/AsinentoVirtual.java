@@ -1,24 +1,30 @@
 package sistemaCine.cinesClases;
 
 public class AsinentoVirtual {
-	private String numero;
+	private String columna;
 	private String fila;
-	private boolean ocupado;
+	private Boolean ocupado;
 	
-	public AsinentoVirtual(String numero, String fila) {
+	public AsinentoVirtual(String columna, String fila) {
 		super();
-		this.numero = numero;
+		this.columna = columna;
 		this.fila = fila;
 		this.ocupado = false;
 	}
-	public boolean isOcupado() {
+	public Boolean isOcupado() {
 		return ocupado;
 	}
-	public void setUsable(boolean ocupado) {
-		this.ocupado = ocupado;
+	public String getColumna() {
+		return columna;
 	}
-	public String getNumero() {
-		return numero;
+	public void setColumna(String columna) {
+		this.columna = columna;
+	}
+	public void setFila(String fila) {
+		this.fila = fila;
+	}
+	public void setOcupado(Boolean ocupado) {
+		this.ocupado = ocupado;
 	}
 	public String getFila() {
 		return fila;

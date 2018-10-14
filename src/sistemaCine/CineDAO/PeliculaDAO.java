@@ -24,12 +24,12 @@ public class PeliculaDAO {
 		return instancia;
 	}
 
-	public static void insert(Object object) {
+	public static void insertPelicula(Object object) {
 		try {
 			Pelicula p = (Pelicula) object;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = conection
-					.prepareStatement("insert into peliculas values (select max(id) from peliculas,?,?,?,?,?,?,?,?)");
+					.prepareStatement("insert into peliculas values ((select max(id)+1 from peliculas),?,?,?,?,?,?,?,?)");
 			query.setString(1, p.getNombre());
 			query.setString(2, p.getDirector());
 			query.setString(3, p.getGenero());
@@ -46,9 +46,8 @@ public class PeliculaDAO {
 
 	}
 
-	public static void update(Object object) {
+	public static void updatePelicula(Pelicula pelicula) {
 		try {
-			Pelicula pelicula = (Pelicula) object;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			// cambiar por nombre de la base nuestra
 			// (A_Interactivas_01.dbo.peliculas)
@@ -71,9 +70,8 @@ public class PeliculaDAO {
 
 	}
 
-	public static void delete(Object object) {
+	public static void deletePelicula(Pelicula pelicula) {
 		try {
-			Pelicula pelicula = (Pelicula) object;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = conection.prepareStatement("delete from peliculas where id = ?");
 			query.setInt(1, pelicula.getId());
@@ -85,14 +83,14 @@ public class PeliculaDAO {
 
 	}
 
-	public static List<Pelicula> selectAll() {
+	public static List<Pelicula> selectAllPeliculas() {
 		try {
 
 			List<Pelicula> peliculas = new ArrayList<>();
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			// cambiar por nombre de la base nuestra
 			// (A_Interactivas_01.dbo.peliculas)
-			PreparedStatement query = conection.prepareStatement("Select * from peliculas order by fechaYHora");
+			PreparedStatement query = conection.prepareStatement("Select * from peliculas");
 			ResultSet result = query.executeQuery();
 			while (result.next()) {
 				int id = result.getInt(1);

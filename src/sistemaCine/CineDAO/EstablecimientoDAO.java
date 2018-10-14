@@ -71,9 +71,6 @@ public class EstablecimientoDAO {
 			PreparedStatement query = coneccion.prepareStatement("delete from establecimientos where cuit = ?");
 			query.setInt(1, establecimiento.getCuit());
 			query.execute();
-//			query = coneccion.prepareStatement("delete from establecimientos_salas where cuit = ?");
-//			query.setInt(1, establecimiento.getCuit());
-//			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 
 		} catch (Exception e) {

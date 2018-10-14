@@ -1,6 +1,5 @@
 package sistemaCine.cinesClases;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ public class Establecimiento {
 	private String nombre;
 	private String domicilio;
 	private Map<String,Sala> salas;
+	private Map<Integer,Pelicula> peliculas;
 	
 	public String getNombre() {
 		return nombre;
@@ -39,5 +39,14 @@ public class Establecimiento {
 	}
 	public boolean removeSala(String nombre) {
 		return null==salas.remove(nombre);
+	}
+	public Map<Integer,Pelicula> getPeliculas() {
+		return peliculas;
+	}
+	public void setPeliculas(Map<Integer,Pelicula> peliculas) {
+		this.peliculas = peliculas;
+	}
+	public void addPelicula(Pelicula pelicula) {
+		peliculas.put(pelicula.getId(), pelicula);
 	}
 }
