@@ -1,8 +1,8 @@
 package Usuarios;
 
-public class Cliente extends Rol {
+public class Empleado extends Rol {
 
-	public Cliente(Usuario usuario) {
+	public Empleado(Usuario usuario) {
 		super(usuario);
 		// TODO Auto-generated constructor stub
 	}
