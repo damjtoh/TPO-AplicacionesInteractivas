@@ -2,7 +2,8 @@ package SistemaVentas;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Observer;
+
+import sistemaCine.cinesClases.Entrada;
 
 public class Venta {
 	private List<Entrada> entradas;

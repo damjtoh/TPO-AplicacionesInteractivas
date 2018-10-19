@@ -72,7 +72,7 @@ public class LoginView extends JDialog {
 				JButton okButton = new JButton("Ingresar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("Intenté ingresar"+textUsuario.getText());
+						System.out.println("Intento ingresar: "+textUsuario.getText());
 					}
 				});
 				okButton.setActionCommand("OK");
