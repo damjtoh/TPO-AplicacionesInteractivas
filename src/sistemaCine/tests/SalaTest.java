@@ -28,8 +28,8 @@ public class SalaTest {
 		for (int i = 1; i < 10; i++) {
 			Calendar date = Calendar.getInstance();
 			date.set(i, i, i);
-			sala.addFuncion(
-					new Funcion((Date) date.getTime() , new Pelicula(null, null, null, i, null, true, i, null), sala));
+			//sala.addFuncion(
+				//	new Funcion((Date) date.getTime() , new Pelicula(null, null, null, i, null, true, i, null), sala));
 		}
 		for (int i = 0; i < sala.getFunciones().size() - 1; i++) {
 			assertTrue(sala.getFunciones().get(i).getFechaYHora().before(sala.getFunciones().get(i+1).getFechaYHora()));

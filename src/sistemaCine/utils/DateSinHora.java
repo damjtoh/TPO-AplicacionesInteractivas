@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Calendar;
 
 public final class DateSinHora {
+	
 	public static final Date getDateSinHora(Date fecha) {
 		Calendar date = Calendar.getInstance();
 		date.setTime(fecha);
@@ -13,4 +14,5 @@ public final class DateSinHora {
 		date.set(Calendar.MILLISECOND,0);
 		return (Date) date.getTime();
 	}
+	
 }

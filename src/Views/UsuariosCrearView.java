@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class UsuariosCrearView extends JPanel {
+
 	private JTextField txtNombreApellido;
 	private JTextField txtNombreUsuario;
 	private JTextField txtContrasena;
@@ -32,9 +33,7 @@ public class UsuariosCrearView extends JPanel {
 	private JTextField textDNI;
 	private JTextField textFechaNacimiento;
 
-	/**
-	 * Create the panel.
-	 */
+
 	public UsuariosCrearView() {
 		setLayout(null);
 		
