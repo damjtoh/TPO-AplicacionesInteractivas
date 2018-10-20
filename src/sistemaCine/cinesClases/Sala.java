@@ -72,6 +72,9 @@ public class Sala {
 			funciones.add(funcion);
 		}
 	}
+	public int getCapacidad(){
+		return mapaDeAsientos.size();
+	}
 
 	private int getPosicion(Funcion funcion, int pivot, int size) {
 		if (funciones.get(pivot) == null || size < 1) {

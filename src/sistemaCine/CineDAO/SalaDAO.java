@@ -19,7 +19,11 @@ public class SalaDAO {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into salas values (?,?)");
+			query.setInt(1, cuitEstablecimiento);
+			query.setString(2, sala.getNombre());
+			query.execute();
+			query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?)");
 			for (AsinentoFisico asiento : sala.getMapaDeAsientos().values()) {
 				query.setInt(1, cuitEstablecimiento);
 				query.setString(2, sala.getNombre());
@@ -39,6 +43,12 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
+					.prepareStatement("update into salas set nombre = ? where cuit = ? and nombre = ?");
+			query.setString(1, sala.getNombre());
+			query.setInt(2, cuitEstablecimiento);
+			query.setString(3, salaOldName);
+			query.execute();
+			query = coneccion
 					.prepareStatement("update into sala_asientos set nombre = ? where cuit = ? and nombre = ?");
 			query.setString(1, sala.getNombre());
 			query.setInt(2, cuitEstablecimiento);
@@ -72,6 +82,11 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
+					.prepareStatement("deleta from salas where cuit = ? and nombre = ?");
+			query.setInt(1, cuitEstablecimiento);
+			query.setString(2, sala.getNombre());
+			query.execute();
+			query = coneccion
 					.prepareStatement("deleta from sala_asientos where cuit = ? and nombre = ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
@@ -87,7 +102,7 @@ public class SalaDAO {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("select nombre from sala_asientos where cuit = ? group by nombre");
+					.prepareStatement("select nombre from sala where cuit = ?");
 			query.setInt(1, cuitEstablecimiento);
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
