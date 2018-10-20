@@ -1,0 +1,217 @@
+-- ****************** SqlDBM: Microsoft SQL Server ******************
+-- ******************************************************************
+
+
+DROP SCHEMA [dbo];
+GO
+
+
+DROP SCHEMA [guest];
+GO
+
+
+DROP SCHEMA [db_owner];
+GO
+
+
+DROP SCHEMA [db_accessadmin];
+GO
+
+
+DROP SCHEMA [db_securityadmin];
+GO
+
+
+DROP SCHEMA [db_ddladmin];
+GO
+
+
+DROP SCHEMA [db_backupoperator];
+GO
+
+
+DROP SCHEMA [db_datareader];
+GO
+
+
+DROP SCHEMA [db_datawriter];
+GO
+
+
+DROP SCHEMA [db_denydatareader];
+GO
+
+
+DROP SCHEMA [db_denydatawriter];
+GO
+
+
+CREATE SCHEMA [dbo];
+GO
+
+
+CREATE SCHEMA [guest];
+GO
+
+
+CREATE SCHEMA [db_owner];
+GO
+
+
+CREATE SCHEMA [db_accessadmin];
+GO
+
+
+CREATE SCHEMA [db_securityadmin];
+GO
+
+
+CREATE SCHEMA [db_ddladmin];
+GO
+
+
+CREATE SCHEMA [db_backupoperator];
+GO
+
+
+CREATE SCHEMA [db_datareader];
+GO
+
+
+CREATE SCHEMA [db_datawriter];
+GO
+
+
+CREATE SCHEMA [db_denydatareader];
+GO
+
+
+CREATE SCHEMA [db_denydatawriter];
+GO
+
+-- ************************************** [peliculas]
+
+CREATE TABLE [peliculas]
+(
+ [id]            INT NOT NULL ,
+ [nombe]         VARCHAR(50) NOT NULL ,
+ [director]      VARCHAR(50) NOT NULL ,
+ [genero]        VARCHAR(50) NOT NULL ,
+ [duracion]      INT NOT NULL ,
+ [idioma]        VARCHAR(50) NOT NULL ,
+ [subtitulos]    VARCHAR(50) NOT NULL ,
+ [calificacion]  DECIMAL(1,2) NULL ,
+ [observaciones] VARCHAR(100) NULL ,
+
+ CONSTRAINT [PK_peliculas] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+GO
+
+
+
+
+
+-- ************************************** [establecimientos]
+
+CREATE TABLE [establecimientos]
+(
+ [cuit]      INT NOT NULL ,
+ [nombre]    VARCHAR(50) NOT NULL ,
+ [direccion] VARCHAR(50) NOT NULL ,
+ [capacidad] INT NOT NULL ,
+
+ CONSTRAINT [PK_establecimientos] PRIMARY KEY CLUSTERED ([cuit] ASC)
+);
+GO
+
+
+
+
+
+-- ************************************** [salas]
+
+CREATE TABLE [salas]
+(
+ [cuitEstablecimiento] INT NOT NULL ,
+ [nombre]              VARCHAR(50) NOT NULL ,
+
+ CONSTRAINT [PK_salas] PRIMARY KEY CLUSTERED ([cuitEstablecimiento] ASC, [nombre] ASC),
+ CONSTRAINT [FK_184] FOREIGN KEY ([cuitEstablecimiento])
+  REFERENCES [establecimientos]([cuit])
+);
+GO
+
+
+--SKIP Index: [fkIdx_184]
+
+
+
+
+-- ************************************** [funciones]
+
+CREATE TABLE [funciones]
+(
+ [id]                  INT NOT NULL ,
+ [idPelicula]          INT NOT NULL ,
+ [nombreSala]          VARCHAR(50) NOT NULL ,
+ [cuitEstablecimiento] INT NOT NULL ,
+
+ CONSTRAINT [PK_funciones] PRIMARY KEY CLUSTERED ([id] ASC),
+ CONSTRAINT [FK_167] FOREIGN KEY ([idPelicula])
+  REFERENCES [peliculas]([id]),
+ CONSTRAINT [FK_201] FOREIGN KEY ([cuitEstablecimiento], [nombreSala])
+  REFERENCES [salas]([cuitEstablecimiento], [nombre])
+);
+GO
+
+
+--SKIP Index: [fkIdx_167]
+
+--SKIP Index: [fkIdx_201]
+
+
+
+
+-- ************************************** [sala_asientos]
+
+CREATE TABLE [sala_asientos]
+(
+ [nombre]              VARCHAR(50) NOT NULL ,
+ [fila]                VARCHAR(10) NOT NULL ,
+ [columna]             VARCHAR(10) NOT NULL ,
+ [cuitEstablecimiento] INT NOT NULL ,
+ [usable]              BIT NOT NULL ,
+
+ CONSTRAINT [PK_salas] PRIMARY KEY CLUSTERED ([nombre] ASC, [fila] ASC, [columna] ASC, [cuitEstablecimiento] ASC),
+ CONSTRAINT [FK_187] FOREIGN KEY ([cuitEstablecimiento], [nombre])
+  REFERENCES [salas]([cuitEstablecimiento], [nombre])
+);
+GO
+
+
+--SKIP Index: [fkIdx_187]
+
+
+
+
+-- ************************************** [entrada]
+
+CREATE TABLE [entrada]
+(
+ [columna] VARCHAR(10) NOT NULL ,
+ [fila]    VARCHAR(10) NOT NULL ,
+ [id]      INT NOT NULL ,
+ [ocupado] BIT NOT NULL ,
+
+ CONSTRAINT [PK_entrada] PRIMARY KEY CLUSTERED ([columna] ASC, [fila] ASC),
+ CONSTRAINT [FK_206] FOREIGN KEY ([id])
+  REFERENCES [funciones]([id])
+);
+GO
+
+
+--SKIP Index: [fkIdx_206]
+
+
+
+
