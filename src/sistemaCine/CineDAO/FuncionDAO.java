@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,5 +121,25 @@ public class FuncionDAO {
 			System.out.println();
 		}
 		return new HashMap<>();
+	}
+	public static List<Integer> selectPeliculasEstablecimiento(int cuit,Date fecha){
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			String statementSql = "select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora > ? order_by fecha_hora";
+			PreparedStatement query = coneccion.prepareStatement(statementSql);
+			query.setInt(1, cuit);
+			query.setDate(2, fecha);
+			ResultSet rs = query.executeQuery();
+			List<Integer> idsPelicula= new ArrayList<>();
+			while (rs.next()) {
+				idsPelicula.add(rs.getInt(1));
+			}
+			return idsPelicula;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<>();
+		
 	}
 }

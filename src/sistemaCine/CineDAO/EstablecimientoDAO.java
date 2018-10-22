@@ -3,6 +3,8 @@ package sistemaCine.CineDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import Persistencas.PoolConnection;
 import sistemaCine.cinesClases.Establecimiento;
@@ -97,5 +99,21 @@ public class EstablecimientoDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public static List<Establecimiento> selectAllEstablecimietos() {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query = coneccion.prepareStatement("select * from establecimientos");
+			ResultSet rs = query.executeQuery();
+			List<Establecimiento> establecimientos = new ArrayList<>();
+			if (rs.next()) {
+				establecimientos.add(new Establecimiento(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getInt(4)));
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return establecimientos;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 }

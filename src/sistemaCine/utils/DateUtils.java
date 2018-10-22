@@ -1,9 +1,10 @@
 package sistemaCine.utils;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 
-public final class DateSinHora {
+public final class DateUtils {
 	
 	public static final Date getDateSinHora(Date fecha) {
 		Calendar date = Calendar.getInstance();
@@ -14,5 +15,10 @@ public final class DateSinHora {
 		date.set(Calendar.MILLISECOND,0);
 		return (Date) date.getTime();
 	}
+
+//	public static final Date getDateSql(java.util.Date fecha) {		
+//		return (Date) fecha;
+//	}
+	
 	
 }

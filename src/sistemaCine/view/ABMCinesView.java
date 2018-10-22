@@ -1,17 +1,16 @@
-package sistemaCine.view.Establecimiento;
+package sistemaCine.view;
 
 import java.awt.Container;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
-import javax.swing.SwingConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class ABMCinesView {
+public class ABMCinesView extends javax.swing.JFrame{
 
 	private JFrame frame;
 	private JButton btnEstablecimientos;
@@ -53,16 +52,26 @@ public class ABMCinesView {
 		btnEstablecimientos = new JButton("Buscar por Establecimientos");
 		btnEstablecimientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEstablecimientos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				ABMEstablecimientosView.getInstancia().setLocationRelativeTo(null);
+				ABMEstablecimientosView.getInstancia().setVisible(true);
 			}
 		});
-		btnEstablecimientos.setBounds(12, 153, 408, 67);
+		btnEstablecimientos.setBounds(12, 137, 408, 67);
 		frame.getContentPane().add(btnEstablecimientos);
 		
 		btnPeliculas = new JButton("Buscar por Peliculas");
 		btnPeliculas.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnPeliculas.setBounds(12, 73, 408, 67);
+		btnPeliculas.setBounds(12, 40, 408, 67);
 		frame.getContentPane().add(btnPeliculas);
+		btnPeliculas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ABMPeliculasView.getInstancia().setLocationRelativeTo(null);
+				ABMPeliculasView.getInstancia().setVisible(true);				
+			}
+		});
 		
 		lblNombreUsuario = new JLabel("");
 		lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));

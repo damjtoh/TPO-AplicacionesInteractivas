@@ -19,7 +19,8 @@ import java.awt.event.WindowEvent;
 import java.util.Properties;
 import javax.swing.JButton;
 
-public class AltaModificacionEstablecimientoView {
+@SuppressWarnings("serial")
+public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 	static AltaModificacionEstablecimientoView instancia;
 	private JFrame frame;
 	private JTextField compNombre;

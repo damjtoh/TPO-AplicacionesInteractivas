@@ -121,52 +121,59 @@ public class PeliculaDAO {
 		try {
 			boolean cambiado = false;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
-
+			PreparedStatement query;
 			String stringConsulta = "select * from peliculas where ";
-			if (pelicula.getGenero() != null) {
-				stringConsulta = stringConsulta.concat(" genero = ? ");
-				cambiado = true;
-			}
-			if (pelicula.getNombre() != null) {
-				if (cambiado) {
-					stringConsulta = stringConsulta.concat(" and nombre = ? ");
-				} else {
-					stringConsulta = stringConsulta.concat(" nombre = ? ");
+			if (pelicula.getId() == null) {
+				if (pelicula.getGenero() != null) {
+					stringConsulta = stringConsulta.concat(" genero = ? ");
 					cambiado = true;
 				}
-			}
-			if (pelicula.getIdioma() != null) {
-				if (cambiado) {
-					stringConsulta = stringConsulta.concat(" and idioma = ? ");
-				} else {
-					stringConsulta = stringConsulta.concat(" idioma = ? ");
-					cambiado = true;
+				if (pelicula.getNombre() != null) {
+					if (cambiado) {
+						stringConsulta = stringConsulta.concat(" and nombre = ? ");
+					} else {
+						stringConsulta = stringConsulta.concat(" nombre = ? ");
+						cambiado = true;
+					}
 				}
-			}
-			if (pelicula.isSubtitulos() != null) {
-				if (cambiado) {
-					stringConsulta = stringConsulta.concat(" and subtitulos = ? ");
-				} else {
-					stringConsulta = stringConsulta.concat(" subtitulos = ? ");
+				if (pelicula.getIdioma() != null) {
+					if (cambiado) {
+						stringConsulta = stringConsulta.concat(" and idioma = ? ");
+					} else {
+						stringConsulta = stringConsulta.concat(" idioma = ? ");
+						cambiado = true;
+					}
 				}
+				if (pelicula.isSubtitulos() != null) {
+					if (cambiado) {
+						stringConsulta = stringConsulta.concat(" and subtitulos = ? ");
+					} else {
+						stringConsulta = stringConsulta.concat(" subtitulos = ? ");
+					}
+				}
+				query = conection.prepareStatement(stringConsulta);
+				int pos = 1;
+				if (pelicula.getGenero() != null) {
+					query.setString(pos, pelicula.getGenero());
+					pos++;
+				}
+				if (pelicula.getNombre() != null) {
+					query.setString(pos, pelicula.getNombre());
+					pos++;
+				}
+				if (pelicula.getIdioma() != null) {
+					query.setString(pos, pelicula.getIdioma());
+					pos++;
+				}
+				if (pelicula.isSubtitulos() != null) {
+					query.setBoolean(pos, pelicula.isSubtitulos());
+				}
+			}else {
+				stringConsulta = stringConsulta.concat(" id = ? ");
+				query = conection.prepareStatement(stringConsulta);
+				query.setInt(1, pelicula.getId());
 			}
-			PreparedStatement query = conection.prepareStatement(stringConsulta);
-			int pos = 1;
-			if (pelicula.getGenero() != null) {
-				query.setString(pos, pelicula.getGenero());
-				pos++;
-			}
-			if (pelicula.getNombre() != null) {
-				query.setString(pos, pelicula.getNombre());
-				pos++;
-			}
-			if (pelicula.getIdioma() != null) {
-				query.setString(pos, pelicula.getIdioma());
-				pos++;
-			}
-			if (pelicula.isSubtitulos() != null) {
-				query.setBoolean(pos, pelicula.isSubtitulos());
-			}
+			
 			List<Pelicula> peliculas = new ArrayList<>();
 			ResultSet result = query.executeQuery();
 			while (result.next()) {

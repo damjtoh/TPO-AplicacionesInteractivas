@@ -4,18 +4,29 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class sistemaCinesView {
+import Usuarios.Usuario;
 
+public class ABMPeliculasView extends javax.swing.JFrame{
+
+	private static ABMPeliculasView instancia;
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
+	
+	public static ABMPeliculasView getInstancia() {
+		if (instancia == null) {
+			instancia = new ABMPeliculasView();
+		}
+		return instancia;
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					sistemaCinesView window = new sistemaCinesView();
+					ABMPeliculasView window = new ABMPeliculasView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,7 +38,7 @@ public class sistemaCinesView {
 	/**
 	 * Create the application.
 	 */
-	public sistemaCinesView() {
+	public ABMPeliculasView() {
 		initialize();
 	}
 
@@ -39,5 +50,7 @@ public class sistemaCinesView {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+
 
 }
