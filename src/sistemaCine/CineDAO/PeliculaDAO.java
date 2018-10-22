@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import Persistencas.PoolConnection;
@@ -196,7 +198,35 @@ public class PeliculaDAO {
 		} catch (Exception e) {
 			return new ArrayList<>();
 		}
-
 	}
+//	public static Map<String, Pelicula> getPeliculasMap(Integer id) {
+//		try {
+//			boolean cambiado = false;
+//			Connection conection = PoolConnection.getPoolConnection().getConnection();
+//			PreparedStatement query;
+//			String stringConsulta = "select * from peliculas where id = ?";
+//			ResultSet result = query.executeQuery();
+//			Map<String, Pelicula> = ;
+//			while (result.next()) {
+//				String nombre = result.getString(2);
+//				String director = result.getString(3);
+//				String genero = result.getString(4);
+//				int duracion = result.getInt(5);
+//				String idioma = result.getString(6);
+//				boolean subtitilos = result.getBoolean(7);
+//				double calificacion = result.getDouble(8);
+//				String observaciones = result.getString(9);
+//				pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+//						observaciones);
+//				pelicula.setId(id);
+//				peliculas.add(pelicula);
+//			}
+//			PoolConnection.getPoolConnection().realeaseConnection(conection);
+//			return peliculas;
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new HashMap<>();
+//	}
 
 }
