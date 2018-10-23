@@ -1,22 +1,12 @@
 package Usuarios;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class SistemaUsuarios {
-	
 	protected Vector<Usuario>usuarios;
-	private Usuario usuarioLogueado;
-	private static SistemaUsuarios instancia = null;
-	
-	public static SistemaUsuarios GetInstancia() {
-		if(instancia==null)
-			instancia = new SistemaUsuarios();
-		return instancia;
-	}
-	
-	private SistemaUsuarios() {
+	public SistemaUsuarios(Vector<Usuario> usuarios) {
+		super();
 		usuarios = new Vector<Usuario>();
 	}
 	
@@ -31,42 +21,12 @@ public class SistemaUsuarios {
 		return null;
 	}
 	
-	public Usuario GetUsuarioLogueado() {
-		return usuarioLogueado;
-	}
-	
-	public boolean UsuarioLogueadoEsAgenteComercial() {
-		return true;
-		/*
-		ArrayList<Rol> rolesUsuario = usuarioLogueado.getRoles();
-		for(Rol rol : rolesUsuario) {
-			if(rol instanceof AgenteComercial)
-				return true;
-		}
-		return false;*/
-	}
-	
-	public AgenteComercial GetAgenteComercial() {
-		return new AgenteComercial(null);
-		/*
-		ArrayList<Rol> rolesUsuario = usuarioLogueado.getRoles();
-		for(Rol rol : rolesUsuario) {
-			if(rol instanceof AgenteComercial) {
-				return (AgenteComercial) rol;
-			}
-		}
-		return null;*/
-	}
-	
 	public boolean validarUsuario(String usuario, String password)
 	{
 		Usuario user = buscarUsuario(usuario);
 		if(user!=null)
 		{
-			boolean ok = user.esPassword(password);
-			if(ok)
-				usuarioLogueado = user;
-			return ok;
+			return(user.esPassword(password));
 		}
 		return false;
 	}
