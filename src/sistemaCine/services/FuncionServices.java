@@ -52,12 +52,12 @@ public class FuncionServices {
 	}
 
 	public static void eliminarFuncionesSala(Sala sala, int cuit) {
-		for (Funcion funcion : getIDsFuncionesSala(sala, cuit)) {
+		for (Funcion funcion : getFuncionesSala(sala, cuit)) {
 			FuncionServices.eliminarFuncion(funcion);
 		}
 	}
-	public static List<Funcion> getIDsFuncionesSala(Sala sala, int cuit){
-		return FuncionDAO.selectIDsFuncionesSala(sala, cuit);
+	public static List<Funcion> getFuncionesSala(Sala sala, int cuit){
+		return FuncionDAO.selectFuncionesSala(sala, cuit);
 	}
 	
 

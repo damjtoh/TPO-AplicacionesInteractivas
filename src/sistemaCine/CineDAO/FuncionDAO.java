@@ -22,7 +22,7 @@ public class FuncionDAO {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("insert into funciones values ((select max(id)+1 from peliculas),?,?,?,?,?)");
+					.prepareStatement("insert into funciones values ((select max(id)+1 from funciones),?,?,?,?,?)");
 			query.setInt(1, funcion.getPelicula().getId());
 			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, funcion.getSala().getNombre());
@@ -146,18 +146,19 @@ public class FuncionDAO {
 
 	}
 
-	public static List<Funcion> selectIDsFuncionesSala(Sala sala, int cuit) {
+	public static List<Funcion> selectFuncionesSala(Sala sala, int cuit) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select id from funciones where  cuit_establecimiento = ? and nombre_sala = ?";		
+			String consultaSql = "select fecha_hora,nombre_sala,valor,id,id_pelicula from funciones where  cuit_establecimiento = ? and nombre_sala = ?";		
 			PreparedStatement query = coneccion.prepareStatement(consultaSql);
 			query.setInt(1, cuit);
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
 			List<Funcion> funciones = new ArrayList<>();
 			if (rs.next()) {
-				Funcion funcion = new Funcion(null, null, null, 0);
-				funcion.setId(rs.getInt(1));
+				Funcion funcion = new Funcion(rs.getDate(1), new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
+				funcion.setId(rs.getInt(4));
+				funcion.getPelicula().setId(rs.getInt(5));
 				funciones.add(funcion);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);

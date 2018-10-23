@@ -12,6 +12,7 @@ import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.SalaDAO;
 import sistemaCine.clases.AsinentoFisico;
 import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
@@ -22,6 +23,10 @@ public class SalaServices {
 
 	public static void updateSala(Sala sala, int cuitEstablecimiento, String salaOldName) {
 		SalaDAO.updateSala(sala, cuitEstablecimiento, salaOldName);
+		for (Funcion funcion : FuncionServices.getFuncionesSala(sala, cuitEstablecimiento)) {
+			funcion.setSala(new Sala(sala.getNombre()));
+			FuncionServices.updateFuncion(funcion, cuitEstablecimiento);
+		}
 	}
 
 	public static void updateAsientosSala(Sala sala, int cuitEstablecimiento, AsinentoFisico asiento) {
@@ -31,7 +36,7 @@ public class SalaServices {
 
 	public static void eliminarSala(Sala sala, int cuitEstablecimiento) {
 		SalaDAO.deleteSala(sala, cuitEstablecimiento);
-		FuncionServices.eliminarFuncionesSala(sala,cuitEstablecimiento);
+		FuncionServices.eliminarFuncionesSala(sala, cuitEstablecimiento);
 	}
 
 	public static List<Sala> getSalas(int cuitEstablecimiento) {
