@@ -135,6 +135,6 @@ public class Pelicula {
 	}
 	@Override
 	public String toString() {
-		return nombre + " - " + idioma + " - " + ((subtitulos)?" - subtitulada":"");
+		return nombre + " - " + idioma + ((subtitulos)?" - subtitulada":"");
 	}
 }

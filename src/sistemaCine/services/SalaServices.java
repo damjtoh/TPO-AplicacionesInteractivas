@@ -1,14 +1,9 @@
 package sistemaCine.services;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.SalaDAO;
 import sistemaCine.clases.AsinentoFisico;
 import sistemaCine.clases.Establecimiento;
@@ -51,6 +46,14 @@ public class SalaServices {
 		for (Sala sala : getSalas(establecimiento.getCuit())) {
 			eliminarSala(sala, establecimiento.getCuit());
 		}
+	}
+
+	public static Map<String, Sala> getSalasMap(Integer cuit) {
+		Map<String, Sala> mapa = new HashMap<>();
+		for (Sala sala : getSalas(cuit)) {
+			mapa.put(sala.getNombre(), sala);
+		}
+		return mapa;
 	}
 
 }

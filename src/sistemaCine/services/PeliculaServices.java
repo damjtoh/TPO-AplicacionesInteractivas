@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.PeliculaDAO;
@@ -24,8 +26,12 @@ public class PeliculaServices {
 		PeliculaDAO.deletePelicula(pelicula);
 	}
 
-	public static List<Pelicula> getAllPeliculas() {
-		return PeliculaDAO.selectAllPeliculas();
+	public static Map<String, Pelicula> getAllPeliculasMap() {
+		Map<String, Pelicula> mapaPeliculas= new HashMap<>();
+		for (Pelicula pelicula : PeliculaDAO.selectAllPeliculas()) {
+			mapaPeliculas.put(pelicula.toString(), pelicula);
+		}
+		return mapaPeliculas;
 	}
 
 	public static List<Pelicula> buscarPeliculas(Pelicula pelicula) {

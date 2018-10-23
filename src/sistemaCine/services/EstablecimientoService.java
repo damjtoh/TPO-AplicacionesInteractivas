@@ -22,7 +22,7 @@ public class EstablecimientoService {
 	public static Establecimiento getEstablecimieto(int cuit) {
 		return EstablecimientoDAO.selectEstablecimieto(cuit);
 	}
-	public static Map<String,Establecimiento> getAllEstablecimietos() {
+	public static Map<String,Establecimiento> getAllEstablecimietosMap() {
 		return EstablecimientoDAO.selectAllEstablecimietos();
 	}
 	

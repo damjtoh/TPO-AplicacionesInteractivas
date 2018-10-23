@@ -106,7 +106,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		comboBoxEstablecimiento.setBounds(12, 35, 130, 22);
 		frame.getContentPane().add(comboBoxEstablecimiento);
 		comboBoxEstablecimiento.addItem(null);
-		this.establecimientos = EstablecimientoService.getAllEstablecimietos();
+		this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
 		for (String nombreEstablecimiento : establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}

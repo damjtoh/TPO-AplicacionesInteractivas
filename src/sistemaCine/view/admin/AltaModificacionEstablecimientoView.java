@@ -8,8 +8,11 @@ import javax.swing.JTextField;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
 import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Sala;
 import sistemaCine.services.EstablecimientoService;
+import sistemaCine.services.SalaServices;
 import sistemaCine.utils.IntegerField;
+import sistemaCine.utils.IsTest;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,8 +21,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
@@ -33,6 +41,10 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 	private JButton btnEliminar;
 	private JButton btnCancelar;
 	private static Integer cuit = null;
+	private JLabel lblSalas;
+	private JButton btnEditarSala;
+	private JComboBox<String> comboBoxSalas;
+	private JPanel panelSalas;
 
 	/**
 	 * Launch the application.
@@ -83,7 +95,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		compCuit = new IntegerField();
 		compCuit.setBounds(22, 43, 131, 20);
 		frame.getContentPane().add(compCuit);
-		
+
 		compNombre = new JTextField();
 		compNombre.setBounds(22, 99, 131, 20);
 		frame.getContentPane().add(compNombre);
@@ -116,16 +128,34 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		frame.getContentPane().add(lblCuit);
 
 		btnCrear = new JButton("Crear");
-		btnCrear.setBounds(226, 74, 118, 23);
+		btnCrear.setBounds(22, 264, 118, 23);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(227, 231, 117, 25);
+		btnCancelar.setBounds(321, 263, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(227, 152, 117, 25);
+		btnEliminar.setBounds(152, 263, 117, 25);
 		frame.getContentPane().add(btnEliminar);
+
+		panelSalas = new JPanel();
+		panelSalas.setBounds(215, 43, 223, 157);
+		frame.getContentPane().add(panelSalas);
+		panelSalas.setLayout(null);
+		panelSalas.setVisible(false);
+		lblSalas = new JLabel("Salas");
+		lblSalas.setBounds(12, 12, 70, 15);
+		panelSalas.add(lblSalas);
+
+		btnEditarSala = new JButton("Crear/Editar");
+		btnEditarSala.setBounds(12, 69, 138, 25);
+		panelSalas.add(btnEditarSala);
+
+		comboBoxSalas = new JComboBox<String>();
+		comboBoxSalas.setBounds(12, 33, 138, 24);
+		panelSalas.add(comboBoxSalas);
+		comboBoxSalas.addItem(null);
 		btnEliminar.setVisible(false);
 		btnCancelar.addActionListener(e -> {
 			this.frame.dispose();
@@ -135,8 +165,9 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					EstablecimientoService.crearEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
-							compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+					EstablecimientoService.crearEstablecimiento(
+							new Establecimiento(Integer.parseInt(compCuit.getText()), compNombre.getText(),
+									compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
 					;
 				}
 			});
@@ -146,7 +177,12 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 	}
 
 	public void setModificar() {
-		Establecimiento establecimiento = EstablecimientoService.getEstablecimieto(cuit);
+		Establecimiento establecimiento;
+		if (!IsTest.is) {
+			establecimiento = EstablecimientoService.getEstablecimieto(cuit);
+		} else {
+			establecimiento = new Establecimiento(cuit, Integer.toString(cuit), Integer.toString(cuit), cuit);
+		}
 		compCuit.setText(Integer.toString(establecimiento.getCuit()));
 		compNombre.setText(establecimiento.getNombre());
 		compDireccion.setText(establecimiento.getDomicilio());
@@ -165,6 +201,15 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 				;
 			}
 		});
+
 		compCuit.setEditable(false);
+		panelSalas.setVisible(false);
+		for (Sala sala : SalaServices.getSalas(cuit)) {
+			comboBoxSalas.addItem(sala.getNombre());
+		}
+		btnEditarSala.addActionListener(e -> {
+			AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem()).setVisible(true);
+		});
+
 	}
 }
