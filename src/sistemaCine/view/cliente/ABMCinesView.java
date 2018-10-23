@@ -1,10 +1,12 @@
-package sistemaCine.view;
+package sistemaCine.view.cliente;
 
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,6 +40,7 @@ public class ABMCinesView extends javax.swing.JFrame{
 	 */
 	public ABMCinesView() {
 		initialize();
+		this.frame.setVisible(true);
 	}
 
 	/**
@@ -48,13 +51,18 @@ public class ABMCinesView extends javax.swing.JFrame{
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				frame.dispose();
+			}
+		});
 		btnEstablecimientos = new JButton("Buscar por Establecimientos");
 		btnEstablecimientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEstablecimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ABMEstablecimientosView.getInstancia().setLocationRelativeTo(null);
-				ABMEstablecimientosView.getInstancia().setVisible(true);
+				ABMFuncionesEstablecimientosView.getInstancia().setLocationRelativeTo(null);
+				ABMFuncionesEstablecimientosView.getInstancia().setVisible(true);
 			}
 		});
 		btnEstablecimientos.setBounds(12, 137, 408, 67);

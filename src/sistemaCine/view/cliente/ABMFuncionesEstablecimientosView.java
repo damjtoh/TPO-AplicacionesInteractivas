@@ -1,8 +1,10 @@
-package sistemaCine.view;
+package sistemaCine.view.cliente;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +23,17 @@ import sistemaCine.CineDAO.PeliculaDAO;
 import sistemaCine.cinesClases.Establecimiento;
 import sistemaCine.cinesClases.Funcion;
 import sistemaCine.cinesClases.Pelicula;
+import sistemaCine.services.EstablecimientoService;
+import sistemaCine.services.FuncionServices;
 import sistemaCine.utils.DateUtils;
 
-public class ABMEstablecimientosView extends javax.swing.JFrame {
+public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static ABMEstablecimientosView instancia;
+	private static ABMFuncionesEstablecimientosView instancia;
 	private JFrame frame;
 	private JButton btnSeleccionar;
 	private JComboBox<String> comboBoxHorario;
@@ -52,9 +56,9 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static ABMEstablecimientosView getInstancia() {
+	public static ABMFuncionesEstablecimientosView getInstancia() {
 		if (instancia == null) {
-			instancia = new ABMEstablecimientosView();
+			instancia = new ABMFuncionesEstablecimientosView();
 		}
 		return instancia;
 	}
@@ -63,8 +67,7 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ABMEstablecimientosView window = new ABMEstablecimientosView();
-					window.frame.setVisible(true);
+					ABMFuncionesEstablecimientosView window = new ABMFuncionesEstablecimientosView();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -75,8 +78,9 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 	/**
 	 * Create the application.
 	 */
-	public ABMEstablecimientosView() {
+	public ABMFuncionesEstablecimientosView() {
 		initialize();
+		this.frame.setVisible(true);
 	}
 
 	/**
@@ -88,7 +92,12 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.getContentPane().setLayout(null);
-
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				frame.dispose();
+			}
+		});
 		lblEstablecimiento = new JLabel("Establecimiento");
 		lblEstablecimiento.setBounds(12, 13, 130, 16);
 		frame.getContentPane().add(lblEstablecimiento);
@@ -97,7 +106,7 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 		comboBoxEstablecimiento.setBounds(12, 35, 130, 22);
 		frame.getContentPane().add(comboBoxEstablecimiento);
 		comboBoxEstablecimiento.addItem(null);
-		this.establecimientos = EstablecimientoDAO.selectAllEstablecimietos();
+		this.establecimientos = EstablecimientoService.getAllEstablecimietos();
 		for (String nombreEstablecimiento : establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}
@@ -109,14 +118,15 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 				cuit = establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit();
 
 				if (cuit != null) {
-					List<Integer> idsPeliculas = FuncionDAO.selectPeliculasEstablecimiento(cuit,
+					List<Integer> idsPeliculas = FuncionServices.getPeliculasEstablecimientoIDS(cuit,
 							(Date) new java.util.Date());
 					List<Pelicula> peliculasList = new ArrayList<>();
-					for (Integer id : idsPeliculas) {
-						Pelicula pelicula = new Pelicula(null, null, null, 0, null, null, 0, null);
-						pelicula.setId(id);
-						peliculasList.addAll(PeliculaDAO.buscarPeliculas(pelicula));
-					}
+					peliculasList.addAll(PeliculaDAO.getPeliculas(idsPeliculas));
+//					for (Integer id : idsPeliculas) {
+//						Pelicula pelicula = new Pelicula(null, null, null, 0, null, null, 0, null);
+//						pelicula.setId(id);
+//						peliculasList.addAll(PeliculaDAO.buscarPeliculas(pelicula));
+//					}
 					for (Pelicula pelicula : peliculasList) {
 						peliculas.put(pelicula.toString(), pelicula);
 						comboBoxPeliculas.addItem(pelicula.toString());
@@ -148,17 +158,9 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 		comboBoxPeliculas.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				comboBoxDia.removeAllItems();
-				List<Funcion> funcionesObtenidas = FuncionDAO.selectFunciones(
-						peliculas.get(comboBoxPeliculas.getSelectedItem()), (Date) new java.util.Date(),
+				funciones = FuncionServices.getFuncionesMap(peliculas.get(comboBoxPeliculas.getSelectedItem()),
+						(Date) new java.util.Date(),
 						establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
-				for (Funcion funcion : funcionesObtenidas) {
-					if (!funciones.containsKey(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString())) {
-						funciones.put(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString(),
-								new HashMap<String, Funcion>());
-					}
-					funciones.get(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString())
-							.put(funcion.getFechaYHora().toString(), funcion);
-				}
 				for (String dia : funciones.keySet()) {
 					comboBoxDia.addItem(dia);
 				}
@@ -237,8 +239,10 @@ public class ABMEstablecimientosView extends javax.swing.JFrame {
 		peliculasLayout.setVisible(false);
 		diaLayout.setVisible(false);
 		horarioLayout.setVisible(false);
-		btnSeleccionar.addActionListener(e ->{
-			SeleccionarAsientosView.getInstance(funciones.get(comboBoxDia.getSelectedItem()).get(comboBoxHorario.getSelectedItem()));
+		btnSeleccionar.addActionListener(e -> {
+			SeleccionarAsientosView.getInstance(
+					funciones.get(comboBoxDia.getSelectedItem()).get(comboBoxHorario.getSelectedItem()),
+					establecimientos.get(comboBoxEstablecimiento.getSelectedItem()));
 		});
 	}
 }

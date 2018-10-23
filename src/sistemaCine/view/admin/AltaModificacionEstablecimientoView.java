@@ -1,4 +1,4 @@
-package sistemaCine.view.Establecimiento;
+package sistemaCine.view.admin;
 
 import java.awt.EventQueue;
 
@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
 import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.services.EstablecimientoService;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ import java.util.Properties;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
+public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 	static AltaModificacionEstablecimientoView instancia;
 	private JFrame frame;
 	private JTextField compNombre;
@@ -28,13 +29,17 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 	private JTextField compCapacidad;
 	private JTextField compCuit;
 	private JButton btnCrear;
+	private JButton btnEliminar;
+	private JButton btnCancelar;
+	private static Integer cuit = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static AltaModificacionEstablecimientoView getInstancia(Integer cuit) {
+	public static AltaModificacionEstablecimientoView getInstancia(Integer c) {
+		cuit = c;
 		if (instancia == null) {
-			instancia = new AltaModificacionEstablecimientoView(cuit);
+			instancia = new AltaModificacionEstablecimientoView();
 		}
 		return instancia;
 	}
@@ -43,7 +48,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AltaModificacionEstablecimientoView window = new AltaModificacionEstablecimientoView(null);
+					AltaModificacionEstablecimientoView window = new AltaModificacionEstablecimientoView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,14 +60,15 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 	/**
 	 * Create the application.
 	 */
-	public AltaModificacionEstablecimientoView(Integer cuit) {
-		initialize(cuit);
+	public AltaModificacionEstablecimientoView() {
+		initialize();
+		this.frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Integer cuit) {
+	private void initialize() {
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -91,8 +97,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
+				compCuit.setText(compCuit.getText().replaceAll("[^0-9]", ""));
 			}
 		});
 		compNombre = new JTextField();
@@ -127,20 +132,27 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 		frame.getContentPane().add(lblCuit);
 
 		btnCrear = new JButton("Crear");
-		btnCrear.setBounds(225, 182, 118, 23);
+		btnCrear.setBounds(226, 74, 118, 23);
 		frame.getContentPane().add(btnCrear);
+
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(227, 231, 117, 25);
+		frame.getContentPane().add(btnCancelar);
+		btnCancelar.addActionListener(e -> {
+			this.frame.dispose();
+		});
 		if (cuit == null) {
 			btnCrear.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					EstablecimientoDAO.insert(new Establecimiento(Integer.parseInt(compCuit.getText()),
+					EstablecimientoService.crearEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
 							compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
 					;
 				}
 			});
-		}else {
-			setModificar(cuit);
+		} else {
+			setModificar();
 		}
 		compCapacidad.addKeyListener(new KeyListener() {
 
@@ -157,24 +169,30 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame{
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
+				compCapacidad.setText(compCapacidad.getText().replaceAll("[^0-9]", ""));
 			}
 		});
 	}
 
-	public void setModificar(int cuit) {
-		Establecimiento establecimiento = EstablecimientoDAO.selectEstablecimieto(cuit);
+	public void setModificar() {
+		Establecimiento establecimiento = EstablecimientoService.getEstablecimieto(cuit);
 		compCuit.setText(Integer.toString(establecimiento.getCuit()));
 		compNombre.setText(establecimiento.getNombre());
 		compDireccion.setText(establecimiento.getDomicilio());
 		compCapacidad.setText(Integer.toString(establecimiento.getCapacidadTotal()));
 		btnCrear.setText("Modificar");
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(227, 152, 117, 25);
+		frame.getContentPane().add(btnEliminar);
+		btnEliminar.addActionListener(e -> {
+			this.frame.dispose();
+		});
 		btnCrear.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EstablecimientoDAO.update(new Establecimiento(Integer.parseInt(compCuit.getText()),
+				EstablecimientoService.updateEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
 						compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
 				;
 			}

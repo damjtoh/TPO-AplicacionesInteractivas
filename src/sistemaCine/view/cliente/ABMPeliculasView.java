@@ -1,6 +1,8 @@
-package sistemaCine.view;
+package sistemaCine.view.cliente;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -49,6 +51,13 @@ public class ABMPeliculasView extends javax.swing.JFrame{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				frame.dispose();
+			}
+		});
 	}
 
 

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,8 @@ public class PeliculaDAO {
 		try {
 			Pelicula p = (Pelicula) object;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = conection
-					.prepareStatement("insert into peliculas values ((select max(id)+1 from peliculas),?,?,?,?,?,?,?,?)");
+			PreparedStatement query = conection.prepareStatement(
+					"insert into peliculas values ((select max(id)+1 from peliculas),?,?,?,?,?,?,?,?)");
 			query.setString(1, p.getNombre());
 			query.setString(2, p.getDirector());
 			query.setString(3, p.getGenero());
@@ -170,12 +171,12 @@ public class PeliculaDAO {
 				if (pelicula.isSubtitulos() != null) {
 					query.setBoolean(pos, pelicula.isSubtitulos());
 				}
-			}else {
+			} else {
 				stringConsulta = stringConsulta.concat(" id = ? ");
 				query = conection.prepareStatement(stringConsulta);
 				query.setInt(1, pelicula.getId());
 			}
-			
+
 			List<Pelicula> peliculas = new ArrayList<>();
 			ResultSet result = query.executeQuery();
 			while (result.next()) {
@@ -228,5 +229,36 @@ public class PeliculaDAO {
 //		}
 //		return new HashMap<>();
 //	}
+
+	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) {
+		try {
+			Connection conection = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query;
+			String stringConsulta = "select * from peliculas where id in (?)";
+			query = conection.prepareStatement(stringConsulta);
+			query.setArray(1, conection.createArrayOf("INT", idsPeliculas.toArray()));
+			ResultSet result = query.executeQuery();
+			List<Pelicula> peliculas = new ArrayList<>();
+			while (result.next()) {
+				String nombre = result.getString(2);
+				String director = result.getString(3);
+				String genero = result.getString(4);
+				int duracion = result.getInt(5);
+				String idioma = result.getString(6);
+				boolean subtitilos = result.getBoolean(7);
+				double calificacion = result.getDouble(8);
+				String observaciones = result.getString(9);
+				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+						observaciones);
+				pelicula.setId(result.getInt(1));
+				peliculas.add(pelicula);
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(conection);
+			return peliculas;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
 
 }

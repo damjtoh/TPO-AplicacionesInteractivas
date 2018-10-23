@@ -103,14 +103,14 @@ public class EntradasDAO {
 	public static Map<FilaColumna, AsinentoVirtual> selectMapaEntradas(Funcion funcion) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String statementSql = "select * from entradas where id_funcion = ? and columna in (?) ";
+			String statementSql = "select * from entradas where id_funcion = ?" /*and columna in (?) */;
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
-			List<String> columnas = new ArrayList<>();
-			for (FilaColumna columna : funcion.getSala().getMapaDeAsientos().keySet()) {
-				columnas.add(columna.getColumna());
-			}
+//			List<String> columnas = new ArrayList<>();
+//			for (FilaColumna columna : funcion.getSala().getMapaDeAsientos().keySet()) {
+//				columnas.add(columna.getColumna());
+//			}
 			query.setInt(1, funcion.getId());
-			query.setArray(2, coneccion.createArrayOf("VARCHAR", columnas.toArray()));
+//			query.setArray(2, coneccion.createArrayOf("VARCHAR", columnas.toArray()));
 			ResultSet rs = query.executeQuery();
 			Map<FilaColumna, AsinentoVirtual> asientos = new HashMap<>();
 			while (rs.next()) {
@@ -125,6 +125,19 @@ public class EntradasDAO {
 			System.out.println();
 		}
 		return new HashMap<>();
+	}
+
+	public static void deleteEntradas(int idFuncion) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query = coneccion
+					.prepareStatement("delete from entradas where id_funcion = ?");
+			query.setInt(1, idFuncion);
+			query.execute();
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		} catch (Exception e) {
+			System.out.println();
+		}		
 	}
 
 }

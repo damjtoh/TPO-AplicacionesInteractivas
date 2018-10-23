@@ -15,7 +15,7 @@ import sistemaCine.utils.FilaColumna;
 
 public class SalaDAO {
 
-	public static void insert(Object object, int cuitEstablecimiento) {
+	public static void insertSala(Object object, int cuitEstablecimiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -62,7 +62,7 @@ public class SalaDAO {
 		}
 	}
 
-	public static void updateAsientosSala(Object object, int cuitEstablecimiento, AsinentoFisico asiento) {
+	public static void updateAsientoSala(Object object, int cuitEstablecimiento, AsinentoFisico asiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
