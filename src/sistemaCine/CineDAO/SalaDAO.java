@@ -23,13 +23,15 @@ public class SalaDAO {
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();
-			query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?)");
+			query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?,?,?)");
 			for (AsinentoFisico asiento : sala.getMapaDeAsientos().values()) {
 				query.setInt(1, cuitEstablecimiento);
 				query.setString(2, sala.getNombre());
 				query.setString(3, asiento.getFila());
 				query.setString(4, asiento.getColumna());
-				query.setBoolean(5, asiento.isUsable());
+				query.setInt(5, asiento.getNroFila());
+				query.setInt(6, asiento.getNroColumna());
+				query.setBoolean(7, asiento.isUsable());
 				query.execute();
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
@@ -65,11 +67,12 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("update into sala_asientos set usable = ? where cuit = ? and nombre = ?");
+					.prepareStatement("update into sala_asientos set usable = ? where cuit = ? and nombre = ? and fila = ? and columna = ?");
 			query.setBoolean(1, asiento.isUsable());
 			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, sala.getNombre());
-
+			query.setString(4, asiento.getFila());
+			query.setString(5, asiento.getColumna());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 		} catch (Exception e) {
@@ -117,11 +120,11 @@ public class SalaDAO {
 		return new ArrayList<>();
 	}
 
-	public static void selectAsientosSala(Sala sala, int cuitEstablecimiento) {
+	public static Map<FilaColumna, AsinentoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("select fila,comlumna,usable from sala_asientos where cuit = ? and nombre = ?");
+					.prepareStatement("select fila,comlumna,nro_fila,nro_columna,usable from sala_asientos where cuit = ? and nombre = ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
@@ -129,12 +132,13 @@ public class SalaDAO {
 			Map<FilaColumna, AsinentoFisico> asientos = new HashMap<>();
 			while (rs.next()) {
 				asientos.put(new FilaColumna(rs.getString(1), rs.getString(2)),
-						new AsinentoFisico(rs.getString(1), rs.getString(2), rs.getBoolean(3)));
+						new AsinentoFisico(rs.getString(1), rs.getString(2),rs.getInt(3),rs.getInt(4), rs.getBoolean(5)));
 			}
-			sala.setMapaDeAsientos(asientos);
+			return asientos;
 		} catch (Exception e) {
 			System.out.println();
 		}
+		return new HashMap<>();
 	}
 
 }

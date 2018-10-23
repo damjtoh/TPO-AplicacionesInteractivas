@@ -17,9 +17,9 @@ public class SalaTest {
 	@Test
 	public void testAddAsiento() {
 		Sala sala = new Sala("sala 1");
-		assertTrue(sala.addAsiento(new AsinentoFisico("1", "a")));
-		assertFalse(sala.addAsiento(new AsinentoFisico("1", "a")));
-		assertTrue(sala.addAsiento(new AsinentoFisico("a", "1")));
+		assertTrue(sala.addAsiento(new AsinentoFisico("1", "a",0,0)));
+		assertFalse(sala.addAsiento(new AsinentoFisico("1", "a",0,0)));
+		assertTrue(sala.addAsiento(new AsinentoFisico("a", "1",0,0)));
 	}
 
 	@Test

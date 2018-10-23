@@ -72,7 +72,7 @@ public class FuncionDAO {
 	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select fecha_hora,nombre_sala,valor from funciones where  cuit_establecimiento = ? and id_pelicula = ?, fecha_hora >= ? order by fecha_hora ASC";
+			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ?, fecha_hora >= ? order by fecha_hora ASC";
 //			if (cuitEstablecimiento !=null) {
 //				consultaSql = consultaSql.replace("cuit"," cuit_establecimiento = ? and ");
 //			}else {
@@ -91,7 +91,9 @@ public class FuncionDAO {
 			ResultSet rs = query.executeQuery();
 			List<Funcion> funciones = new ArrayList<>();
 			if (rs.next()) {
-				funciones.add(new Funcion(rs.getDate(1), pelicula, new Sala(rs.getString(2)), rs.getDouble(3)));
+				Funcion funcion = new Funcion(rs.getDate(1), pelicula, new Sala(rs.getString(2)), rs.getDouble(3));
+				funcion.setId(rs.getInt(4));
+				funciones.add(funcion);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return funciones;

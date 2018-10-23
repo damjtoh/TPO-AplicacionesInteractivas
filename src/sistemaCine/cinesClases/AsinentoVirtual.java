@@ -36,4 +36,8 @@ public class AsinentoVirtual {
 		return fila;
 	}
 
+	@Override
+	public String toString() {
+		return fila + "-" + columna;
+	}
 }

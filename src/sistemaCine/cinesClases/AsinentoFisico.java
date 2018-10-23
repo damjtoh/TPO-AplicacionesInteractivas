@@ -3,18 +3,24 @@ package sistemaCine.cinesClases;
 public class AsinentoFisico {
 	private String columna;
 	private String fila;
+	private int nroFila;
+	private int nroColumna;
 	private boolean usable;
-	public AsinentoFisico(String fila,String columna) {
+	public AsinentoFisico(String fila,String columna,int nroFila,int nroColumna) {
 		super();
 		this.columna = columna;
 		this.fila = fila;
+		this.nroFila = nroFila;
+		this.nroColumna = nroColumna;
 		this.usable = true;
 	}
-	public AsinentoFisico(String columna, String fila,boolean usable) {
+	public AsinentoFisico(String columna, String fila,int nroFila,int nroColumna,boolean usable) {
 		super();
 		this.columna = columna;
 		this.fila = fila;
 		this.usable = usable;
+		this.nroFila = nroFila;
+		this.nroColumna = nroColumna;
 	}
 	public boolean isUsable() {
 		return usable;
@@ -28,6 +34,22 @@ public class AsinentoFisico {
 	}
 	public String getFila() {
 		return fila;
+	}
+	public int getNroColumna() {
+		return nroColumna;
+	}
+	public void setNroColumna(int nroColumna) {
+		this.nroColumna = nroColumna;
+	}
+	public int getNroFila() {
+		return nroFila;
+	}
+	public void setNroFila(int nroFila) {
+		this.nroFila = nroFila;
+	}
+	@Override
+	public String toString() {
+		return fila + "-" + columna;
 	}
 	
 	
