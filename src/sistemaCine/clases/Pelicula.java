@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.util.ArrayList;
 import java.util.List;

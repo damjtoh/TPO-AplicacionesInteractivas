@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class SalaDAO {
@@ -80,7 +80,7 @@ public class SalaDAO {
 		}
 	}
 
-	public static void delete(Object object, int cuitEstablecimiento) {
+	public static void deleteSala(Object object, int cuitEstablecimiento) {
 		try {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();

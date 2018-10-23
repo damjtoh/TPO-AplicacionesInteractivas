@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 public class AsinentoFisico {
 	private String columna;

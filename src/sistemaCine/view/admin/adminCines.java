@@ -38,12 +38,12 @@ public class adminCines {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 750, 500);
+		frame.setBounds(100, 100, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnBuscarEstablecimiento = new JButton("Buscar Establecimiento");
-		btnBuscarEstablecimiento.setBounds(12, 62, 117, 25);
+		btnBuscarEstablecimiento.setBounds(12, 62, 207, 25);
 		frame.getContentPane().add(btnBuscarEstablecimiento);
 	}
 

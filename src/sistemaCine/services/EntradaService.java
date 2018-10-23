@@ -3,9 +3,9 @@ package sistemaCine.services;
 import java.util.Map;
 
 import sistemaCine.CineDAO.EntradasDAO;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Entrada;
-import sistemaCine.cinesClases.Funcion;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Entrada;
+import sistemaCine.clases.Funcion;
 import sistemaCine.utils.FilaColumna;
 
 public class EntradaService {
@@ -21,7 +21,7 @@ public class EntradaService {
 		EntradasDAO.updateEntrada(entrada);
 	}
 
-	public static void ELiminarEntrada(Entrada entrada) {
+	public static void eliminarEntrada(Entrada entrada) {
 		EntradasDAO.deleteEntrada(entrada);
 	}
 	public static void eliminarEntradas(int idFuncion) {
@@ -34,6 +34,10 @@ public class EntradaService {
 
 	public static Map<FilaColumna, AsinentoVirtual> getMapaAsientosFuncion(Funcion funcion) {
 		return EntradasDAO.selectMapaEntradas(funcion);
+	}
+
+	public static void eliminarEntradasFuncion(Funcion funcion) {
+		EntradasDAO.deleteEntradas(funcion.getId());	
 	}
 
 }

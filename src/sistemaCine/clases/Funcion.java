@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.sql.Date;
 import java.util.Map;

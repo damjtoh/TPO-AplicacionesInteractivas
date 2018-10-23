@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.clases.Establecimiento;
 
 public class EstablecimientoDAO {
 

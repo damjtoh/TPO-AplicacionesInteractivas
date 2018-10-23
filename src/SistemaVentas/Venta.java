@@ -3,7 +3,7 @@ package SistemaVentas;
 import java.time.LocalDate;
 import java.util.List;
 
-import sistemaCine.cinesClases.Entrada;
+import sistemaCine.clases.Entrada;
 
 public class Venta {
 	private List<Entrada> entradas;

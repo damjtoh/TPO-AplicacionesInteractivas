@@ -6,12 +6,12 @@ import javax.swing.JFrame;
 
 import sistemaCine.CineDAO.EntradasDAO;
 import sistemaCine.CineDAO.SalaDAO;
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Entrada;
-import sistemaCine.cinesClases.Establecimiento;
-import sistemaCine.cinesClases.Funcion;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Entrada;
+import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Funcion;
+import sistemaCine.clases.Sala;
 import sistemaCine.services.EntradaService;
 import sistemaCine.services.SalaServices;
 import sistemaCine.utils.FilaColumna;

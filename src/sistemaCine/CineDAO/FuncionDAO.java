@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Funcion;
-import sistemaCine.cinesClases.Pelicula;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Funcion;
+import sistemaCine.clases.Pelicula;
+import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class FuncionDAO {
@@ -124,7 +124,8 @@ public class FuncionDAO {
 		}
 		return new HashMap<>();
 	}
-	public static List<Integer> selectPeliculasEstablecimiento(int cuit,Date fecha){
+
+	public static List<Integer> selectPeliculasEstablecimiento(int cuit, Date fecha) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora > ? order_by fecha_hora";
@@ -132,7 +133,7 @@ public class FuncionDAO {
 			query.setInt(1, cuit);
 			query.setDate(2, fecha);
 			ResultSet rs = query.executeQuery();
-			List<Integer> idsPelicula= new ArrayList<>();
+			List<Integer> idsPelicula = new ArrayList<>();
 			while (rs.next()) {
 				idsPelicula.add(rs.getInt(1));
 			}
@@ -140,8 +141,31 @@ public class FuncionDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return new ArrayList<>();
-		
+
 	}
+
+	public static List<Funcion> selectIDsFuncionesSala(Sala sala, int cuit) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			String consultaSql = "select id from funciones where  cuit_establecimiento = ? and nombre_sala = ?";		
+			PreparedStatement query = coneccion.prepareStatement(consultaSql);
+			query.setInt(1, cuit);
+			query.setString(2, sala.getNombre());
+			ResultSet rs = query.executeQuery();
+			List<Funcion> funciones = new ArrayList<>();
+			if (rs.next()) {
+				Funcion funcion = new Funcion(null, null, null, 0);
+				funcion.setId(rs.getInt(1));
+				funciones.add(funcion);
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return funciones;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
 }

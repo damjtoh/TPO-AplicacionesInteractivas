@@ -10,8 +10,9 @@ import java.util.Map;
 
 import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.SalaDAO;
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class SalaServices {
@@ -28,12 +29,23 @@ public class SalaServices {
 
 	}
 
+	public static void eliminarSala(Sala sala, int cuitEstablecimiento) {
+		SalaDAO.deleteSala(sala, cuitEstablecimiento);
+		FuncionServices.eliminarFuncionesSala(sala,cuitEstablecimiento);
+	}
+
 	public static List<Sala> getSalas(int cuitEstablecimiento) {
 		return SalaDAO.selectSalas(cuitEstablecimiento);
 	}
 
 	public static Map<FilaColumna, AsinentoFisico> getAsientosSala(Sala sala, int cuitEstablecimiento) {
 		return SalaDAO.selectAsientosSala(sala, cuitEstablecimiento);
+	}
+
+	public static void eliminarSalasEstablecimiento(Establecimiento establecimiento) {
+		for (Sala sala : getSalas(establecimiento.getCuit())) {
+			eliminarSala(sala, establecimiento.getCuit());
+		}
 	}
 
 }

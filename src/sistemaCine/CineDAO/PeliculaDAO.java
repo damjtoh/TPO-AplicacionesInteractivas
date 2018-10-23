@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.Pelicula;
+import sistemaCine.clases.Pelicula;
 
 public class PeliculaDAO {
 

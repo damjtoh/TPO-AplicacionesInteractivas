@@ -3,7 +3,7 @@ package sistemaCine.services;
 import java.util.Map;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
-import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.clases.Establecimiento;
 
 public class EstablecimientoService {
 	public static void crearEstablecimiento(Establecimiento establecimiento) {
@@ -16,6 +16,7 @@ public class EstablecimientoService {
 
 	public static void eliminarEstablecimiento(Establecimiento establecimiento) {
 		EstablecimientoDAO.delete(establecimiento);
+		SalaServices.eliminarSalasEstablecimiento(establecimiento);
 	}
 
 	public static Establecimiento getEstablecimieto(int cuit) {

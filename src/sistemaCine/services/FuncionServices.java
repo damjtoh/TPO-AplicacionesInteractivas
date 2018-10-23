@@ -11,10 +11,10 @@ import java.util.Map;
 
 import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.FuncionDAO;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Funcion;
-import sistemaCine.cinesClases.Pelicula;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Funcion;
+import sistemaCine.clases.Pelicula;
+import sistemaCine.clases.Sala;
 import sistemaCine.utils.DateUtils;
 import sistemaCine.utils.FilaColumna;
 
@@ -28,8 +28,9 @@ public class FuncionServices {
 		FuncionDAO.updateFuncion(funcion, cuitEstablecimiento);
 	}
 
-	public static void deleteFuncion(Funcion funcion) {
+	public static void eliminarFuncion(Funcion funcion) {
 		FuncionDAO.deleteFuncion(funcion);
+		EntradaService.eliminarEntradasFuncion(funcion);
 	}
 
 	public static Map<String, Map<String, Funcion>>  getFuncionesMap(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
@@ -49,4 +50,16 @@ public class FuncionServices {
 	public static List<Integer> getPeliculasEstablecimientoIDS(int cuit, Date fecha) {
 		return FuncionDAO.selectPeliculasEstablecimiento(cuit, fecha);
 	}
+
+	public static void eliminarFuncionesSala(Sala sala, int cuit) {
+		for (Funcion funcion : getIDsFuncionesSala(sala, cuit)) {
+			FuncionServices.eliminarFuncion(funcion);
+		}
+	}
+	public static List<Funcion> getIDsFuncionesSala(Sala sala, int cuit){
+		return FuncionDAO.selectIDsFuncionesSala(sala, cuit);
+	}
+	
+
+
 }

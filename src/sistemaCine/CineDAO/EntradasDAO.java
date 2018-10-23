@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Entrada;
-import sistemaCine.cinesClases.Funcion;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Entrada;
+import sistemaCine.clases.Funcion;
 import sistemaCine.utils.FilaColumna;
 
 public class EntradasDAO {

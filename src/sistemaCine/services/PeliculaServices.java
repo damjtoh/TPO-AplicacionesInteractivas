@@ -8,7 +8,7 @@ import java.util.List;
 
 import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.PeliculaDAO;
-import sistemaCine.cinesClases.Pelicula;
+import sistemaCine.clases.Pelicula;
 
 public class PeliculaServices {
 

@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.util.HashMap;
 import java.util.Map;

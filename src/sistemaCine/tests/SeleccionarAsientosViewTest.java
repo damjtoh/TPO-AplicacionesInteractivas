@@ -8,11 +8,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.AsinentoVirtual;
-import sistemaCine.cinesClases.Establecimiento;
-import sistemaCine.cinesClases.Funcion;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Funcion;
+import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 import sistemaCine.view.cliente.SeleccionarAsientosView;
 

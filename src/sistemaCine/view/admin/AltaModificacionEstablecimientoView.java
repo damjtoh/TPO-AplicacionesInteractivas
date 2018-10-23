@@ -7,8 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
-import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.clases.Establecimiento;
 import sistemaCine.services.EstablecimientoService;
+import sistemaCine.utils.IntegerField;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -79,27 +80,10 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		compCuit = new JTextField("");
+		compCuit = new IntegerField();
 		compCuit.setBounds(22, 43, 131, 20);
 		frame.getContentPane().add(compCuit);
-		compCuit.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				compCuit.setText(compCuit.getText().replaceAll("[^0-9]", ""));
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				compCuit.setText(compCuit.getText().replaceAll("[^0-9]", ""));
-			}
-		});
+		
 		compNombre = new JTextField();
 		compNombre.setBounds(22, 99, 131, 20);
 		frame.getContentPane().add(compNombre);
@@ -110,7 +94,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		frame.getContentPane().add(compDireccion);
 		compDireccion.setColumns(10);
 
-		compCapacidad = new JTextField();
+		compCapacidad = new IntegerField();
 		compCapacidad.setBounds(22, 211, 131, 20);
 		frame.getContentPane().add(compCapacidad);
 		compCapacidad.setColumns(10);
@@ -138,6 +122,11 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(227, 231, 117, 25);
 		frame.getContentPane().add(btnCancelar);
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(227, 152, 117, 25);
+		frame.getContentPane().add(btnEliminar);
+		btnEliminar.setVisible(false);
 		btnCancelar.addActionListener(e -> {
 			this.frame.dispose();
 		});
@@ -154,24 +143,6 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		} else {
 			setModificar();
 		}
-		compCapacidad.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				compCapacidad.setText(compCapacidad.getText().replaceAll("[^0-9]", ""));
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				compCapacidad.setText(compCapacidad.getText().replaceAll("[^0-9]", ""));
-			}
-		});
 	}
 
 	public void setModificar() {
@@ -181,12 +152,9 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		compDireccion.setText(establecimiento.getDomicilio());
 		compCapacidad.setText(Integer.toString(establecimiento.getCapacidadTotal()));
 		btnCrear.setText("Modificar");
-
-		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(227, 152, 117, 25);
-		frame.getContentPane().add(btnEliminar);
+		btnEliminar.setVisible(true);
 		btnEliminar.addActionListener(e -> {
-			this.frame.dispose();
+			EstablecimientoService.eliminarEstablecimiento(establecimiento);
 		});
 		btnCrear.addActionListener(new ActionListener() {
 

@@ -7,10 +7,10 @@ import java.util.Calendar;
 
 import org.junit.Test;
 
-import sistemaCine.cinesClases.AsinentoFisico;
-import sistemaCine.cinesClases.Funcion;
-import sistemaCine.cinesClases.Pelicula;
-import sistemaCine.cinesClases.Sala;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.Funcion;
+import sistemaCine.clases.Pelicula;
+import sistemaCine.clases.Sala;
 
 public class SalaTest {
 
