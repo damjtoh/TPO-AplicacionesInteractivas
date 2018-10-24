@@ -1,10 +1,14 @@
 package SistemaVentas;
 
+import java.sql.Array;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Observer;
 
+import sistemaCine.cinesClases.Entrada;
+
 public class Venta {
+	private int id;
 	private List<Entrada> entradas;
 	private LocalDate fechaYHora;
 	private ITipoDePago tipoDePago;
@@ -24,12 +28,32 @@ public class Venta {
 		this.importe = importe;
 	}
 
+	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta,
+			double importe, List<ObserverVenta> observers,int id) {
+		super();
+		this.entradas = entradas;
+		this.fechaYHora = fechaYHora;
+		this.tipoDePago = tipoDePago;
+		this.numeroDeTarjeta = numeroDeTarjeta;
+		this.importe = importe;
+		this.observers = observers;
+		this.id = id;
+	}
+
 	public void addObserver(ObserverVenta observer) {
 		observers.add(observer);
 	}
 
 	public List<Entrada> getEntradas() {
 		return entradas;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setEntradas(List<Entrada> entradas) {
