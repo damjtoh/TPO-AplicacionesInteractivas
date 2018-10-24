@@ -40,7 +40,7 @@ public class MapperUsuario extends AdministradorPersistencia
 				String nombreUsuario1 = result.getString(4);
 				String domicilio = result.getString(5);
 				int dni = result.getInt(6);
-				Timestamp fechaNacimiento = result.getTimestamp(7);
+			    LocalDate fechaNacimiento = result.get;
 				u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
 			}
 			
@@ -128,7 +128,6 @@ public class MapperUsuario extends AdministradorPersistencia
 	
 	@Override
 	public Vector<Object> select(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
