@@ -17,15 +17,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import sistemaCine.CineDAO.EstablecimientoDAO;
-import sistemaCine.CineDAO.FuncionDAO;
 import sistemaCine.CineDAO.PeliculaDAO;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.FuncionServices;
-import sistemaCine.utils.DateUtils;
 
 public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
@@ -225,12 +222,12 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		});
 
 		buttonLayout = new JPanel();
-		buttonLayout.setBounds(117, 168, 182, 85);
+		buttonLayout.setBounds(117, 168, 254, 85);
 		frame.getContentPane().add(buttonLayout);
 		buttonLayout.setLayout(null);
 
 		btnSeleccionar = new JButton("Seleccionar asientos");
-		btnSeleccionar.setBounds(12, 47, 158, 25);
+		btnSeleccionar.setBounds(12, 47, 195, 25);
 		buttonLayout.add(btnSeleccionar);
 		buttonLayout.setVisible(false);
 		lblPrecio = new JLabel("");

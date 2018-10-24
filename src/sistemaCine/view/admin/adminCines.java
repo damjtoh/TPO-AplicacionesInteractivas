@@ -20,8 +20,12 @@ import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.IsTest;
 
-public class adminCines {
+public class adminCines extends javax.swing.JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
@@ -115,18 +119,7 @@ public class adminCines {
 			this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
 			this.peliculas = PeliculaServices.getAllPeliculasMap();
 		} else {
-			establecimientos = new HashMap<>();
-			for (int i = 1; i < 10; i++) {
-				establecimientos.put(Integer.toString(i),
-						new Establecimiento(i, Integer.toString(i), Integer.toString(i), i));
-			}
-			peliculas = new HashMap<>();
-			for (int i = 1; i < 10; i++) {
-				Pelicula pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2==0, i, Integer.toString(i));
-				peliculas.put(pelicula.toString(),pelicula);
-				pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2!=0, i, Integer.toString(i));
-				peliculas.put(pelicula.toString(),pelicula);
-			}
+			myTest();
 		}
 		List<String> list= new ArrayList<>();
 		list.addAll(peliculas.keySet());
@@ -138,5 +131,20 @@ public class adminCines {
 			comboBoxPeliculas.addItem(key);
 		}
 
+	}
+
+	private void myTest() {
+		establecimientos = new HashMap<>();
+		for (int i = 1; i < 10; i++) {
+			establecimientos.put(Integer.toString(i),
+					new Establecimiento(i, Integer.toString(i), Integer.toString(i), i));
+		}
+		peliculas = new HashMap<>();
+		for (int i = 1; i < 10; i++) {
+			Pelicula pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2==0, i, Integer.toString(i));
+			peliculas.put(pelicula.toString(),pelicula);
+			pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2!=0, i, Integer.toString(i));
+			peliculas.put(pelicula.toString(),pelicula);
+		}		
 	}
 }

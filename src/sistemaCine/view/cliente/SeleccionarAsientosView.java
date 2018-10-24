@@ -15,6 +15,7 @@ import sistemaCine.clases.Sala;
 import sistemaCine.services.EntradaService;
 import sistemaCine.services.SalaServices;
 import sistemaCine.utils.FilaColumna;
+import sistemaCine.utils.IsTest;
 
 import javax.swing.JScrollPane;
 import javax.swing.Action;
@@ -80,7 +81,9 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public SeleccionarAsientosView() {
-//		testMy();
+		if (IsTest.is) {
+			testMy();
+		}
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -89,17 +92,17 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		funcion = new Funcion(new Date(new java.util.Date().getTime()), null, new Sala("The first"), 3);
 		Map<FilaColumna, AsinentoVirtual> mapaDeAsientosVirtuales = new HashMap<FilaColumna, AsinentoVirtual>();
 		Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisicos = new HashMap<>();
-		for (int i = 1; i < 15; i++) {
-			for (int j = 1; j < 10; j++) {
-				AsinentoFisico asinentoFisico = new AsinentoFisico(Integer.toString(i), Integer.toString(j), i, j);
-				AsinentoVirtual asinentoVirtual = new AsinentoVirtual(Integer.toString(j), Integer.toString(i));
-				mapaDeAsientosVirtuales.put(new FilaColumna(Integer.toString(i), Integer.toString(j)), asinentoVirtual);
-				mapaDeAsientosFisicos.put(new FilaColumna(Integer.toString(i), Integer.toString(j)), asinentoFisico);
+		for (int nroFila = 1; nroFila < 6; nroFila++) {
+			for (int nroColumna = 1; nroColumna < 5; nroColumna++) {
+				AsinentoFisico asinentoFisico = new AsinentoFisico(Integer.toString(nroFila), Integer.toString(nroColumna), nroFila, nroColumna);
+				AsinentoVirtual asinentoVirtual = new AsinentoVirtual(Integer.toString(nroColumna), Integer.toString(nroFila));
+				mapaDeAsientosVirtuales.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)), asinentoVirtual);
+				mapaDeAsientosFisicos.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)), asinentoFisico);
 				asinentoFisico.setUsable(true);
-				if (i == j) {
+				if (nroFila == nroColumna) {
 					asinentoFisico.setUsable(false);
 				}
-				asinentoVirtual.setOcupado(i == j + 2);
+				asinentoVirtual.setOcupado(nroFila == nroColumna + 2);
 			}
 		}
 		funcion.getSala().setMapaDeAsientos(mapaDeAsientosFisicos);
@@ -135,7 +138,8 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		frame.getContentPane().add(btnComprar);
 		btnComprar.addActionListener(e -> {
 			if (!asientosSeleccionados.isEmpty()) {
-				ComprarEntradasView.getInstancia(funcion,asientosSeleccionados);
+				//TODO
+//				ComprarEntradasView.getInstancia(funcion,asientosSeleccionados);
 			}
 		});
 
@@ -154,11 +158,11 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 	}
 
 	private void setMapaAsientos() {
-		funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
-		funcion.getSala().setMapaDeAsientos(SalaServices.getAsientosSala(funcion.getSala(), establecimiento.getCuit()));
-		
-		
-		
+		if (!IsTest.is) {
+			funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
+			funcion.getSala()
+					.setMapaDeAsientos(SalaServices.getAsientosSala(funcion.getSala(), establecimiento.getCuit()));
+		}
 		asientosPane.setLayout(new GridLayout(funcion.getSala().getCantFilas(), funcion.getSala().getCantColumnas()));
 		asientos = new HashMap<Integer, Map<Integer, AsinentoFisico>>();
 		for (AsinentoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
@@ -168,10 +172,10 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 			asientos.get(asiento.getNroFila()).put(asiento.getNroColumna(), asiento);
 		}
 		asientosSeleccionados = new HashMap<>();
-		for (int i = 1; i <= funcion.getSala().getCantFilas(); i++) {
-			for (int j = 1; j <= funcion.getSala().getCantColumnas(); j++) {
-				AsinentoFisico asiento = asientos.get(i).get(j);
-				JButton btnAsiento = new JButton(asientos.get(i).get(j).toString());
+		for (int nroFila = 1; nroFila <= funcion.getSala().getCantFilas(); nroFila++) {
+			for (int nroColumna = 1; nroColumna <= funcion.getSala().getCantColumnas(); nroColumna++) {
+				AsinentoFisico asiento = asientos.get(nroFila).get(nroColumna);
+				JButton btnAsiento = new JButton(asientos.get(nroFila).get(nroColumna).toString());
 				if (!asiento.isUsable() || funcion.getMapaDeAsientos()
 						.get(new FilaColumna(asiento.getFila(), asiento.getColumna())).isOcupado()) {
 					btnAsiento.setBackground(Color.RED);

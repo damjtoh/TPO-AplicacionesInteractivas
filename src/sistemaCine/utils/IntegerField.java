@@ -51,4 +51,11 @@ public class IntegerField extends JTextField {
 			}
 		});
 	}
+	public Integer getInt() {
+		if (super.getText().isEmpty()) {
+			return null;
+		}
+		return Integer.parseInt(super.getText());
+		
+	}
 }

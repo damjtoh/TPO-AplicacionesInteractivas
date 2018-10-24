@@ -152,7 +152,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		btnEditarSala.setBounds(12, 69, 138, 25);
 		panelSalas.add(btnEditarSala);
 
-		comboBoxSalas = new JComboBox<String>();
+		comboBoxSalas = new JComboBox<>();
 		comboBoxSalas.setBounds(12, 33, 138, 24);
 		panelSalas.add(comboBoxSalas);
 		comboBoxSalas.addItem(null);
@@ -208,7 +208,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 			comboBoxSalas.addItem(sala.getNombre());
 		}
 		btnEditarSala.addActionListener(e -> {
-			AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem()).setVisible(true);
+			AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit).setVisible(true);
 		});
 
 	}

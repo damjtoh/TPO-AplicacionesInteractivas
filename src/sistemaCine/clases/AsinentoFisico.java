@@ -51,6 +51,11 @@ public class AsinentoFisico {
 	public String toString() {
 		return fila + "-" + columna;
 	}
-	
+	public void setColumna(String columna) {
+		this.columna = columna;
+	}
+	public void setFila(String fila) {
+		this.fila = fila;
+	}
 	
 }

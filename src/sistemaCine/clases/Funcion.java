@@ -77,4 +77,9 @@ public class Funcion {
 	public void setId(int id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return pelicula.toString() + "-" + fechaYHora.toString();
+	}
 }
