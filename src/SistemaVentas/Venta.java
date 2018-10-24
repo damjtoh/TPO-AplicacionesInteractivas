@@ -3,7 +3,8 @@ package SistemaVentas;
 import java.sql.Array;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Observer;
+
+import sistemaCine.clases.Entrada;
 
 import sistemaCine.cinesClases.Entrada;
 

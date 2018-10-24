@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 public class AsinentoVirtual {
 	private String columna;
@@ -36,4 +36,8 @@ public class AsinentoVirtual {
 		return fila;
 	}
 
+	@Override
+	public String toString() {
+		return fila + "-" + columna;
+	}
 }

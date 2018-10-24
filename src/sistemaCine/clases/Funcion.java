@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.sql.Date;
 import java.util.Map;
@@ -14,6 +14,22 @@ public class Funcion {
 	private Map<FilaColumna, AsinentoVirtual> mapaDeAsientos;
 	private double valor;
 
+	public void setPelicula(Pelicula pelicula) {
+		this.pelicula = pelicula;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
+	public void setFechaYHora(Date fechaYHora) {
+		this.fechaYHora = fechaYHora;
+	}
+
+	public void setMapaDeAsientos(Map<FilaColumna, AsinentoVirtual> mapaDeAsientos) {
+		this.mapaDeAsientos = mapaDeAsientos;
+	}
+
 	public double getValor() {
 		return valor;
 	}
@@ -28,10 +44,10 @@ public class Funcion {
 		this.pelicula = pelicula;
 		this.sala = sala;
 		this.valor = valor;
-		setMapaDeAsientos(sala.getMapaDeAsientos());
+		setMapaDeAsientosIni(sala.getMapaDeAsientos());
 	}
 
-	private void setMapaDeAsientos(Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisico) {
+	private void setMapaDeAsientosIni(Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisico) {
 		for (Entry<FilaColumna, AsinentoFisico> entry : mapaDeAsientosFisico.entrySet()) {
 			this.mapaDeAsientos.put(entry.getKey(),
 					new AsinentoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));

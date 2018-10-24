@@ -10,7 +10,7 @@ public abstract class VentaTarjeta extends Venta {
 	
 	public VentaTarjeta(String tipo, Long numero, LocalDate fechaVencimiento,
 			int codigoDeSeguridad) {
-		super();
+		super(fechaVencimiento, numero);
 		this.tipo = tipo;
 		this.numero = numero;
 		this.fechaVencimiento = fechaVencimiento;

@@ -1,10 +1,10 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pelicula {
-	private int id;
+	private Integer id;
 	private String nombre;
 	private String director;
 	private String genero;
@@ -126,11 +126,15 @@ public class Pelicula {
 		return observaciones;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+	@Override
+	public String toString() {
+		return nombre + " - " + idioma + ((subtitulos)?" - subtitulada":"");
 	}
 }

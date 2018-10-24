@@ -1,4 +1,4 @@
-package sistemaCine.cinesClases;
+package sistemaCine.clases;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,14 +63,18 @@ public class Sala {
 
 	public void addFuncion(Funcion funcion) {
 		if (!funciones.isEmpty()) {
-			if (funciones.get(funciones.size()-1).getFechaYHora().before(funcion.getFechaYHora())) {
+			if (funciones.get(funciones.size() - 1).getFechaYHora().before(funcion.getFechaYHora())) {
 				funciones.add(getPosicion(funcion, funciones.size() / 2, funciones.size()), funcion);
-			}else {
+			} else {
 				funciones.add(funcion);
 			}
-		}else {
+		} else {
 			funciones.add(funcion);
 		}
+	}
+
+	public int getCapacidad() {
+		return mapaDeAsientos.size();
 	}
 
 	private int getPosicion(Funcion funcion, int pivot, int size) {
@@ -80,9 +84,29 @@ public class Sala {
 			if (funcion.getFechaYHora().before(funciones.get(pivot).getFechaYHora())) {
 				return getPosicion(funcion, pivot - size / 4, size / 2);
 			} else {
-				return getPosicion(funcion, pivot + size/ 4, size / 2);
+				return getPosicion(funcion, pivot + size / 4, size / 2);
 			}
 		}
 	}
 
+	public int getCantFilas() {
+		int cant = 0;
+		for (AsinentoFisico asiento : mapaDeAsientos.values()) {
+			if (cant < asiento.getNroFila()) {
+				cant = asiento.getNroFila();
+			}
+		}
+		return cant;
+	}
+
+	public int getCantColumnas() {
+		int cant = 0;
+		for (AsinentoFisico asiento : mapaDeAsientos.values()) {
+			if (cant < asiento.getNroColumna()) {
+				cant = asiento.getNroColumna();
+			}
+		}
+		return cant;
+
+	}
 }
