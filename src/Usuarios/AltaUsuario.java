@@ -1,6 +1,5 @@
 package Usuarios;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class AltaUsuario extends JFrame {
@@ -21,10 +21,15 @@ public class AltaUsuario extends JFrame {
 	private JTextField txtNombredeusuario;
 	private JTextField txtDomicilio;
 	private JTextField txtDni;
-	private JTextField txtFechadenacimiento;
 	private JButton btnCrear;
 	private JButton btnSalir;
 	private JLabel lblCompleteLosSiguientes;
+	private JLabel lblDia;
+	private JTextField textDia;
+	private JLabel lblMes;
+	private JTextField textMes;
+	private JLabel lblAo;
+	private JTextField textAnio;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -101,17 +106,45 @@ public class AltaUsuario extends JFrame {
 		txtDni.setBounds(153, 161, 133, 20);
 		contentPane.add(txtDni);
 		txtDni.setColumns(10);
+		lblDia = new JLabel("dia");
+		lblDia.setBounds(153, 192, 46, 14);
+		contentPane.add(lblDia);
 		
-		JLabel lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento");
+		textDia = new JTextField();
+		textDia.setBounds(181, 192, 30, 20);
+		contentPane.add(textDia);
+		textDia.setColumns(10);
+		
+		lblMes = new JLabel("mes");
+		lblMes.setBounds(221, 192, 46, 14);
+		contentPane.add(lblMes);
+		
+		textMes = new JTextField();
+		textMes.setBounds(248, 192, 30, 20);
+		contentPane.add(textMes);
+		textMes.setColumns(10);
+		
+		lblAo = new JLabel("a\u00F1o");
+		lblAo.setBounds(288, 192, 46, 14);
+		contentPane.add(lblAo);
+		
+		textAnio = new JTextField();
+		textAnio.setBounds(314, 192, 46, 20);
+		contentPane.add(textAnio);
+		textAnio.setColumns(10);
+		
+		JLabel lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento:");
 		lblFechaDeNacimiento.setBounds(22, 187, 133, 14);
 		contentPane.add(lblFechaDeNacimiento);
 		
-		txtFechadenacimiento = new JTextField();
-		txtFechadenacimiento.setBounds(153, 185, 133, 20);
-		contentPane.add(txtFechadenacimiento);
-		txtFechadenacimiento.setColumns(10);
-		
 		btnCrear = new JButton("Crear");
+		btnCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			SistemaUsuarios.AltaUsuario(txtNombre.getText(), txtEmail.getText(), txtPassword.getText(), 
+						txtNombredeusuario.getText(), txtDomicilio.getText(), Integer.parseInt(txtDni.getText()), 
+						LocalDate.of(Integer.parseInt(textDia.getText()), Integer.parseInt(textMes.getText()), Integer.parseInt(textAnio.getText()))); 
+			}
+		});
 		btnCrear.setBounds(264, 227, 77, 23);
 		contentPane.add(btnCrear);
 		
@@ -127,6 +160,12 @@ public class AltaUsuario extends JFrame {
 		lblCompleteLosSiguientes = new JLabel("Complete los siguientes campos:");
 		lblCompleteLosSiguientes.setBounds(22, 11, 281, 14);
 		contentPane.add(lblCompleteLosSiguientes);
+		
+		
 	}
 
 }
+
+
+
+

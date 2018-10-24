@@ -1,16 +1,17 @@
 package Usuarios;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Vector;
 
 public class SistemaUsuarios {
-	protected Vector<Usuario>usuarios;
+	protected static Vector<Usuario>usuarios;
 	public SistemaUsuarios(Vector<Usuario> usuarios) {
 		super();
 		usuarios = new Vector<Usuario>();
 	}
 	
-	public Usuario buscarUsuario(String Usuario)
+	public static Usuario buscarUsuario(String Usuario)
 	{
 		Usuario user = MapperUsuario.getInstancia().buscarUsuario(Usuario);
 		if(user!=null)
@@ -21,17 +22,18 @@ public class SistemaUsuarios {
 		return null;
 	}
 	
-	public boolean validarUsuario(String usuario, String password)
-	{
+	public static boolean validarUsuario(String usuario, String password)
+	{/*
 		Usuario user = buscarUsuario(usuario);
 		if(user!=null)
 		{
 			return(user.esPassword(password));
 		}
-		return false;
+		return false;*/
+		return true; //hago esto para validar que funcionen las pantallas, el codigo que va es el de arriba
 	}
 	
-	public void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, Timestamp fechaNacimiento)
+	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNacimiento)
 	{
 		Usuario user = buscarUsuario(nombreUsuario); 
 		if(user == null)
@@ -41,7 +43,7 @@ public class SistemaUsuarios {
 		}
 	}
 	
-	public void ModificarUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, Timestamp fechaNacimiento)
+	public static void ModificarUsuario(String nombreUsuario, String email, String password, String domicilio)
 	{
 		Usuario user = buscarUsuario(nombreUsuario);
 		if(user!=null)
@@ -52,11 +54,12 @@ public class SistemaUsuarios {
 		}
 	}
 	
-	public void BajaUsuario(String nombreUsuario)
+	public static void BajaUsuario(String nombreUsuario, String Password)
 	{
-		Usuario user = buscarUsuario(nombreUsuario);
-		if(user!=null)
+		boolean verifica = validarUsuario(nombreUsuario, Password);
+		if(verifica!= false)
 		{
+			Usuario user = buscarUsuario(nombreUsuario);
 			usuarios.remove(user);
 		}
 	}
