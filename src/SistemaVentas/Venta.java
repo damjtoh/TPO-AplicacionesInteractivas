@@ -3,10 +3,7 @@ package SistemaVentas;
 import java.sql.Array;
 import java.time.LocalDate;
 import java.util.List;
-
 import sistemaCine.clases.Entrada;
-
-import sistemaCine.cinesClases.Entrada;
 
 public class Venta {
 	private int id;

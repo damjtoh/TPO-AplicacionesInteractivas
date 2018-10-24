@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Persistencas.PoolConnection;
-import sistemaCine.cinesClases.Entrada;
-import sistemaCine.cinesClases.Establecimiento;
+import sistemaCine.clases.Entrada;
 
 public class VentasDAO {
 
@@ -99,7 +98,7 @@ public class VentasDAO {
 		return false;
 	}
 
-	public Establecimiento getById(int id) {
+	public Venta getById(int id) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("select * from venta where id = ?");
@@ -121,9 +120,9 @@ public class VentasDAO {
 				
 				List<ObserverVenta> observers = new ArrayList<ObserverVenta>();
 				
-				Array auxiliar = res.getArray("observers");
+				Array aux = res.getArray("observers");
 				
-				for (ObserverVenta observer : auxiliar) {
+				for (ObserverVenta observer : aux) {
 					observers.add(observer);
 				}
 				
@@ -132,7 +131,7 @@ public class VentasDAO {
 						observers, res.getInt("id"));
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return establecimiento;
+			return venta;
 		} catch (Exception e) {
 			System.out.println(e.getMessage() + "Select fail");
 		}
