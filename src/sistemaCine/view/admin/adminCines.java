@@ -1,6 +1,8 @@
 package sistemaCine.view.admin;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +22,7 @@ import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.IsTest;
 
-public class adminCines extends javax.swing.JFrame{
+public class adminCines extends javax.swing.JFrame {
 
 	/**
 	 * 
@@ -34,7 +36,7 @@ public class adminCines extends javax.swing.JFrame{
 	private JButton btnEditarPelicula;
 	private JComboBox<String> comboBoxPeliculas;
 	private JLabel lblPelicula;
-	private Map<String,Pelicula> peliculas;
+	private Map<String, Pelicula> peliculas;
 
 	/**
 	 * Launch the application.
@@ -68,8 +70,13 @@ public class adminCines extends javax.swing.JFrame{
 		frame.setBounds(100, 100, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
 
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				frame.dispose();
+			}
+		});
 		lblEstablecimiento = new JLabel("Establecimiento");
 
 		lblEstablecimiento.setBounds(12, 50, 130, 16);
@@ -98,8 +105,7 @@ public class adminCines extends javax.swing.JFrame{
 
 		btnEditarPelicula.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
-				AltaModificacionPeliculaView
-						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit())
+				AltaModificacionPeliculaView.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()))
 						.setVisible(true);
 			} else {
 				AltaModificacionPeliculaView.getInstancia(null);
@@ -121,9 +127,9 @@ public class adminCines extends javax.swing.JFrame{
 		} else {
 			myTest();
 		}
-		List<String> list= new ArrayList<>();
+		List<String> list = new ArrayList<>();
 		list.addAll(peliculas.keySet());
-		list.sort((a,b) -> a.compareToIgnoreCase(b));
+		list.sort((a, b) -> a.compareToIgnoreCase(b));
 		for (String nombreEstablecimiento : establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}
@@ -141,10 +147,12 @@ public class adminCines extends javax.swing.JFrame{
 		}
 		peliculas = new HashMap<>();
 		for (int i = 1; i < 10; i++) {
-			Pelicula pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2==0, i, Integer.toString(i));
-			peliculas.put(pelicula.toString(),pelicula);
-			pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, Integer.toString(i), i%2!=0, i, Integer.toString(i));
-			peliculas.put(pelicula.toString(),pelicula);
-		}		
+			Pelicula pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i,
+					Integer.toString(i), i % 2 == 0, i, Integer.toString(i));
+			peliculas.put(pelicula.toString(), pelicula);
+			pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i,
+					Integer.toString(i), i % 2 != 0, i, Integer.toString(i));
+			peliculas.put(pelicula.toString(), pelicula);
+		}
 	}
 }

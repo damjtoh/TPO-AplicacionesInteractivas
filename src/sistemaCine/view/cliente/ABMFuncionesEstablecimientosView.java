@@ -43,7 +43,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 	private JLabel lblPeliculas;
 	private Container peliculasLayout;
 	private JComboBox<String> comboBoxEstablecimiento;
-	private Component lblEstablecimiento;
+	private JLabel lblEstablecimiento;
 	private Map<String, Establecimiento> establecimientos = new HashMap<>();
 	private Map<String, Pelicula> peliculas;
 	private Map<String, Map<String, Funcion>> funciones;
@@ -229,10 +229,10 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		btnSeleccionar = new JButton("Seleccionar asientos");
 		btnSeleccionar.setBounds(12, 47, 195, 25);
 		buttonLayout.add(btnSeleccionar);
-		buttonLayout.setVisible(false);
 		lblPrecio = new JLabel("");
-		lblPrecio.setBounds(158, 187, 101, 15);
-		frame.getContentPane().add(lblPrecio);
+		lblPrecio.setBounds(38, 13, 101, 15);
+		buttonLayout.add(lblPrecio);
+		buttonLayout.setVisible(false);
 		peliculasLayout.setVisible(false);
 		diaLayout.setVisible(false);
 		horarioLayout.setVisible(false);

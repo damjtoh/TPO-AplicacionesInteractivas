@@ -3,6 +3,7 @@ package sistemaCine.CineDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,8 +28,8 @@ public class PeliculaDAO {
 		return instancia;
 	}
 
-	public static void insertPelicula(Object object) {
-		try {
+	public static void insertPelicula(Object object) throws SQLException {
+		
 			Pelicula p = (Pelicula) object;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = conection.prepareStatement(
@@ -43,9 +44,6 @@ public class PeliculaDAO {
 			query.setString(8, p.getObservaciones());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
-		} catch (Exception e) {
-			System.out.println();
-		}
 
 	}
 

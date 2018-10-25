@@ -14,6 +14,10 @@ import javax.swing.JLabel;
 
 public class ABMCinesView extends javax.swing.JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JButton btnEstablecimientos;
 	private JButton btnPeliculas;

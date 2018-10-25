@@ -139,7 +139,7 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		btnComprar.addActionListener(e -> {
 			if (!asientosSeleccionados.isEmpty()) {
 				//TODO
-//				ComprarEntradasView.getInstancia(funcion,asientosSeleccionados);
+				ComprarEntradasView.getInstancia(funcion,asientosSeleccionados);
 			}
 		});
 

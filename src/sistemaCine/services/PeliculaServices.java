@@ -3,6 +3,7 @@ package sistemaCine.services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import sistemaCine.clases.Pelicula;
 
 public class PeliculaServices {
 
-	public static void crearPelicula(Pelicula pelicula) {
+	public static void crearPelicula(Pelicula pelicula) throws SQLException {
 		PeliculaDAO.insertPelicula(pelicula);
 	}
 
