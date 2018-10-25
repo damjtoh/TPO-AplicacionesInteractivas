@@ -12,17 +12,27 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import sistemaCine.view.admin.adminCines;
+
 public class ABMCinesView extends javax.swing.JFrame{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static ABMCinesView instancia;
 	private JFrame frame;
 	private JButton btnEstablecimientos;
 	private JButton btnPeliculas;
 	private Container lblNombreUsuario;
 
+	
+	public static ABMCinesView getInstancia() {
+		if (instancia == null) {
+			instancia = new ABMCinesView();
+		}
+		return instancia;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -53,11 +63,12 @@ public class ABMCinesView extends javax.swing.JFrame{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.getContentPane().setLayout(null);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
+				instancia = null;
 				frame.dispose();
 			}
 		});

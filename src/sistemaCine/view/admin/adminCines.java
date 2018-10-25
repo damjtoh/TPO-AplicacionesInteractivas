@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
@@ -28,6 +29,7 @@ public class adminCines extends javax.swing.JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static adminCines instancia;
 	private JFrame frame;
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
@@ -37,6 +39,13 @@ public class adminCines extends javax.swing.JFrame {
 	private JComboBox<String> comboBoxPeliculas;
 	private JLabel lblPelicula;
 	private Map<String, Pelicula> peliculas;
+
+	public static adminCines getInstancia() {
+		if (instancia == null) {
+			instancia = new adminCines();
+		}
+		return instancia;
+	}
 
 	/**
 	 * Launch the application.
@@ -68,12 +77,13 @@ public class adminCines extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		frame.getContentPane().setLayout(null);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
+				instancia = null;
 				frame.dispose();
 			}
 		});
@@ -105,8 +115,8 @@ public class adminCines extends javax.swing.JFrame {
 
 		btnEditarPelicula.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
-				AltaModificacionPeliculaView.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()))
-						.setVisible(true);
+				AltaModificacionPeliculaView
+						.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
 			} else {
 				AltaModificacionPeliculaView.getInstancia(null);
 			}
@@ -114,8 +124,7 @@ public class adminCines extends javax.swing.JFrame {
 		btnEditarEstablecimiento.addActionListener(e -> {
 			if (comboBoxEstablecimiento.getSelectedItem() != null) {
 				AltaModificacionEstablecimientoView
-						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit())
-						.setVisible(true);
+						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
 			} else {
 				AltaModificacionEstablecimientoView.getInstancia(null);
 			}

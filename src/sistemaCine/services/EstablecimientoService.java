@@ -1,5 +1,6 @@
 package sistemaCine.services;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
@@ -14,7 +15,7 @@ public class EstablecimientoService {
 		EstablecimientoDAO.update(establecimiento);
 	}
 
-	public static void eliminarEstablecimiento(Establecimiento establecimiento) {
+	public static void eliminarEstablecimiento(Establecimiento establecimiento) throws SQLException {
 		EstablecimientoDAO.delete(establecimiento);
 		SalaServices.eliminarSalasEstablecimiento(establecimiento);
 	}

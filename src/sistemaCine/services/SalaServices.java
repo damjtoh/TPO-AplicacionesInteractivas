@@ -1,5 +1,6 @@
 package sistemaCine.services;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class SalaServices {
 		SalaDAO.insertSala(sala, cuitEstablecimiento);
 	}
 
-	public static void updateSala(Sala sala, int cuitEstablecimiento, String salaOldName) {
+	public static void updateSala(Sala sala, int cuitEstablecimiento, String salaOldName) throws SQLException {
 		SalaDAO.updateSala(sala, cuitEstablecimiento, salaOldName);
 		for (Funcion funcion : FuncionServices.getFuncionesSala(sala, cuitEstablecimiento)) {
 			funcion.setSala(new Sala(sala.getNombre()));
@@ -29,7 +30,7 @@ public class SalaServices {
 
 	}
 
-	public static void eliminarSala(Sala sala, int cuitEstablecimiento) {
+	public static void eliminarSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 		SalaDAO.deleteSala(sala, cuitEstablecimiento);
 		FuncionServices.eliminarFuncionesSala(sala, cuitEstablecimiento);
 	}
@@ -42,7 +43,7 @@ public class SalaServices {
 		return SalaDAO.selectAsientosSala(sala, cuitEstablecimiento);
 	}
 
-	public static void eliminarSalasEstablecimiento(Establecimiento establecimiento) {
+	public static void eliminarSalasEstablecimiento(Establecimiento establecimiento) throws SQLException {
 		for (Sala sala : getSalas(establecimiento.getCuit())) {
 			eliminarSala(sala, establecimiento.getCuit());
 		}

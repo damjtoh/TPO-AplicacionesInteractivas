@@ -118,7 +118,7 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.getContentPane().setLayout(null);
 		
 		frame.addWindowListener(new WindowAdapter() {
@@ -153,16 +153,17 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		lblSeleccioneSusAsientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblSeleccioneSusAsientos.setBounds(290, 24, 412, 46);
 		frame.getContentPane().add(lblSeleccioneSusAsientos);
-		setMapaAsientos();
-
-	}
-
-	private void setMapaAsientos() {
 		if (!IsTest.is) {
 			funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
 			funcion.getSala()
 					.setMapaDeAsientos(SalaServices.getAsientosSala(funcion.getSala(), establecimiento.getCuit()));
 		}
+		setMapaAsientos();
+
+	}
+
+	private void setMapaAsientos() {
+
 		asientosPane.setLayout(new GridLayout(funcion.getSala().getCantFilas(), funcion.getSala().getCantColumnas()));
 		asientos = new HashMap<Integer, Map<Integer, AsinentoFisico>>();
 		for (AsinentoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {

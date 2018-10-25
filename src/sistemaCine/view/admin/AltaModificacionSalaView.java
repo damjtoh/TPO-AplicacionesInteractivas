@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +105,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		frame.getContentPane().setLayout(null);
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -128,6 +129,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		btnCancelar.setBounds(871, 763, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 		btnCancelar.addActionListener(e -> {
+			instancia=null;
 			this.dispose();
 			frame.dispose();
 		});
@@ -167,7 +169,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		btnNuevosAsientos = new JButton("Crear asientos");
 		btnNuevosAsientos.setBounds(822, 42, 140, 40);
 		frame.getContentPane().add(btnNuevosAsientos);
-		
+
 		panelFunciones = new JPanel();
 		panelFunciones.setBounds(197, 713, 290, 87);
 		frame.getContentPane().add(panelFunciones);
@@ -176,14 +178,14 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		btnCreareditar = new JButton("Crear/Editar");
 		btnCreareditar.setBounds(0, 50, 169, 25);
 		panelFunciones.add(btnCreareditar);
-		
-		btnCreareditar.addActionListener(e -> {
-			if (comboBoxFunciones.getSelectedItem()!=null) {
-				AltaModificacionFuncionView.getInststancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()));
-		}else {
-			AltaModificacionFuncionView.getInststancia(null);
 
-		}
+		btnCreareditar.addActionListener(e -> {
+			if (comboBoxFunciones.getSelectedItem() != null) {
+				AltaModificacionFuncionView
+						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()),cuit);
+			} else {
+				AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0),cuit);
+			}
 		});
 		comboBoxFunciones = new JComboBox<String>();
 		comboBoxFunciones.setBounds(0, 0, 173, 24);
@@ -202,12 +204,19 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 					e1.printStackTrace();
 				}
 			});
-			List<Funcion> funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
-			funcionesMap = new HashMap<>();
-			for (Funcion funcion : funciones) {
-				funcionesMap.put(funcion.toString(),funcion);
-				comboBoxFunciones.addItem(funcion.toString());
+			List<Funcion> funciones;
+			try {
+				funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
+				funcionesMap = new HashMap<>();
+				for (Funcion funcion : funciones) {
+					funcionesMap.put(funcion.toString(), funcion);
+					comboBoxFunciones.addItem(funcion.toString());
+				}
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
 			}
+
 		} else {
 			btnCrear.addActionListener(e -> {
 				try {
@@ -231,7 +240,13 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 
 		});
 		btnEliminar.addActionListener(e -> {
-			SalaServices.eliminarSala(new Sala(oldSalaName), cuit);
+			try {
+				SalaServices.eliminarSala(new Sala(oldSalaName), cuit);
+				btnCancelar.doClick();
+			} catch (SQLException e1) {
+				btnEliminar.setBackground(Color.RED);
+				e1.printStackTrace();
+			}
 		});
 
 	}
@@ -281,44 +296,44 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 					});
 					asientosPane.add(btnAsiento);
 					filaCero.get(nroColumna).addKeyListener(new KeyListener() {
-						
+
 						@Override
 						public void keyTyped(KeyEvent e) {
-											
+
 						}
-						
+
 						@Override
 						public void keyReleased(KeyEvent e) {
 							if (!filaCero.get(nc).getText().isEmpty()) {
 								asientos.get(nf).get(nc).setColumna(filaCero.get(nc).getText());
 								btnAsiento.setText(asientos.get(nf).get(nc).toString());
 
-							}								
+							}
 						}
-						
+
 						@Override
 						public void keyPressed(KeyEvent e) {
-							
+
 						}
 					});
 					columnaCero.get(nroFila).addKeyListener(new KeyListener() {
-						
+
 						@Override
 						public void keyTyped(KeyEvent e) {
-					
+
 						}
-						
+
 						@Override
 						public void keyReleased(KeyEvent e) {
 							if (!columnaCero.get(nf).getText().isEmpty()) {
 								asientos.get(nf).get(nc).setFila(columnaCero.get(nf).getText());
 								btnAsiento.setText(asientos.get(nf).get(nc).toString());
-							}									
+							}
 						}
-						
+
 						@Override
 						public void keyPressed(KeyEvent e) {
-							
+
 						}
 					});
 				} else {

@@ -86,11 +86,12 @@ public class ABMPeliculasView extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 515, 321);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
+				instancia = null;
 				frame.dispose();
 			}
 		});

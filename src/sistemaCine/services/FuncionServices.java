@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,12 +52,12 @@ public class FuncionServices {
 		return FuncionDAO.selectPeliculasEstablecimiento(cuit, fecha);
 	}
 
-	public static void eliminarFuncionesSala(Sala sala, int cuit) {
+	public static void eliminarFuncionesSala(Sala sala, int cuit) throws SQLException {
 		for (Funcion funcion : getFuncionesSala(sala, cuit)) {
 			FuncionServices.eliminarFuncion(funcion);
 		}
 	}
-	public static List<Funcion> getFuncionesSala(Sala sala, int cuit){
+	public static List<Funcion> getFuncionesSala(Sala sala, int cuit) throws SQLException{
 		return FuncionDAO.selectFuncionesSala(sala, cuit);
 	}
 	

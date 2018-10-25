@@ -146,8 +146,7 @@ public class FuncionDAO {
 
 	}
 
-	public static List<Funcion> selectFuncionesSala(Sala sala, int cuit) {
-		try {
+	public static List<Funcion> selectFuncionesSala(Sala sala, int cuit) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String consultaSql = "select fecha_hora,nombre_sala,valor,id,id_pelicula from funciones where  cuit_establecimiento = ? and nombre_sala = ?";		
 			PreparedStatement query = coneccion.prepareStatement(consultaSql);
@@ -163,10 +162,6 @@ public class FuncionDAO {
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return funciones;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
 	}
 
 }

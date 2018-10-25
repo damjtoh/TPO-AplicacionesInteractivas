@@ -15,12 +15,14 @@ import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,11 +88,11 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				frame.dispose();
+				btnCancelar.doClick();
 			}
 		});
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		
 		frame.getContentPane().setLayout(null);
 		compCuit = new IntegerField();
 		compCuit.setBounds(22, 43, 131, 20);
@@ -158,6 +160,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		comboBoxSalas.addItem(null);
 		btnEliminar.setVisible(false);
 		btnCancelar.addActionListener(e -> {
+			instancia=null;
 			this.frame.dispose();
 		});
 		if (cuit == null) {
@@ -190,7 +193,13 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		btnCrear.setText("Modificar");
 		btnEliminar.setVisible(true);
 		btnEliminar.addActionListener(e -> {
-			EstablecimientoService.eliminarEstablecimiento(establecimiento);
+			try {
+				EstablecimientoService.eliminarEstablecimiento(establecimiento);
+				btnCancelar.doClick();
+			} catch (SQLException e1) {
+				btnEliminar.setBackground(Color.RED);
+				e1.printStackTrace();
+			}
 		});
 		btnCrear.addActionListener(new ActionListener() {
 
@@ -203,13 +212,17 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		});
 
 		compCuit.setEditable(false);
-		panelSalas.setVisible(false);
 		for (Sala sala : SalaServices.getSalas(cuit)) {
 			comboBoxSalas.addItem(sala.getNombre());
 		}
 		btnEditarSala.addActionListener(e -> {
-			AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit).setVisible(true);
-		});
+			if (comboBoxSalas.getSelectedItem()!=null) {
+				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit).setVisible(true);
+			}else {
+				AltaModificacionSalaView.getInstancia(null,cuit).setVisible(true);
 
+			}
+		});
+		panelSalas.setVisible(true);
 	}
 }
