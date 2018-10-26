@@ -13,7 +13,7 @@ import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class SalaServices {
-	public static void crearSala(Sala sala, int cuitEstablecimiento) {
+	public static void crearSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 		SalaDAO.insertSala(sala, cuitEstablecimiento);
 	}
 
@@ -32,11 +32,11 @@ public class SalaServices {
 		FuncionServices.eliminarFuncionesSala(sala, cuitEstablecimiento);
 	}
 
-	public static List<Sala> getSalas(int cuitEstablecimiento) {
+	public static List<Sala> getSalas(int cuitEstablecimiento) throws SQLException {
 		return SalaDAO.selectSalas(cuitEstablecimiento);
 	}
 
-	public static Map<FilaColumna, AsinentoFisico> getAsientosSala(Sala sala, int cuitEstablecimiento) {
+	public static Map<FilaColumna, AsinentoFisico> getAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 		return SalaDAO.selectAsientosSala(sala, cuitEstablecimiento);
 	}
 
@@ -46,12 +46,18 @@ public class SalaServices {
 		}
 	}
 
-	public static Map<String, Sala> getSalasMap(Integer cuit) {
+	public static Map<String, Sala> getSalasMap(Integer cuit) throws SQLException {
 		Map<String, Sala> mapa = new HashMap<>();
 		for (Sala sala : getSalas(cuit)) {
 			mapa.put(sala.getNombre(), sala);
 		}
 		return mapa;
+	}
+
+	public static Sala getSala(String nombre, Integer cuit) throws SQLException {
+		Sala sala = SalaDAO.selectSala(nombre, cuit);
+		sala.setMapaDeAsientos(SalaServices.getAsientosSala(sala, cuit));
+		return sala;
 	}
 
 }

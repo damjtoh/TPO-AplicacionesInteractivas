@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -131,8 +132,12 @@ public class adminCines extends javax.swing.JFrame {
 		});
 		comboBoxEstablecimiento.addItem(null);
 		if (!IsTest.is) {
-			this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
-			this.peliculas = PeliculaServices.getAllPeliculasMap();
+			try {
+				this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
+				this.peliculas = PeliculaServices.getAllPeliculasMap();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		} else {
 			myTest();
 		}

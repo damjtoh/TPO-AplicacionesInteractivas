@@ -132,11 +132,11 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 
 		btnCrear = new JButton("Crear");
 		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrear.setBounds(274, 199, 146, 41);
+		btnCrear.setBounds(274, 199, 146, 25);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(321, 263, 117, 25);
+		btnCancelar.setBounds(303, 224, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 
 		btnEliminar = new JButton("Eliminar");
@@ -170,17 +170,29 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					EstablecimientoService.crearEstablecimiento(
-							new Establecimiento(Integer.parseInt(compCuit.getText()), compNombre.getText(),
-									compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+					try {
+						EstablecimientoService.crearEstablecimiento(
+								new Establecimiento(Integer.parseInt(compCuit.getText()), compNombre.getText(),
+										compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+						btnCancelar.doClick();
+					} catch (NumberFormatException | SQLException e1) {
+						btnCrear.setBackground(Color.RED);
+						e1.printStackTrace();
+					}
 				}
 			});
 		} else {
-			setModificar();
+			try {
+				setModificar();
+			} catch (SQLException e1) {
+				btnCrear.setBackground(Color.RED);
+				compNombre.setText("Error en obtencion establecimiento");
+				e1.printStackTrace();
+			}
 		}
 	}
 
-	public void setModificar() {
+	public void setModificar() throws SQLException {
 		Establecimiento establecimiento;
 		if (!IsTest.is) {
 			establecimiento = EstablecimientoService.getEstablecimieto(cuit);
@@ -206,14 +218,24 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EstablecimientoService.updateEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
-						compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+				try {
+					EstablecimientoService.updateEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
+							compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+				} catch (NumberFormatException | SQLException e1) {
+					btnCrear.setBackground(Color.RED);
+					e1.printStackTrace();
+				}
 			}
 		});
 
 		compCuit.setEditable(false);
-		for (Sala sala : SalaServices.getSalas(cuit)) {
-			comboBoxSalas.addItem(sala.getNombre());
+		try {
+			for (Sala sala : SalaServices.getSalas(cuit)) {
+				comboBoxSalas.addItem(sala.getNombre());
+			}
+		} catch (SQLException e1) {
+			comboBoxSalas.addItem("Error on get salas");
+			e1.printStackTrace();
 		}
 		btnEditarSala.addActionListener(e -> {
 			if (comboBoxSalas.getSelectedItem()!=null) {

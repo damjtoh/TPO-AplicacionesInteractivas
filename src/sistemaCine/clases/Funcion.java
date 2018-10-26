@@ -1,6 +1,7 @@
 package sistemaCine.clases;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -44,6 +45,7 @@ public class Funcion {
 		this.pelicula = pelicula;
 		this.sala = sala;
 		this.valor = valor;
+		this.mapaDeAsientos = new HashMap<>(); 
 		setMapaDeAsientosIni(sala.getMapaDeAsientos());
 	}
 

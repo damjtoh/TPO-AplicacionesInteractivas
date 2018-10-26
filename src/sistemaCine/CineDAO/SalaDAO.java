@@ -16,10 +16,9 @@ import sistemaCine.utils.FilaColumna;
 
 public class SalaDAO {
 
-	private static final String cuit_establecimiento = "cuit_establecimiento";
+	private static final String CUIT_ESTABLECIMIENTO = "cuit_establecimiento";
 
-	public static void insertSala(Object object, int cuitEstablecimiento) {
-		try {
+	public static void insertSala(Object object, int cuitEstablecimiento) throws SQLException {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("insert into salas values (?,?)");
@@ -38,9 +37,6 @@ public class SalaDAO {
 				query.execute();
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
 	}
 
 	public static void updateSala(Object object, int cuitEstablecimiento, String salaOldName) {
@@ -48,12 +44,12 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"update into salas set nombre = ? where " + cuit_establecimiento + " = ? and nombre like ?");
+					"update into salas set nombre = ? where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
 			query.setString(1, sala.getNombre());
 			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, salaOldName);
 			query.execute();
-			query = coneccion.prepareStatement("update into sala_asientos set nombre = ? where " + cuit_establecimiento
+			query = coneccion.prepareStatement("update into sala_asientos set nombre_sala = ? where " + CUIT_ESTABLECIMIENTO
 					+ " = ? and nombre like ?");
 			query.setString(1, sala.getNombre());
 			query.setInt(2, cuitEstablecimiento);
@@ -69,7 +65,7 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"delete from sala_asientos where " + cuit_establecimiento + " = ? and nombre like ?");
+					"delete from sala_asientos where " + CUIT_ESTABLECIMIENTO + " = ? and nombre_sala like ?");
 			query.setString(2, sala.getNombre());
 			query.setInt(1, cuitEstablecimiento);
 			query.execute();
@@ -88,32 +84,26 @@ public class SalaDAO {
 
 	}
 
-	public static void deleteSala(Object object, int cuitEstablecimiento) {
-		try {
+	public static void deleteSala(Object object, int cuitEstablecimiento) throws SQLException {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("deleta from salas where " + cuit_establecimiento + " = ? and nombre like ?");
+					.prepareStatement("delete from salas where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();
 			query = coneccion.prepareStatement(
-					"deleta from sala_asientos where " + cuit_establecimiento + " = ? and nombre like ?");
+					"deleta from sala_asientos where " + CUIT_ESTABLECIMIENTO + " = ? and nombre_sala like ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
-
 	}
 
-	public static List<Sala> selectSalas(int cuitEstablecimiento) {
-		try {
+	public static List<Sala> selectSalas(int cuitEstablecimiento) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("select nombre from salas where " + cuit_establecimiento + " = ?");
+					.prepareStatement("select nombre from salas where " + CUIT_ESTABLECIMIENTO + " = ?");
 			query.setInt(1, cuitEstablecimiento);
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
@@ -122,17 +112,12 @@ public class SalaDAO {
 				salas.add(new Sala(rs.getString(1)));
 			}
 			return salas;
-		} catch (Exception e) {
-			System.out.println();
-		}
-		return new ArrayList<>();
 	}
 
-	public static Map<FilaColumna, AsinentoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) {
-		try {
+	public static Map<FilaColumna, AsinentoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"select fila,columna,nro_fila,nro_columna,usable from sala_asientos where cuit = ? and nombre like ?");
+					"select fila,columna,nro_fila,nro_columna,usable from sala_asientos where "+CUIT_ESTABLECIMIENTO+" = ? and nombre_sala like ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
@@ -143,10 +128,18 @@ public class SalaDAO {
 						rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getBoolean(5)));
 			}
 			return asientos;
-		} catch (Exception e) {
-			System.out.println();
-		}
-		return new HashMap<>();
+	}
+
+	public static Sala selectSala(String nombre, Integer cuit) throws SQLException {
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		PreparedStatement query = coneccion
+				.prepareStatement("select * from salas where " + CUIT_ESTABLECIMIENTO + " = ? and nombre = ?");
+		query.setInt(1, cuit);
+		query.setString(2, nombre);
+		ResultSet rs = query.executeQuery();
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		rs.next();
+		return new Sala(rs.getString("nombre"));
 	}
 
 }
