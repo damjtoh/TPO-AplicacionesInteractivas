@@ -5,11 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import Persistencas.PoolConnection;
 import sistemaCine.clases.Pelicula;
@@ -29,22 +25,31 @@ public class PeliculaDAO {
 	}
 
 	public static void insertPelicula(Object object) throws SQLException {
-		
-			Pelicula p = (Pelicula) object;
-			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = conection.prepareStatement(
-					"insert into peliculas values ((select max(id)+1 from peliculas),?,?,?,?,?,?,?,?)");
-			query.setString(1, p.getNombre());
-			query.setString(2, p.getDirector());
-			query.setString(3, p.getGenero());
-			query.setInt(4, p.getDuracion());
-			query.setString(5, p.getIdioma());
-			query.setBoolean(6, p.isSubtitulos());
-			query.setDouble(7, p.getClaificacion());
-			query.setString(8, p.getObservaciones());
-			query.execute();
-			PoolConnection.getPoolConnection().realeaseConnection(conection);
 
+		Pelicula p = (Pelicula) object;
+		Connection conection = PoolConnection.getPoolConnection().getConnection();
+		PreparedStatement query = conection.prepareStatement("insert into peliculas values (?,?,?,?,?,?,?,?,?)");
+		query.setInt(1, getLastId(conection));
+		query.setString(2, p.getNombre());
+		query.setString(3, p.getDirector());
+		query.setString(4, p.getGenero());
+		query.setInt(5, p.getDuracion());
+		query.setString(6, p.getIdioma());
+		query.setBoolean(7, p.isSubtitulos());
+		query.setDouble(8, p.getClaificacion());
+		query.setString(9, p.getObservaciones());
+		query.execute();
+		PoolConnection.getPoolConnection().realeaseConnection(conection);
+
+	}
+
+	private static int getLastId(Connection conection) throws SQLException {
+		PreparedStatement query = conection.prepareStatement("(select max(id)+1 from peliculas)");
+		ResultSet rs = query.executeQuery();
+		if (rs.next()) {
+			return rs.getInt(1);
+		}
+		return 0;
 	}
 
 	public static void updatePelicula(Pelicula pelicula) {
@@ -258,26 +263,25 @@ public class PeliculaDAO {
 		}
 		return new ArrayList<>();
 	}
-	
+
 	public static Pelicula getById(int id) throws SQLException {
-			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = conection.prepareStatement("select * from peliculas where id = ?");
-			
-			
-			query.setInt(1, id);
-			
-			ResultSet result = query.executeQuery();
-			
-			Pelicula pelicula = null;
-			if (result.next()) {
-				pelicula = new Pelicula(result.getInt("id"), result.getString("nombre"), result.getString("director"),
-						result.getString("genero"), result.getInt("duracion"), result.getString("idioma"),
-						result.getBoolean("subtitulos"), result.getDouble("clasificacion"),
-						result.getString("observaciones"));
-			}
-			
-			PoolConnection.getPoolConnection().realeaseConnection(conection);
-			return pelicula;
+		Connection conection = PoolConnection.getPoolConnection().getConnection();
+		PreparedStatement query = conection.prepareStatement("select * from peliculas where id = ?");
+
+		query.setInt(1, id);
+
+		ResultSet result = query.executeQuery();
+
+		Pelicula pelicula = null;
+		if (result.next()) {
+			pelicula = new Pelicula(result.getInt("id"), result.getString("nombre"), result.getString("director"),
+					result.getString("genero"), result.getInt("duracion"), result.getString("idioma"),
+					result.getBoolean("subtitulos"), result.getDouble("calificacion"),
+					result.getString("observaciones"));
+		}
+
+		PoolConnection.getPoolConnection().realeaseConnection(conection);
+		return pelicula;
 
 	}
 

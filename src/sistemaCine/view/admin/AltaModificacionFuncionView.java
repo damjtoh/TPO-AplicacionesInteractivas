@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import sistemaCine.clases.AsinentoFisico;
-import sistemaCine.clases.AsinentoVirtual;
+import sistemaCine.clases.AsientoFisico;
+import sistemaCine.clases.AsientoVirtual;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
@@ -29,12 +30,13 @@ import sistemaCine.services.FuncionServices;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.services.SalaServices;
 import sistemaCine.utils.FilaColumna;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
 import javax.swing.JTextField;
 import java.awt.Font;
 
-public class AltaModificacionFuncionView extends javax.swing.JFrame {
+public class AltaModificacionFuncionView extends GeneralFrame {
 
 	/**
 	 * 
@@ -42,14 +44,13 @@ public class AltaModificacionFuncionView extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	private static AltaModificacionFuncionView instancia;
 	private static Funcion funcion;
-	private JFrame frame;
 	private JComboBox<String> comboBoxPeliculas;
 	private Map<String, Pelicula> peliculas;
 	private JLabel lblSala;
 	private JTextField compSala;
 	private JPanel asientosPane;
 	private JPanel screenPanel;
-	private Map<Integer, Map<Integer, AsinentoFisico>> asientos;
+	private Map<Integer, Map<Integer, AsientoFisico>> asientos;
 	private IntegerField compDia;
 	private IntegerField compMes;
 	private IntegerField compAnio;
@@ -111,7 +112,12 @@ public class AltaModificacionFuncionView extends javax.swing.JFrame {
 
 		if (!IsTest.is) {
 			this.peliculas = PeliculaServices.getAllPeliculasMap();
-			funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
+			try {
+				funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
 		} else {
 			myTest();
 		}
@@ -190,10 +196,18 @@ public class AltaModificacionFuncionView extends javax.swing.JFrame {
 			setModificar();
 		} else {
 			btnCrear.addActionListener(e -> {
-				FuncionServices.crearFuncion(funcion, cuit);
+				try {
+					funcion.setPelicula(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
+					funcion.setFechaYHora(new Date(compAnio.getInt(), compMes.getInt(), compDia.getInt()));
+					FuncionServices.crearFuncion(funcion, cuit);
+					btnCancelar.doClick();
+				} catch (SQLException e1) {
+					btnCrear.setBackground(Color.RED);
+					e1.printStackTrace();
+				}
 			});
 		}
-//		setMapaAsientosFuncion();
+		setMapaAsientosFuncion();
 
 	}
 
@@ -205,26 +219,37 @@ public class AltaModificacionFuncionView extends javax.swing.JFrame {
 		btnEliminar.setBounds(151, 715, 97, 25);
 		frame.getContentPane().add(btnEliminar);
 		btnEliminar.addActionListener(e -> {
-			FuncionServices.eliminarFuncion(funcion);
+			try {
+				FuncionServices.eliminarFuncion(funcion);
+				btnCancelar.doClick();
+			} catch (SQLException e1) {
+				btnEliminar.setBackground(Color.RED);
+				e1.printStackTrace();
+			}
 		});
 		btnCrear.addActionListener(e -> {
-			FuncionServices.updateFuncion(funcion, cuit);
+			try {
+				FuncionServices.updateFuncion(funcion, cuit);
+			} catch (SQLException e1) {
+				btnCrear.setBackground(Color.RED);
+				e1.printStackTrace();
+			}
 		});
 	}
 
 	private void setMapaAsientosFuncion() {
 
 		asientosPane.setLayout(new GridLayout(funcion.getSala().getCantFilas(), funcion.getSala().getCantColumnas()));
-		asientos = new HashMap<Integer, Map<Integer, AsinentoFisico>>();
-		for (AsinentoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
+		asientos = new HashMap<Integer, Map<Integer, AsientoFisico>>();
+		for (AsientoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
 			if (!asientos.containsKey(asiento.getNroFila())) {
-				asientos.put(asiento.getNroFila(), new HashMap<Integer, AsinentoFisico>());
+				asientos.put(asiento.getNroFila(), new HashMap<Integer, AsientoFisico>());
 			}
 			asientos.get(asiento.getNroFila()).put(asiento.getNroColumna(), asiento);
 		}
 		for (int nroFila = 1; nroFila <= funcion.getSala().getCantFilas(); nroFila++) {
 			for (int nroColumna = 1; nroColumna <= funcion.getSala().getCantColumnas(); nroColumna++) {
-				AsinentoFisico asiento = asientos.get(nroFila).get(nroColumna);
+				AsientoFisico asiento = asientos.get(nroFila).get(nroColumna);
 				JButton btnAsiento = new JButton(asientos.get(nroFila).get(nroColumna).toString());
 				if (!asiento.isUsable()) {
 					btnAsiento.setBackground(Color.RED);
@@ -258,13 +283,13 @@ public class AltaModificacionFuncionView extends javax.swing.JFrame {
 			peliculas.put(pelicula.toString(), pelicula);
 		}
 		funcion = new Funcion(new Date(new java.util.Date().getTime()), null, new Sala("The first"), 3);
-		Map<FilaColumna, AsinentoVirtual> mapaDeAsientosVirtuales = new HashMap<FilaColumna, AsinentoVirtual>();
-		Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisicos = new HashMap<>();
+		Map<FilaColumna, AsientoVirtual> mapaDeAsientosVirtuales = new HashMap<FilaColumna, AsientoVirtual>();
+		Map<FilaColumna, AsientoFisico> mapaDeAsientosFisicos = new HashMap<>();
 		for (int nroFila = 1; nroFila < 6; nroFila++) {
 			for (int nroColumna = 1; nroColumna < 5; nroColumna++) {
-				AsinentoFisico asinentoFisico = new AsinentoFisico(Integer.toString(nroFila),
+				AsientoFisico asinentoFisico = new AsientoFisico(Integer.toString(nroFila),
 						Integer.toString(nroColumna), nroFila, nroColumna);
-				AsinentoVirtual asinentoVirtual = new AsinentoVirtual(Integer.toString(nroColumna),
+				AsientoVirtual asinentoVirtual = new AsientoVirtual(Integer.toString(nroColumna),
 						Integer.toString(nroFila));
 				mapaDeAsientosVirtuales.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)),
 						asinentoVirtual);

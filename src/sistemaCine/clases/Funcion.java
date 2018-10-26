@@ -12,7 +12,7 @@ public class Funcion {
 	private Pelicula pelicula;
 	private Sala sala;
 	private Date fechaYHora;
-	private Map<FilaColumna, AsinentoVirtual> mapaDeAsientos;
+	private Map<FilaColumna, AsientoVirtual> mapaDeAsientos;
 	private double valor;
 	private int salaId;
 	
@@ -38,7 +38,7 @@ public class Funcion {
 		this.fechaYHora = fechaYHora;
 	}
 
-	public void setMapaDeAsientos(Map<FilaColumna, AsinentoVirtual> mapaDeAsientos) {
+	public void setMapaDeAsientos(Map<FilaColumna, AsientoVirtual> mapaDeAsientos) {
 		this.mapaDeAsientos = mapaDeAsientos;
 	}
 
@@ -60,10 +60,10 @@ public class Funcion {
 		setMapaDeAsientosIni(sala.getMapaDeAsientos());
 	}
 
-	private void setMapaDeAsientosIni(Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisico) {
-		for (Entry<FilaColumna, AsinentoFisico> entry : mapaDeAsientosFisico.entrySet()) {
+	private void setMapaDeAsientosIni(Map<FilaColumna, AsientoFisico> mapaDeAsientosFisico) {
+		for (Entry<FilaColumna, AsientoFisico> entry : mapaDeAsientosFisico.entrySet()) {
 			this.mapaDeAsientos.put(entry.getKey(),
-					new AsinentoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
+					new AsientoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Funcion {
 		return sala;
 	}
 
-	public Map<FilaColumna, AsinentoVirtual> getMapaDeAsientos() {
+	public Map<FilaColumna, AsientoVirtual> getMapaDeAsientos() {
 		return mapaDeAsientos;
 	}
 

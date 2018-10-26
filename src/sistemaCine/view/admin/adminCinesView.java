@@ -3,11 +3,8 @@ package sistemaCine.view.admin;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,20 +15,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import sistemaCine.clases.Establecimiento;
-import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IsTest;
 
-public class adminCines extends javax.swing.JFrame {
+public class adminCinesView extends  GeneralFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static adminCines instancia;
-	private JFrame frame;
+	private static adminCinesView instancia;
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
 	private Map<String, Establecimiento> establecimientos;
@@ -41,9 +37,9 @@ public class adminCines extends javax.swing.JFrame {
 	private JLabel lblPelicula;
 	private Map<String, Pelicula> peliculas;
 
-	public static adminCines getInstancia() {
+	public static adminCinesView getInstancia() {
 		if (instancia == null) {
-			instancia = new adminCines();
+			instancia = new adminCinesView();
 		}
 		return instancia;
 	}
@@ -55,7 +51,7 @@ public class adminCines extends javax.swing.JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					adminCines window = new adminCines();
+					adminCinesView window = new adminCinesView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +63,7 @@ public class adminCines extends javax.swing.JFrame {
 	/**
 	 * Create the application.
 	 */
-	public adminCines() {
+	public adminCinesView() {
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -130,27 +126,44 @@ public class adminCines extends javax.swing.JFrame {
 				AltaModificacionEstablecimientoView.getInstancia(null);
 			}
 		});
-		comboBoxEstablecimiento.addItem(null);
-		if (!IsTest.is) {
-			try {
+		
+		addItemsEstablecimientos();
+		addItemsPeliculas();
+
+	}
+	private void addItemsEstablecimientos() {
+		try {
+			if (!IsTest.is) {
 				this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
-				this.peliculas = PeliculaServices.getAllPeliculasMap();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			} else {
+				myTest();
 			}
-		} else {
-			myTest();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		List<String> list = new ArrayList<>();
-		list.addAll(peliculas.keySet());
-		list.sort((a, b) -> a.compareToIgnoreCase(b));
+		comboBoxEstablecimiento.removeAllItems();
+		comboBoxEstablecimiento.addItem(null);
 		for (String nombreEstablecimiento : establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}
+		comboBoxEstablecimiento.setVisible(false);
+		comboBoxEstablecimiento.setVisible(true);
+	}
+	private void addItemsPeliculas() {
+		if (!IsTest.is) {
+			this.peliculas = PeliculaServices.getAllPeliculasMap();
+		} else {
+			myTest();
+		}
+		comboBoxPeliculas.removeAllItems();
+		comboBoxPeliculas.addItem(null);
+		List<String> list = new ArrayList<>();
+		list.addAll(peliculas.keySet());
+		list.sort((a, b) -> a.compareToIgnoreCase(b));
 		for (String key : list) {
 			comboBoxPeliculas.addItem(key);
 		}
-
 	}
 
 	private void myTest() {

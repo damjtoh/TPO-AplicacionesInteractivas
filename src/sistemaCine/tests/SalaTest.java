@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 import org.junit.Test;
 
-import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsientoFisico;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
@@ -17,9 +17,9 @@ public class SalaTest {
 	@Test
 	public void testAddAsiento() {
 		Sala sala = new Sala("sala 1");
-		assertTrue(sala.addAsiento(new AsinentoFisico("1", "a",0,0)));
-		assertFalse(sala.addAsiento(new AsinentoFisico("1", "a",0,0)));
-		assertTrue(sala.addAsiento(new AsinentoFisico("a", "1",0,0)));
+		assertTrue(sala.addAsiento(new AsientoFisico("1", "a",0,0)));
+		assertFalse(sala.addAsiento(new AsientoFisico("1", "a",0,0)));
+		assertTrue(sala.addAsiento(new AsientoFisico("a", "1",0,0)));
 	}
 
 	@Test

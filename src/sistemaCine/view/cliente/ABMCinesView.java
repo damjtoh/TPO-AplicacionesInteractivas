@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import sistemaCine.view.admin.adminCines;
+import sistemaCine.view.admin.adminCinesView;
 
 public class ABMCinesView extends javax.swing.JFrame{
 

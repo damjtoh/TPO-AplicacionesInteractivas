@@ -1,12 +1,12 @@
 package sistemaCine.clases;
 
-public class AsinentoFisico {
+public class AsientoFisico {
 	private String columna;
 	private String fila;
 	private int nroFila;
 	private int nroColumna;
 	private boolean usable;
-	public AsinentoFisico(String fila,String columna,int nroFila,int nroColumna) {
+	public AsientoFisico(String fila,String columna,int nroFila,int nroColumna) {
 		super();
 		this.columna = columna;
 		this.fila = fila;
@@ -14,7 +14,7 @@ public class AsinentoFisico {
 		this.nroColumna = nroColumna;
 		this.usable = true;
 	}
-	public AsinentoFisico( String fila,String columna,int nroFila,int nroColumna,boolean usable) {
+	public AsientoFisico( String fila,String columna,int nroFila,int nroColumna,boolean usable) {
 		super();
 		this.columna = columna;
 		this.fila = fila;

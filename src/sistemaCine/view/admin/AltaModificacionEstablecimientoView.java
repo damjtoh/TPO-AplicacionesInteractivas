@@ -11,6 +11,7 @@ import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Sala;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.SalaServices;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
 
@@ -33,9 +34,8 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
-public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
+public class AltaModificacionEstablecimientoView extends GeneralFrame {
 	static AltaModificacionEstablecimientoView instancia;
-	private JFrame frame;
 	private JTextField compNombre;
 	private JTextField compDireccion;
 	private JTextField compCapacidad;
@@ -221,6 +221,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 				try {
 					EstablecimientoService.updateEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
 							compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
+					btnCancelar.doClick();
 				} catch (NumberFormatException | SQLException e1) {
 					btnCrear.setBackground(Color.RED);
 					e1.printStackTrace();
