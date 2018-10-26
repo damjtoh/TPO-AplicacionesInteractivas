@@ -37,6 +37,8 @@ public class Venta {
 		this.observers = observers;
 		this.id = id;
 	}
+	
+	
 
 	public void addObserver(ObserverVenta observer) {
 		observers.add(observer);

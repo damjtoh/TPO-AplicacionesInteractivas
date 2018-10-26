@@ -114,6 +114,27 @@ public class SalaDAO {
 			return salas;
 	}
 
+
+	public static Sala getById(int id) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query = coneccion
+					.prepareStatement("select nombre from salas where id = ?");
+			query.setInt(1, id);
+			ResultSet rs = query.executeQuery();
+			
+			Sala sala = new Sala(rs.getString("nombre"), rs.getInt("id"));
+			
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			
+			return sala;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
+	}
+	
+	
 	public static Map<FilaColumna, AsinentoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(

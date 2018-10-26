@@ -17,7 +17,7 @@ import sistemaCine.clases.Funcion;
 import sistemaCine.utils.FilaColumna;
 
 public class EntradasDAO {
-	public static void insertEntrada(Entrada entrada) {
+	public static Entrada insertEntrada(Entrada entrada) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?)");
@@ -26,10 +26,15 @@ public class EntradasDAO {
 			query.setString(3, entrada.getAsiento().getFila());
 			query.setBoolean(4, entrada.getAsiento().isOcupado());
 			query.execute();
+			
+			ResultSet res = query.getResultSet();
+			entrada.setId(res.getInt("id"));
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return entrada;
 		} catch (Exception e) {
 			System.out.println();
 		}
+		return null;
 	}
 
 	public static void insertMapaEntradas(Funcion funcion) {
@@ -49,7 +54,7 @@ public class EntradasDAO {
 		}
 	}
 
-	public static void updateEntrada(Entrada entrada) {
+	public static Entrada updateEntrada(Entrada entrada) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
@@ -59,10 +64,13 @@ public class EntradasDAO {
 			query.setString(3, entrada.getAsiento().getColumna());
 			query.setString(4, entrada.getAsiento().getFila());
 			query.execute();
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return entrada;
 		} catch (Exception e) {
 			System.out.println();
 		}
+		return null;
 	}
 
 	public static void deleteEntrada(Entrada entrada) {
@@ -100,6 +108,27 @@ public class EntradasDAO {
 		return null;
 	}
 
+	public static Entrada getByVentaId(int ventaId) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			String statementSql = "select * from entradas where ventaId = ?";
+			PreparedStatement query = coneccion.prepareStatement(statementSql);
+			query.setInt(1, ventaId);
+			
+			
+			ResultSet rs = query.executeQuery();
+			
+			Entrada entrada = new Entrada(new AsinentoVirtual(rs.getString(2), rs.getString(3)), EntradasDAO.getByVentaId(ventaId));
+			
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return entrada;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
+	}
+	
+	
 	public static Map<FilaColumna, AsinentoVirtual> selectMapaEntradas(Funcion funcion) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
