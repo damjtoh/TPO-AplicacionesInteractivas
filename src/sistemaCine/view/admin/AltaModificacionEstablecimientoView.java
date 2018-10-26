@@ -30,6 +30,7 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
@@ -130,7 +131,8 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		frame.getContentPane().add(lblCuit);
 
 		btnCrear = new JButton("Crear");
-		btnCrear.setBounds(22, 264, 118, 23);
+		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCrear.setBounds(274, 199, 146, 41);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
@@ -171,7 +173,6 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 					EstablecimientoService.crearEstablecimiento(
 							new Establecimiento(Integer.parseInt(compCuit.getText()), compNombre.getText(),
 									compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
-					;
 				}
 			});
 		} else {
@@ -207,7 +208,6 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent e) {
 				EstablecimientoService.updateEstablecimiento(new Establecimiento(Integer.parseInt(compCuit.getText()),
 						compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
-				;
 			}
 		});
 
@@ -217,9 +217,9 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 		}
 		btnEditarSala.addActionListener(e -> {
 			if (comboBoxSalas.getSelectedItem()!=null) {
-				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit).setVisible(true);
+				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit);
 			}else {
-				AltaModificacionSalaView.getInstancia(null,cuit).setVisible(true);
+				AltaModificacionSalaView.getInstancia(null,cuit);
 
 			}
 		});

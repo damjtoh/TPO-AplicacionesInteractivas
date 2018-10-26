@@ -53,7 +53,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	private JPanel panelScreen;
 	private JButton btnNuevosAsientos;
 	private static String oldSalaName;
-	private JButton btnCreareditar;
+	private JButton btnCreareditarFunciones;
 	private JComboBox<String> comboBoxFunciones;
 	private JPanel panelFunciones;
 	private Map<String, Funcion> funcionesMap;
@@ -175,11 +175,11 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		frame.getContentPane().add(panelFunciones);
 		panelFunciones.setLayout(null);
 		panelFunciones.setVisible(false);
-		btnCreareditar = new JButton("Crear/Editar");
-		btnCreareditar.setBounds(0, 50, 169, 25);
-		panelFunciones.add(btnCreareditar);
+		btnCreareditarFunciones = new JButton("Crear/Editar");
+		btnCreareditarFunciones.setBounds(0, 50, 169, 25);
+		panelFunciones.add(btnCreareditarFunciones);
 
-		btnCreareditar.addActionListener(e -> {
+		btnCreareditarFunciones.addActionListener(e -> {
 			if (comboBoxFunciones.getSelectedItem() != null) {
 				AltaModificacionFuncionView
 						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()),cuit);
@@ -187,40 +187,17 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 				AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0),cuit);
 			}
 		});
-		comboBoxFunciones = new JComboBox<String>();
+		comboBoxFunciones = new JComboBox<>();
 		comboBoxFunciones.setBounds(0, 0, 173, 24);
 		panelFunciones.add(comboBoxFunciones);
 		if (sala.getNombre() != null) {
-			btnCrear.setText("Editar");
-			sala.setMapaDeAsientos(SalaServices.getAsientosSala(sala, cuit));
-			setMapaAsientos();
-			compNombreSala.setText(sala.getNombre());
-			btnCrear.addActionListener(e -> {
-				try {
-					SalaServices.crearSala(sala, cuit);
-					btnCancelar.doClick();
-				} catch (Exception e1) {
-					btnCrear.setBackground(Color.RED);
-					e1.printStackTrace();
-				}
-			});
-			List<Funcion> funciones;
-			try {
-				funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
-				funcionesMap = new HashMap<>();
-				for (Funcion funcion : funciones) {
-					funcionesMap.put(funcion.toString(), funcion);
-					comboBoxFunciones.addItem(funcion.toString());
-				}
-			} catch (SQLException e1) {
-
-				e1.printStackTrace();
-			}
-
+			setModificar();
 		} else {
+			
 			btnCrear.addActionListener(e -> {
 				try {
-					SalaServices.updateSala(sala, cuit, oldSalaName);
+					sala.setNombre(compNombreSala.getText());
+					SalaServices.crearSala(sala, cuit);
 					btnCancelar.doClick();
 				} catch (Exception e1) {
 					btnCrear.setBackground(Color.RED);
@@ -249,6 +226,38 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 			}
 		});
 
+	}
+
+	private void setModificar() {
+		btnCrear.setText("Editar");
+		sala.setMapaDeAsientos(SalaServices.getAsientosSala(sala, cuit));
+		setMapaAsientos();
+		compNombreSala.setText(sala.getNombre());
+
+		btnCrear.addActionListener(e -> {
+			try {
+				sala.setNombre(compNombreSala.getText());
+				SalaServices.updateSala(sala, cuit, oldSalaName);
+				btnCancelar.doClick();
+			} catch (Exception e1) {
+				btnCrear.setBackground(Color.RED);
+				e1.printStackTrace();
+			}
+		});
+		
+		List<Funcion> funciones;
+		try {
+			funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
+			funcionesMap = new HashMap<>();
+			for (Funcion funcion : funciones) {
+				funcionesMap.put(funcion.toString(), funcion);
+				comboBoxFunciones.addItem(funcion.toString());
+			}
+		} catch (SQLException e1) {
+
+			e1.printStackTrace();
+		}
+		
 	}
 
 	private void setMapaAsientosDefault() {

@@ -19,16 +19,13 @@ public class SalaServices {
 
 	public static void updateSala(Sala sala, int cuitEstablecimiento, String salaOldName) throws SQLException {
 		SalaDAO.updateSala(sala, cuitEstablecimiento, salaOldName);
+		SalaDAO.updateAsientosSala(sala, cuitEstablecimiento);
 		for (Funcion funcion : FuncionServices.getFuncionesSala(sala, cuitEstablecimiento)) {
 			funcion.setSala(new Sala(sala.getNombre()));
 			FuncionServices.updateFuncion(funcion, cuitEstablecimiento);
 		}
 	}
 
-	public static void updateAsientosSala(Sala sala, int cuitEstablecimiento, AsinentoFisico asiento) {
-		SalaDAO.updateAsientoSala(sala, cuitEstablecimiento, asiento);
-
-	}
 
 	public static void eliminarSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 		SalaDAO.deleteSala(sala, cuitEstablecimiento);
