@@ -14,7 +14,7 @@ public class AsinentoFisico {
 		this.nroColumna = nroColumna;
 		this.usable = true;
 	}
-	public AsinentoFisico(String columna, String fila,int nroFila,int nroColumna,boolean usable) {
+	public AsinentoFisico( String fila,String columna,int nroFila,int nroColumna,boolean usable) {
 		super();
 		this.columna = columna;
 		this.fila = fila;

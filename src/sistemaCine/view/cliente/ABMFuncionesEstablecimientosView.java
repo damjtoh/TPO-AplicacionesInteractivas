@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +104,11 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		comboBoxEstablecimiento.setBounds(12, 35, 130, 22);
 		frame.getContentPane().add(comboBoxEstablecimiento);
 		comboBoxEstablecimiento.addItem(null);
-		this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
+		try {
+			this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		for (String nombreEstablecimiento : establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}

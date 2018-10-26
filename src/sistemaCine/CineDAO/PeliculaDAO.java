@@ -259,8 +259,7 @@ public class PeliculaDAO {
 		return new ArrayList<>();
 	}
 	
-	public static Pelicula getById(int id) {
-		try {
+	public static Pelicula getById(int id) throws SQLException {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = conection.prepareStatement("select * from peliculas where id = ?");
 			
@@ -269,24 +268,17 @@ public class PeliculaDAO {
 			
 			ResultSet result = query.executeQuery();
 			
-			Pelicula pelicula = new Pelicula(
-					result.getInt("id"),
-					result.getString("nombre"),
-					result.getString("director"),
-					result.getString("genero"),
-					result.getInt("duracion"), 
-					result.getString("idioma"), 
-					result.getBoolean("subtitulos"), 
-					result.getDouble("clasificacion"), 
-					result.getString("observaciones")
-					);
+			Pelicula pelicula = null;
+			if (result.next()) {
+				pelicula = new Pelicula(result.getInt("id"), result.getString("nombre"), result.getString("director"),
+						result.getString("genero"), result.getInt("duracion"), result.getString("idioma"),
+						result.getBoolean("subtitulos"), result.getDouble("clasificacion"),
+						result.getString("observaciones"));
+			}
 			
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
 			return pelicula;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
+
 	}
 
 }

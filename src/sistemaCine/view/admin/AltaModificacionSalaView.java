@@ -122,21 +122,22 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		asientosPane.setVisible(false);
 		btnCrear = new JButton("Crear");
 		btnCrear.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnCrear.setBounds(12, 688, 173, 61);
+		btnCrear.setBounds(12, 679, 173, 40);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(871, 763, 117, 25);
+		btnCancelar.setBounds(857, 715, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 		btnCancelar.addActionListener(e -> {
-			instancia=null;
+			instancia = null;
 			this.dispose();
 			frame.dispose();
 		});
 
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(12, 761, 173, 25);
+		btnEliminar.setBounds(12, 715, 173, 25);
 		frame.getContentPane().add(btnEliminar);
+		btnEliminar.setVisible(false);
 
 		compNombreSala = new JTextField();
 		compNombreSala.setBounds(74, 42, 193, 40);
@@ -171,29 +172,34 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		frame.getContentPane().add(btnNuevosAsientos);
 
 		panelFunciones = new JPanel();
-		panelFunciones.setBounds(197, 713, 290, 87);
+		panelFunciones.setBounds(197, 679, 290, 61);
 		frame.getContentPane().add(panelFunciones);
 		panelFunciones.setLayout(null);
 		panelFunciones.setVisible(false);
 		btnCreareditarFunciones = new JButton("Crear/Editar");
-		btnCreareditarFunciones.setBounds(0, 50, 169, 25);
+		btnCreareditarFunciones.setBounds(0, 38, 169, 25);
 		panelFunciones.add(btnCreareditarFunciones);
+		comboBoxFunciones = new JComboBox<>();
+		comboBoxFunciones.setBounds(0, 0, 290, 24);
+		panelFunciones.add(comboBoxFunciones);
 
 		btnCreareditarFunciones.addActionListener(e -> {
 			if (comboBoxFunciones.getSelectedItem() != null) {
 				AltaModificacionFuncionView
-						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()),cuit);
+						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()), cuit);
 			} else {
-				AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0),cuit);
+				AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0), cuit);
 			}
 		});
-		comboBoxFunciones = new JComboBox<>();
-		comboBoxFunciones.setBounds(0, 0, 173, 24);
-		panelFunciones.add(comboBoxFunciones);
 		if (sala.getNombre() != null) {
-			setModificar();
+			try {
+				setModificar();
+			} catch (SQLException e1) {
+				compNombreSala.setText("Error Obtener sala");
+				e1.printStackTrace();
+			}
 		} else {
-			
+
 			btnCrear.addActionListener(e -> {
 				try {
 					sala.setNombre(compNombreSala.getText());
@@ -228,9 +234,12 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 
 	}
 
-	private void setModificar() {
+	private void setModificar() throws SQLException {
+		sala = SalaServices.getSala(sala.getNombre(), cuit);
+
 		btnCrear.setText("Editar");
-		sala.setMapaDeAsientos(SalaServices.getAsientosSala(sala, cuit));
+		panelFunciones.setVisible(true);
+		btnEliminar.setVisible(true);
 		setMapaAsientos();
 		compNombreSala.setText(sala.getNombre());
 
@@ -244,7 +253,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		List<Funcion> funciones;
 		try {
 			funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
@@ -257,7 +266,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	private void setMapaAsientosDefault() {

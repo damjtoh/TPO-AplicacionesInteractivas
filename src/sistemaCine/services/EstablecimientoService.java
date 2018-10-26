@@ -7,11 +7,11 @@ import sistemaCine.CineDAO.EstablecimientoDAO;
 import sistemaCine.clases.Establecimiento;
 
 public class EstablecimientoService {
-	public static void crearEstablecimiento(Establecimiento establecimiento) {
+	public static void crearEstablecimiento(Establecimiento establecimiento) throws SQLException {
 		EstablecimientoDAO.insert(establecimiento);
 	}
 
-	public static void updateEstablecimiento(Establecimiento establecimiento) {
+	public static void updateEstablecimiento(Establecimiento establecimiento) throws SQLException {
 		EstablecimientoDAO.update(establecimiento);
 	}
 
@@ -20,10 +20,10 @@ public class EstablecimientoService {
 		SalaServices.eliminarSalasEstablecimiento(establecimiento);
 	}
 
-	public static Establecimiento getEstablecimieto(int cuit) {
+	public static Establecimiento getEstablecimieto(int cuit) throws SQLException {
 		return EstablecimientoDAO.selectEstablecimieto(cuit);
 	}
-	public static Map<String,Establecimiento> getAllEstablecimietosMap() {
+	public static Map<String,Establecimiento> getAllEstablecimietosMap() throws SQLException {
 		return EstablecimientoDAO.selectAllEstablecimietos();
 	}
 	
