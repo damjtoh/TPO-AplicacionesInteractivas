@@ -9,6 +9,7 @@ import sistemaCine.utils.FilaColumna;
 
 public class Sala {
 	private String nombre;
+	private int id;
 	private List<Funcion> funciones;
 	private Map<FilaColumna, AsinentoFisico> mapaDeAsientos;
 
@@ -17,8 +18,17 @@ public class Sala {
 		this.nombre = nombre;
 		this.funciones = new ArrayList<>();
 		this.mapaDeAsientos = new HashMap<>();
-
 	}
+
+	
+	
+	public Sala(String nombre, int id) {
+		super();
+		this.nombre = nombre;
+		this.id = id;
+	}
+
+
 
 	public boolean sosSala(String nombre) {
 		return this.nombre == nombre;

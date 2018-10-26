@@ -13,6 +13,17 @@ public class Funcion {
 	private Date fechaYHora;
 	private Map<FilaColumna, AsinentoVirtual> mapaDeAsientos;
 	private double valor;
+	private int salaId;
+	
+
+	
+
+	public Funcion(Pelicula pelicula, Sala sala, Date fechaYHora) {
+		super();
+		this.pelicula = pelicula;
+		this.sala = sala;
+		this.fechaYHora = fechaYHora;
+	}
 
 	public void setPelicula(Pelicula pelicula) {
 		this.pelicula = pelicula;

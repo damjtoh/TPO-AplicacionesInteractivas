@@ -11,7 +11,7 @@ public class Pelicula {
 	private int duracion;
 	private String idioma;
 	private Boolean subtitulos;
-	private double claificacion;
+	private double clasificacion;
 	private String observaciones;
 	private List<Funcion> funciones;
 
@@ -24,17 +24,35 @@ public class Pelicula {
 		this.duracion = duracion;
 		this.idioma = idioma;
 		this.subtitulos = subtitulos;
-		this.claificacion = claificacion;
+		this.clasificacion = claificacion;
 		this.observaciones = observaciones;
 		this.funciones = new ArrayList<>();
 	}
 
+	
+	
+	public Pelicula(Integer id, String nombre, String director, String genero, int duracion, String idioma,
+			Boolean subtitulos, double claificacion, String observaciones) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.director = director;
+		this.genero = genero;
+		this.duracion = duracion;
+		this.idioma = idioma;
+		this.subtitulos = subtitulos;
+		this.clasificacion = claificacion;
+		this.observaciones = observaciones;
+	}
+
+
+
 	public double getClaificacion() {
-		return claificacion;
+		return clasificacion;
 	}
 
 	public void setClaificacion(double claificacion) {
-		this.claificacion = claificacion;
+		this.clasificacion = claificacion;
 	}
 
 	public List<Funcion> getFunciones() {

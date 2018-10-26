@@ -231,8 +231,8 @@ public class PeliculaDAO {
 	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) {
 		try {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query;
 			String stringConsulta = "select * from peliculas where id in (?)";
+			PreparedStatement query;
 			query = conection.prepareStatement(stringConsulta);
 			query.setArray(1, conection.createArrayOf("INT", idsPeliculas.toArray()));
 			ResultSet result = query.executeQuery();
@@ -253,6 +253,36 @@ public class PeliculaDAO {
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
 			return peliculas;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+	
+	public static Pelicula getById(int id) {
+		try {
+			Connection conection = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement query = conection.prepareStatement("select * from peliculas where id = ?");
+			
+			
+			query.setInt(1, id);
+			
+			ResultSet result = query.executeQuery();
+			
+			Pelicula pelicula = new Pelicula(
+					result.getInt("id"),
+					result.getString("nombre"),
+					result.getString("director"),
+					result.getString("genero"),
+					result.getInt("duracion"), 
+					result.getString("idioma"), 
+					result.getBoolean("subtitulos"), 
+					result.getDouble("clasificacion"), 
+					result.getString("observaciones")
+					);
+			
+			PoolConnection.getPoolConnection().realeaseConnection(conection);
+			return pelicula;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

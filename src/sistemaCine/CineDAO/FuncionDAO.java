@@ -102,6 +102,33 @@ public class FuncionDAO {
 		}
 		return new ArrayList<>();
 	}
+	
+	public static Funcion getById(int id) {
+		try {
+			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+			String consultaSql = "select * where  id = ?";
+
+			PreparedStatement query = coneccion.prepareStatement(consultaSql);
+			query.setInt(1, id);
+			
+			Funcion funcion = null;
+			
+			ResultSet resFuncion = query.executeQuery();
+			
+			List<Funcion> funciones = new ArrayList<>();
+			if (resFuncion.next()) {
+				funcion = new Funcion(PeliculaDAO.getById(resFuncion.getInt("id_pelicula")), SalaDAO.getById(resFuncion.getInt("salaId")), resFuncion.getDate("fecha_hora"));
+				funcion.setId(resFuncion.getInt(4));
+				funciones.add(funcion);
+			}
+			
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return funcion;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;		
+	}
 
 	public static Map<FilaColumna, AsinentoVirtual> selectAsientos(Funcion funcion) {
 		try {
