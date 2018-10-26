@@ -93,11 +93,11 @@ public class VentasDAO {
 			ResultSet res = query.executeQuery();
 			Venta venta = null;
 			
-			if (res.next()) {
-				
+			if (res.last()) {
 				venta = new Venta(EntradasDAO.getByVentaId(id), LocalDate.parse(res.getString("fechaYHora")),
 						(ITipoDePago)res.getObject("tipoDePago"), res.getLong("numeroDeTarjeta"), res.getDouble("importe"), res.getInt("id"));
 			}
+			
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return venta;
 		} catch (Exception e) {

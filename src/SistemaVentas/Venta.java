@@ -16,27 +16,16 @@ public class Venta {
 
 	
 	
-	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta,
-			double importe) {
+	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta, double importe, int id) {
 		super();
-		this.entradas = entradas;
-		this.fechaYHora = fechaYHora;
-		this.tipoDePago = tipoDePago;
-		this.numeroDeTarjeta = numeroDeTarjeta;
-		this.importe = importe;
-	}
-
-	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta,
-			double importe, List<ObserverVenta> observers,int id) {
-		super();
-		this.entradas = entradas;
-		this.fechaYHora = fechaYHora;
-		this.tipoDePago = tipoDePago;
-		this.numeroDeTarjeta = numeroDeTarjeta;
-		this.importe = importe;
-		this.observers = observers;
 		this.id = id;
+		this.entradas = entradas;
+		this.fechaYHora = fechaYHora;
+		this.tipoDePago = tipoDePago;
+		this.numeroDeTarjeta = numeroDeTarjeta;
+		this.importe = importe;
 	}
+	
 	
 	
 

@@ -108,7 +108,7 @@ public class EntradasDAO {
 		return null;
 	}
 
-	public static Entrada getByVentaId(int ventaId) {
+	public static List<Entrada> getByVentaId(int ventaId) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where ventaId = ?";
@@ -118,10 +118,16 @@ public class EntradasDAO {
 			
 			ResultSet rs = query.executeQuery();
 			
-			Entrada entrada = new Entrada(new AsinentoVirtual(rs.getString(2), rs.getString(3)), EntradasDAO.getByVentaId(ventaId));
+			List<Entrada> entradas = new ArrayList<Entrada>();
+			
+			while(rs.last()) {
+				entradas.add(new AsinentoVirtual(rs.getString(2), rs.getString(3)), EntradasDAO.getByVentaId(ventaId));
+				rs.next();
+			}
+			
 			
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return entrada;
+			return entradas;
 		} catch (Exception e) {
 			System.out.println();
 		}
