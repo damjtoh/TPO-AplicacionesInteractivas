@@ -155,7 +155,7 @@ public class MenuPrincipal extends JFrame {
 		panel.add(button);
 		
 		JLabel lblIngreseLosSiguientes = new JLabel("Ingrese los siguientes datos:");
-		lblIngreseLosSiguientes.setBounds(22, 47, 159, 14);
+		lblIngreseLosSiguientes.setBounds(22, 47, 180, 14);
 		panel.add(lblIngreseLosSiguientes);
 		
 		

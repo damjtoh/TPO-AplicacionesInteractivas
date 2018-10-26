@@ -13,7 +13,7 @@ public class Usuario {
 	private int dni;
 	private LocalDate fechaNacimiento;
 	private boolean activo = true;
-	private ArrayList<Rol> roles; // Falta definir la interfaz del rol 
+	private ArrayList<Rol> roles;
 
 	public Usuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNac) {
 		super();

@@ -80,7 +80,7 @@ public class ModificarUsuario extends JFrame {
 				SistemaUsuarios.ModificarUsuario(nombreUsuario.getText(), Email.getText(), textPassword.getText(), textDomicilio.getText());
 			}
 		});
-		btnModificar.setBounds(252, 227, 77, 23);
+		btnModificar.setBounds(252, 227, 90, 23);
 		contentPane.add(btnModificar);
 		
 		JButton button_1 = new JButton("Salir");
