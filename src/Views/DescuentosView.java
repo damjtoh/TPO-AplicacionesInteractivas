@@ -20,37 +20,15 @@ import javax.swing.table.DefaultTableModel;
 import SistemaFacturacion.SistemaFacturacion;
 import presentacion.DescuentoPresentacion;
 
-public class DescuentosView {
+public class DescuentosView extends JFrame {
 
 	private JFrame frmDescuentos;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DescuentosView window = new DescuentosView();
-					window.frmDescuentos.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public DescuentosView() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmDescuentos = new JFrame();
 		frmDescuentos.setResizable(false);

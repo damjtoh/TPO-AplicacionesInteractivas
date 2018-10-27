@@ -24,41 +24,20 @@ import presentacion.DescuentoPresentacion;
 import presentacion.Promo2x1Presentacion;
 import presentacion.xPorcentajePrecioVentaPresentacion;
 
-public class AltaComboView {
+public class AltaComboView extends JFrame {
 
 	private JFrame frmDescuentos;
 	private JTable table;
 	private Collection<DescuentoPresentacion> descuentosPresentacion;
 	private DescuentosView descuentosView;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltaComboView window = new AltaComboView(null);
-					window.frmDescuentos.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public AltaComboView(DescuentosView descuentosView) {
-		this.descuentosView = descuentosView;
+	public AltaComboView() {
+		this.descuentosView = DescuentosDAO.getAll();
 		initialize();
 		frmDescuentos.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		frmDescuentos = new JFrame();
 		frmDescuentos.setResizable(false);

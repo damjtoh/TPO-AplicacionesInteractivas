@@ -11,7 +11,7 @@ public class Sala {
 	private String nombre;
 	private int id;
 	private List<Funcion> funciones;
-	private Map<FilaColumna, AsientoFisico> mapaDeAsientos;
+	private Map<FilaColumna, AsinentoFisico> mapaDeAsientos;
 
 	public Sala(String nombre) {
 		super();
@@ -42,7 +42,7 @@ public class Sala {
 		this.funciones = funciones;
 	}
 
-	public void setMapaDeAsientos(Map<FilaColumna, AsientoFisico> mapaDeAsientos) {
+	public void setMapaDeAsientos(Map<FilaColumna, AsinentoFisico> mapaDeAsientos) {
 		this.mapaDeAsientos = mapaDeAsientos;
 	}
 
@@ -54,15 +54,15 @@ public class Sala {
 		return funciones;
 	}
 
-	public Map<FilaColumna, AsientoFisico> getMapaDeAsientos() {
+	public Map<FilaColumna, AsinentoFisico> getMapaDeAsientos() {
 		return mapaDeAsientos;
 	}
 
-	public boolean addAsiento(AsientoFisico asiento) {
+	public boolean addAsiento(AsinentoFisico asiento) {
 		return null == this.mapaDeAsientos.put(new FilaColumna(asiento.getFila(), asiento.getColumna()), asiento);
 	}
 
-	public boolean setAsientoRoto(AsientoFisico asiento, boolean roto) {
+	public boolean setAsientoRoto(AsinentoFisico asiento, boolean roto) {
 		asiento = this.mapaDeAsientos.get(new FilaColumna(asiento.getFila(), asiento.getColumna()));
 		if (asiento != null) {
 			asiento.setUsable(!roto);
@@ -101,7 +101,7 @@ public class Sala {
 
 	public int getCantFilas() {
 		int cant = 0;
-		for (AsientoFisico asiento : mapaDeAsientos.values()) {
+		for (AsinentoFisico asiento : mapaDeAsientos.values()) {
 			if (cant < asiento.getNroFila()) {
 				cant = asiento.getNroFila();
 			}
@@ -111,7 +111,7 @@ public class Sala {
 
 	public int getCantColumnas() {
 		int cant = 0;
-		for (AsientoFisico asiento : mapaDeAsientos.values()) {
+		for (AsinentoFisico asiento : mapaDeAsientos.values()) {
 			if (cant < asiento.getNroColumna()) {
 				cant = asiento.getNroColumna();
 			}

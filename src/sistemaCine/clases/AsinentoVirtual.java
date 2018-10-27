@@ -1,11 +1,11 @@
 package sistemaCine.clases;
 
-public class AsientoVirtual {
+public class AsinentoVirtual {
 	private String columna;
 	private String fila;
 	private Boolean ocupado;
 
-	public AsientoVirtual(String columna, String fila) {
+	public AsinentoVirtual(String columna, String fila) {
 		super();
 		this.columna = columna;
 		this.fila = fila;

@@ -2,7 +2,7 @@ package sistemaCine.clases;
 
 public class Entrada {
 
-	private AsientoVirtual asiento;
+	private AsinentoVirtual asiento;
 	private Funcion funcion;
 	private int ventaId;
 	private int Id;
@@ -20,10 +20,10 @@ public class Entrada {
 	public void setId(int id) {
 		Id = id;
 	}
-	public AsientoVirtual getAsiento() {
+	public AsinentoVirtual getAsiento() {
 		return asiento;
 	}
-	public void setAsiento(AsientoVirtual asiento) {
+	public void setAsiento(AsinentoVirtual asiento) {
 		this.asiento = asiento;
 	}
 	public Funcion getFuncion() {
@@ -33,12 +33,12 @@ public class Entrada {
 		this.funcion = funcion;
 	}
 
-	public Entrada(AsientoVirtual asiento, Funcion funcion) {
+	public Entrada(AsinentoVirtual asiento, Entrada entrada) {
 		super();
 		this.asiento = asiento;
-		this.funcion = funcion;
+		this.funcion = entrada;
 	}
-	public Entrada(AsientoVirtual asiento, Funcion funcion, int ventaId, int id) {
+	public Entrada(AsinentoVirtual asiento, Funcion funcion, int ventaId, int id) {
 		super();
 		this.asiento = asiento;
 		this.funcion = funcion;

@@ -4,21 +4,21 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.clases.AsientoFisico;
-import sistemaCine.clases.AsientoVirtual;
+import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsinentoVirtual;
 import sistemaCine.clases.Entrada;
 import sistemaCine.clases.Funcion;
 import sistemaCine.utils.FilaColumna;
 
 public class EntradasDAO {
-	public static Entrada insertEntrada(Entrada entrada) throws SQLException {
+	public static Entrada insertEntrada(Entrada entrada) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?)");
 			query.setInt(1, entrada.getFuncion().getId());
@@ -31,12 +31,17 @@ public class EntradasDAO {
 			entrada.setId(res.getInt("id"));
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return entrada;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
 	}
 
-	public static void insertMapaEntradas(Funcion funcion) throws SQLException {
+	public static void insertMapaEntradas(Funcion funcion) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			for (AsientoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
-				PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?,null)");
+			for (AsinentoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
+				PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?)");
 				query.setInt(1, funcion.getId());
 				query.setString(2, asiento.getColumna());
 				query.setString(3, asiento.getFila());
@@ -44,24 +49,32 @@ public class EntradasDAO {
 				query.execute();
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		} catch (Exception e) {
+			System.out.println();
+		}
 	}
 
-	public static Entrada updateEntrada(Entrada entrada) throws SQLException {
+	public static Entrada updateEntrada(Entrada entrada) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"update entradas set ocupado = ?,ventaId = ? where id_funcion = ? and columna = ? and fila = ?");
+					"update entradas set ocupado = ? where id_funcion = ? and columna = ? and fila = ?");
 			query.setBoolean(1, entrada.getAsiento().isOcupado());
-			query.setInt(2, entrada.getVentaId());
-			query.setInt(3, entrada.getFuncion().getId());
-			query.setString(4, entrada.getAsiento().getColumna());
-			query.setString(5, entrada.getAsiento().getFila());
+			query.setInt(2, entrada.getFuncion().getId());
+			query.setString(3, entrada.getAsiento().getColumna());
+			query.setString(4, entrada.getAsiento().getFila());
 			query.execute();
 
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return entrada;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
 	}
 
-	public static void deleteEntrada(Entrada entrada) throws SQLException {
+	public static void deleteEntrada(Entrada entrada) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
 					.prepareStatement("delete from entradas where id_funcion = ? and columna = ? and fila = ?");
@@ -70,10 +83,13 @@ public class EntradasDAO {
 			query.setString(3, entrada.getAsiento().getFila());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-
+		} catch (Exception e) {
+			System.out.println();
+		}
 	}
 
-	public static Entrada selectEntrada(Entrada entrada) throws SQLException {
+	public static Entrada selectEntrada(Entrada entrada) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where id_funcion = ? and columna = ? and fila = ? ";
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
@@ -82,13 +98,18 @@ public class EntradasDAO {
 			query.setString(3, entrada.getAsiento().getFila());
 			ResultSet rs = query.executeQuery();
 			rs.next();
-			AsientoVirtual asinento = new AsientoVirtual(rs.getString(2), rs.getString(3));
+			AsinentoVirtual asinento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
 			asinento.setOcupado(rs.getBoolean(4));
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return new Entrada(asinento, null);
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
 	}
 
-	public static List<Entrada> getByVentaId(int ventaId) throws SQLException {
+	public static List<Entrada> getByVentaId(int ventaId) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where ventaId = ?";
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
@@ -100,17 +121,22 @@ public class EntradasDAO {
 			List<Entrada> entradas = new ArrayList<Entrada>();
 			
 			while(rs.last()) {
-				entradas.add(new Entrada(new AsientoVirtual(rs.getString(2), rs.getString(3)), FuncionDAO.getById(rs.getInt("id_funcion"))));
+				entradas.add(new AsinentoVirtual(rs.getString(2), rs.getString(3)), EntradasDAO.getByVentaId(ventaId));
 				rs.next();
 			}
 			
 			
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return entradas;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return null;
 	}
 	
 	
-	public static Map<FilaColumna, AsientoVirtual> selectMapaEntradas(Funcion funcion) throws SQLException {
+	public static Map<FilaColumna, AsinentoVirtual> selectMapaEntradas(Funcion funcion) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where id_funcion = ?" /*and columna in (?) */;
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
@@ -121,25 +147,32 @@ public class EntradasDAO {
 			query.setInt(1, funcion.getId());
 //			query.setArray(2, coneccion.createArrayOf("VARCHAR", columnas.toArray()));
 			ResultSet rs = query.executeQuery();
-			Map<FilaColumna, AsientoVirtual> asientos = new HashMap<>();
+			Map<FilaColumna, AsinentoVirtual> asientos = new HashMap<>();
 			while (rs.next()) {
-				AsientoVirtual asiento;
-				asiento = new AsientoVirtual(rs.getString(2), rs.getString(3));
+				AsinentoVirtual asiento;
+				asiento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
 				asiento.setOcupado(rs.getBoolean(4));
 				asientos.put(new FilaColumna(asiento.getFila(), asiento.getColumna()), asiento);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return asientos;
+		} catch (Exception e) {
+			System.out.println();
+		}
+		return new HashMap<>();
 	}
 
-	public static void deleteEntradas(int idFuncion) throws SQLException {
+	public static void deleteEntradas(int idFuncion) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
 					.prepareStatement("delete from entradas where id_funcion = ?");
 			query.setInt(1, idFuncion);
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-	
+		} catch (Exception e) {
+			System.out.println();
+		}		
 	}
 
 }

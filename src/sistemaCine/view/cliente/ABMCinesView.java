@@ -76,7 +76,8 @@ public class ABMCinesView extends javax.swing.JFrame{
 		btnEstablecimientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEstablecimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ABMFuncionesEstablecimientosView.getInstancia();
+				ABMFuncionesEstablecimientosView.getInstancia().setLocationRelativeTo(null);
+				ABMFuncionesEstablecimientosView.getInstancia().setVisible(true);
 			}
 		});
 		btnEstablecimientos.setBounds(12, 137, 408, 67);
@@ -90,7 +91,8 @@ public class ABMCinesView extends javax.swing.JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ABMPeliculasView.getInstancia();
+				ABMPeliculasView.getInstancia().setLocationRelativeTo(null);
+				ABMPeliculasView.getInstancia().setVisible(true);				
 			}
 		});
 		

@@ -8,9 +8,6 @@ import javax.swing.JButton;
 
 public class UsuariosListarView extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
 	public UsuariosListarView() {
 		setLayout(null);
 		

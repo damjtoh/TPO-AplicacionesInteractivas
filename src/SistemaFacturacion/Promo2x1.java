@@ -2,6 +2,7 @@ package SistemaFacturacion;
 
 import java.time.LocalDate;
 
+import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
 import presentacion.DescuentoPresentacion;
 import presentacion.Promo2x1Presentacion;
@@ -15,7 +16,7 @@ public class Promo2x1 extends Descuento{
 
 	@Override
 	public void EfectuarDescuento(Venta venta) {
-		venta.SetImporte(venta.GetImporte()/2);
+		venta.setImporte(venta.getImporte()/2);
 	}
 
 	@Override

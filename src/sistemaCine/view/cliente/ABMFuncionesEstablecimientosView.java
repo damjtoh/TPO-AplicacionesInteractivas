@@ -24,8 +24,6 @@ import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.FuncionServices;
-import sistemaCine.services.PeliculaServices;
-import sistemaCine.utils.DateUtils;
 
 public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
@@ -48,7 +46,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 	private JComboBox<String> comboBoxEstablecimiento;
 	private JLabel lblEstablecimiento;
 	private Map<String, Establecimiento> establecimientos = new HashMap<>();
-	private Map<String, Pelicula> peliculas = new HashMap<>();
+	private Map<String, Pelicula> peliculas;
 	private Map<String, Map<String, Funcion>> funciones;
 	private JPanel buttonLayout;
 	private JLabel lblPrecio;
@@ -89,6 +87,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
+		
 
 		frame.getContentPane().setLayout(null);
 		frame.addWindowListener(new WindowAdapter() {
@@ -117,19 +116,14 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
 			if (comboBoxEstablecimiento.getSelectedItem() != null) {
 				comboBoxPeliculas.removeAllItems();
-				comboBoxPeliculas.addItem(null);
 				Integer cuit = null;
 				cuit = establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit();
 
 				if (cuit != null) {
+					List<Integer> idsPeliculas = FuncionServices.getPeliculasEstablecimientoIDS(cuit,
+							(Date) new java.util.Date());
 					List<Pelicula> peliculasList = new ArrayList<>();
-					try {
-						peliculasList = FuncionServices.getPeliculasEstablecimientoIDS(cuit,
-								DateUtils.getFechaSql(new java.util.Date()));
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					peliculasList.addAll(PeliculaDAO.getPeliculas(idsPeliculas));
 //					for (Integer id : idsPeliculas) {
 //						Pelicula pelicula = new Pelicula(null, null, null, 0, null, null, 0, null);
 //						pelicula.setId(id);
@@ -166,9 +160,8 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		comboBoxPeliculas.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				comboBoxDia.removeAllItems();
-				comboBoxDia.addItem(null);
 				funciones = FuncionServices.getFuncionesMap(peliculas.get(comboBoxPeliculas.getSelectedItem()),
-						DateUtils.getFechaSql(new java.util.Date()),
+						(Date) new java.util.Date(),
 						establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
 				for (String dia : funciones.keySet()) {
 					comboBoxDia.addItem(dia);
@@ -199,7 +192,6 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
 		comboBoxDia.addActionListener(e -> {
 			comboBoxHorario.removeAllItems();
-			comboBoxHorario.addItem(null);
 			if (comboBoxDia.getSelectedItem() != null) {
 				for (String hora : funciones.get(comboBoxDia.getSelectedItem()).keySet()) {
 					comboBoxHorario.addItem(hora);
@@ -254,8 +246,5 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 					funciones.get(comboBoxDia.getSelectedItem()).get(comboBoxHorario.getSelectedItem()),
 					establecimientos.get(comboBoxEstablecimiento.getSelectedItem()));
 		});
-		comboBoxDia.addItem(null);
-		comboBoxHorario.addItem(null);
-		comboBoxPeliculas.addItem(null);
 	}
 }

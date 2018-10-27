@@ -11,11 +11,11 @@ public class Usuario {
 	private String nombreUsuario;
 	private String domicilio;
 	private int dni;
-	private LocalDate fechaNacimiento;
+	private String fechaNacimiento;
 	private boolean activo = true;
-	private ArrayList<Rol> roles;
+	private ArrayList<Rol> roles; // Falta definir la interfaz del rol 
 
-	public Usuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNac) {
+	public Usuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, String fechaNac) {
 		super();
 		this.nombre = nombre;
 		this.email = email;
@@ -24,7 +24,7 @@ public class Usuario {
 		this.domicilio = domicilio;
 		this.dni = dni;
 		this.fechaNacimiento = fechaNac;
-		roles = new ArrayList<Rol>();
+		this.roles = new ArrayList<Rol>();
 	}
 
 	//Getters y Setters
@@ -68,7 +68,7 @@ public class Usuario {
 		return dni;
 	}
 
-	public LocalDate getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 

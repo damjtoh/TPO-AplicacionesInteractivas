@@ -37,7 +37,7 @@ public class EstablecimientoDAO {
 	public static void update(Object object) throws SQLException {
 			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("update establecimientos set nombre = ?,direccion = ?,capacidad = ? where cuit = ?");
+			PreparedStatement query = coneccion.prepareStatement("update establecimientos set nombre = ?,domicilio = ?,capacidadTotal = ? where cuit = ?");
 			query.setString(1, establecimiento.getNombre());
 			query.setString(2, establecimiento.getDomicilio());
 			query.setInt(3, establecimiento.getCapacidadTotal());

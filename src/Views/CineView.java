@@ -20,26 +20,6 @@ public class CineView extends JFrame {
 	private JPanel usuariosListarView = new UsuariosListarView();
     CardLayout cardLayout = new CardLayout();
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CineView frame = new CineView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public CineView() {
 		setTitle("Sistema Cines");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

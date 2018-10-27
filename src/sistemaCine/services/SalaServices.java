@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import sistemaCine.CineDAO.SalaDAO;
-import sistemaCine.clases.AsientoFisico;
+import sistemaCine.clases.AsinentoFisico;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Sala;
@@ -36,7 +36,7 @@ public class SalaServices {
 		return SalaDAO.selectSalas(cuitEstablecimiento);
 	}
 
-	public static Map<FilaColumna, AsientoFisico> getAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
+	public static Map<FilaColumna, AsinentoFisico> getAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 		return SalaDAO.selectAsientosSala(sala, cuitEstablecimiento);
 	}
 

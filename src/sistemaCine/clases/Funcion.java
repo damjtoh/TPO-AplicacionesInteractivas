@@ -12,7 +12,7 @@ public class Funcion {
 	private Pelicula pelicula;
 	private Sala sala;
 	private Date fechaYHora;
-	private Map<FilaColumna, AsientoVirtual> mapaDeAsientos;
+	private Map<FilaColumna, AsinentoVirtual> mapaDeAsientos;
 	private double valor;
 	private int salaId;
 	
@@ -38,7 +38,7 @@ public class Funcion {
 		this.fechaYHora = fechaYHora;
 	}
 
-	public void setMapaDeAsientos(Map<FilaColumna, AsientoVirtual> mapaDeAsientos) {
+	public void setMapaDeAsientos(Map<FilaColumna, AsinentoVirtual> mapaDeAsientos) {
 		this.mapaDeAsientos = mapaDeAsientos;
 	}
 
@@ -60,10 +60,10 @@ public class Funcion {
 		setMapaDeAsientosIni(sala.getMapaDeAsientos());
 	}
 
-	private void setMapaDeAsientosIni(Map<FilaColumna, AsientoFisico> mapaDeAsientosFisico) {
-		for (Entry<FilaColumna, AsientoFisico> entry : mapaDeAsientosFisico.entrySet()) {
+	private void setMapaDeAsientosIni(Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisico) {
+		for (Entry<FilaColumna, AsinentoFisico> entry : mapaDeAsientosFisico.entrySet()) {
 			this.mapaDeAsientos.put(entry.getKey(),
-					new AsientoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
+					new AsinentoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Funcion {
 		return sala;
 	}
 
-	public Map<FilaColumna, AsientoVirtual> getMapaDeAsientos() {
+	public Map<FilaColumna, AsinentoVirtual> getMapaDeAsientos() {
 		return mapaDeAsientos;
 	}
 
@@ -94,9 +94,5 @@ public class Funcion {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return pelicula.toString() + "-" + fechaYHora.toString();
-	}
-
-	public void generateMapaAsientos() {
-		setMapaDeAsientosIni(this.sala.getMapaDeAsientos());
 	}
 }

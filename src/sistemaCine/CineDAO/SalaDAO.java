@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.clases.AsientoFisico;
+import sistemaCine.clases.AsinentoFisico;
 import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
@@ -26,7 +26,7 @@ public class SalaDAO {
 			query.setString(2, sala.getNombre());
 			query.execute();
 			query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?,?,?)");
-			for (AsientoFisico asiento : sala.getMapaDeAsientos().values()) {
+			for (AsinentoFisico asiento : sala.getMapaDeAsientos().values()) {
 				query.setInt(1, cuitEstablecimiento);
 				query.setString(2, sala.getNombre());
 				query.setString(3, asiento.getFila());
@@ -70,7 +70,7 @@ public class SalaDAO {
 			query.setInt(1, cuitEstablecimiento);
 			query.execute();
 			query = coneccion.prepareStatement("insert into sala_asientos values (?,?,?,?,?,?,?)");
-			for (AsientoFisico asiento : sala.getMapaDeAsientos().values()) {
+			for (AsinentoFisico asiento : sala.getMapaDeAsientos().values()) {
 				query.setInt(1, cuitEstablecimiento);
 				query.setString(2, sala.getNombre());
 				query.setString(3, asiento.getFila());
@@ -135,7 +135,7 @@ public class SalaDAO {
 	}
 	
 	
-	public static Map<FilaColumna, AsientoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
+	public static Map<FilaColumna, AsinentoFisico> selectAsientosSala(Sala sala, int cuitEstablecimiento) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
 					"select fila,columna,nro_fila,nro_columna,usable from sala_asientos where "+CUIT_ESTABLECIMIENTO+" = ? and nombre_sala like ?");
@@ -143,9 +143,9 @@ public class SalaDAO {
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			Map<FilaColumna, AsientoFisico> asientos = new HashMap<>();
+			Map<FilaColumna, AsinentoFisico> asientos = new HashMap<>();
 			while (rs.next()) {
-				asientos.put(new FilaColumna(rs.getString(1), rs.getString(2)), new AsientoFisico(rs.getString(1),
+				asientos.put(new FilaColumna(rs.getString(1), rs.getString(2)), new AsinentoFisico(rs.getString(1),
 						rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getBoolean(5)));
 			}
 			return asientos;

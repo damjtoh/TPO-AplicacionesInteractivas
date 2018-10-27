@@ -1,15 +1,11 @@
 package Usuarios;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Vector;
-
-import Persistencas.AdministradorPersistencia;
-import Persistencas.PoolConnection;
 
 
 public class MapperUsuario extends AdministradorPersistencia
@@ -26,8 +22,7 @@ public class MapperUsuario extends AdministradorPersistencia
 				String nombreUsuario1 = result.getString(5);
 				//String domicilio = result.getString(6);
 				int dni = Integer.parseInt(result.getString(6));
-				Date fecha = result.getDate(7);
-				LocalDate fechaNacimiento = fecha.toLocalDate();
+			    String fechaNacimiento = result.getString(7);
 			    String domicilio = "Calle siempre viva 123";
 			    u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
 			}
@@ -83,9 +78,7 @@ public class MapperUsuario extends AdministradorPersistencia
 			s.setString(4, u.getNombreUsuario());
 			s.setString(5,u.getDomicilio());
 			s.setInt(6, u.getDni());
-			LocalDate fecha = u.getFechaNacimiento();
-			Date fechaNacimiento = Date.valueOf(fecha);
-			s.setDate(7,fechaNacimiento);
+			s.setString(7,u.getFechaNacimiento().toString());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
@@ -116,9 +109,7 @@ public class MapperUsuario extends AdministradorPersistencia
 			s.setString(4, u.getNombreUsuario());
 			s.setString(5,u.getDomicilio());
 			s.setInt(6, u.getDni());
-			LocalDate fecha = u.getFechaNacimiento();
-			Date fechaNacimiento = Date.valueOf(fecha);
-			s.setDate(7,fechaNacimiento);
+			s.setString(7,u.getFechaNacimiento().toString());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
