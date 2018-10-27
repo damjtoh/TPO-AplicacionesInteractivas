@@ -43,6 +43,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AltaModificacionFuncionView instancia;
+	
 	private static Funcion funcion;
 	private JComboBox<String> comboBoxPeliculas;
 	private Map<String, Pelicula> peliculas;
@@ -59,6 +60,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 	private JButton btnEliminar;
 	private static int cuit;
 	private JButton btnCancelar;
+	private JTextField compValor;
 
 	public static AltaModificacionFuncionView getInstancia(Funcion f, int c) {
 		funcion = f;
@@ -187,6 +189,15 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		btnCancelar.setBounds(873, 715, 97, 25);
 		frame.getContentPane().add(btnCancelar);
 		
+		compValor = new IntegerField();
+		compValor.setBounds(739, 39, 116, 22);
+		frame.getContentPane().add(compValor);
+		compValor.setColumns(10);
+		
+		JLabel lblPrecio = new JLabel("Precio");
+		lblPrecio.setBounds(739, 13, 56, 16);
+		frame.getContentPane().add(lblPrecio);
+		
 		btnCancelar.addActionListener(e -> {
 			instancia = null;
 			frame.dispose();
@@ -195,6 +206,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		if (funcion.getPelicula() != null) {
 			setModificar();
 		} else {
+			funcion.generateMapaAsientos();
 			btnCrear.addActionListener(e -> {
 				try {
 					funcion.setPelicula(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
@@ -215,7 +227,10 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		compDia.setText(Integer.toString(funcion.getFechaYHora().getDay()));
 		compMes.setText(Integer.toString(funcion.getFechaYHora().getMonth()));
 		compAnio.setText(Integer.toString(funcion.getFechaYHora().getYear()));
+		comboBoxPeliculas.setSelectedItem(funcion.getPelicula().toString());
+		compValor.setText(Double.toString(funcion.getValor()));
 		btnEliminar = new JButton("Eliminar");
+		btnCrear.setText("Modificar");
 		btnEliminar.setBounds(151, 715, 97, 25);
 		frame.getContentPane().add(btnEliminar);
 		btnEliminar.addActionListener(e -> {
@@ -230,6 +245,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		btnCrear.addActionListener(e -> {
 			try {
 				FuncionServices.updateFuncion(funcion, cuit);
+				btnCancelar.doClick();
 			} catch (SQLException e1) {
 				btnCrear.setBackground(Color.RED);
 				e1.printStackTrace();

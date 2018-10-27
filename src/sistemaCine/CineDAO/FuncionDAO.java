@@ -183,7 +183,7 @@ public class FuncionDAO {
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
 			List<Funcion> funciones = new ArrayList<>();
-			if (rs.next()) {
+			while (rs.next()) {
 				Funcion funcion = new Funcion(rs.getDate(1), new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
 				funcion.setId(rs.getInt(4));
 				funcion.getPelicula().setId(rs.getInt(5));

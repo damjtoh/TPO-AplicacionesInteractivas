@@ -15,6 +15,11 @@ public final class DateUtils {
 		date.set(Calendar.MILLISECOND,0);
 		return (Date) date.getTime();
 	}
+	public static final Date getFechaSql(java.util.Date fecha) {
+		return new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay());
+		
+	}
+	
 
 //	public static final Date getDateSql(java.util.Date fecha) {		
 //		return (Date) fecha;

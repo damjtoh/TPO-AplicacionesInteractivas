@@ -185,6 +185,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 
 		btnCreareditarFunciones.addActionListener(e -> {
 			if (comboBoxFunciones.getSelectedItem() != null) {
+				funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()).setSala(sala);
 				AltaModificacionFuncionView
 						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()), cuit);
 			} else {

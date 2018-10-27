@@ -95,4 +95,8 @@ public class Funcion {
 		// TODO Auto-generated method stub
 		return pelicula.toString() + "-" + fechaYHora.toString();
 	}
+
+	public void generateMapaAsientos() {
+		setMapaDeAsientosIni(this.sala.getMapaDeAsientos());
+	}
 }

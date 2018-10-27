@@ -24,6 +24,7 @@ import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.FuncionServices;
+import sistemaCine.utils.DateUtils;
 
 public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
@@ -121,7 +122,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
 				if (cuit != null) {
 					List<Integer> idsPeliculas = FuncionServices.getPeliculasEstablecimientoIDS(cuit,
-							(Date) new java.util.Date());
+							DateUtils.getFechaSql(new java.util.Date()));
 					List<Pelicula> peliculasList = new ArrayList<>();
 					peliculasList.addAll(PeliculaDAO.getPeliculas(idsPeliculas));
 //					for (Integer id : idsPeliculas) {
@@ -161,7 +162,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				comboBoxDia.removeAllItems();
 				funciones = FuncionServices.getFuncionesMap(peliculas.get(comboBoxPeliculas.getSelectedItem()),
-						(Date) new java.util.Date(),
+						DateUtils.getFechaSql(new java.util.Date()),
 						establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
 				for (String dia : funciones.keySet()) {
 					comboBoxDia.addItem(dia);

@@ -16,6 +16,7 @@ public class FuncionServices {
 
 	public static void crearFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
 		FuncionDAO.insertFuncion(funcion, cuitEstablecimiento);
+		EntradaService.crearMapaEntradas(funcion);
 	}
 
 	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {

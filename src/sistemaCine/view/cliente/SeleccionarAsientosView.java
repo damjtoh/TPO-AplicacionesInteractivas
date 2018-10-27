@@ -25,6 +25,9 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import SistemaVentasView.CheckOutView;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +35,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SeleccionarAsientosView extends javax.swing.JFrame {
@@ -52,7 +58,7 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 	private Map<FilaColumna, AsientoFisico> asientosSeleccionados;
 	private static Establecimiento establecimiento;
 
-	public static SeleccionarAsientosView getInstance(Funcion f,Establecimiento e) {
+	public static SeleccionarAsientosView getInstance(Funcion f, Establecimiento e) {
 		funcion = f;
 		establecimiento = e;
 		if (instancia == null) {
@@ -94,10 +100,14 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		Map<FilaColumna, AsientoFisico> mapaDeAsientosFisicos = new HashMap<>();
 		for (int nroFila = 1; nroFila < 6; nroFila++) {
 			for (int nroColumna = 1; nroColumna < 5; nroColumna++) {
-				AsientoFisico asinentoFisico = new AsientoFisico(Integer.toString(nroFila), Integer.toString(nroColumna), nroFila, nroColumna);
-				AsientoVirtual asinentoVirtual = new AsientoVirtual(Integer.toString(nroColumna), Integer.toString(nroFila));
-				mapaDeAsientosVirtuales.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)), asinentoVirtual);
-				mapaDeAsientosFisicos.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)), asinentoFisico);
+				AsientoFisico asinentoFisico = new AsientoFisico(Integer.toString(nroFila),
+						Integer.toString(nroColumna), nroFila, nroColumna);
+				AsientoVirtual asinentoVirtual = new AsientoVirtual(Integer.toString(nroColumna),
+						Integer.toString(nroFila));
+				mapaDeAsientosVirtuales.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)),
+						asinentoVirtual);
+				mapaDeAsientosFisicos.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)),
+						asinentoFisico);
 				asinentoFisico.setUsable(true);
 				if (nroFila == nroColumna) {
 					asinentoFisico.setUsable(false);
@@ -118,9 +128,9 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 800);
-		
+
 		frame.getContentPane().setLayout(null);
-		
+
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -138,8 +148,12 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		frame.getContentPane().add(btnComprar);
 		btnComprar.addActionListener(e -> {
 			if (!asientosSeleccionados.isEmpty()) {
-				//TODO
-				ComprarEntradasView.getInstancia(funcion,asientosSeleccionados);
+				// TODO
+				List<Entrada> entradas = new ArrayList<>();
+				for (AsientoFisico asiento : asientosSeleccionados.values()) {
+					entradas.add(new Entrada(new AsientoVirtual(asiento.getColumna(), asiento.getFila()), funcion));
+				}
+				new CheckOutView(entradas, funcion);
 			}
 		});
 
@@ -154,9 +168,15 @@ public class SeleccionarAsientosView extends javax.swing.JFrame {
 		lblSeleccioneSusAsientos.setBounds(290, 24, 412, 46);
 		frame.getContentPane().add(lblSeleccioneSusAsientos);
 		if (!IsTest.is) {
-			funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
-			funcion.getSala()
-					.setMapaDeAsientos(SalaServices.getAsientosSala(funcion.getSala(), establecimiento.getCuit()));
+			try {
+				funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
+				funcion.getSala()
+						.setMapaDeAsientos(SalaServices.getAsientosSala(funcion.getSala(), establecimiento.getCuit()));
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		setMapaAsientos();
 

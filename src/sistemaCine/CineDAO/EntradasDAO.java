@@ -36,7 +36,7 @@ public class EntradasDAO {
 	public static void insertMapaEntradas(Funcion funcion) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			for (AsientoFisico asiento : funcion.getSala().getMapaDeAsientos().values()) {
-				PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?)");
+				PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?,null)");
 				query.setInt(1, funcion.getId());
 				query.setString(2, asiento.getColumna());
 				query.setString(3, asiento.getFila());
@@ -49,11 +49,12 @@ public class EntradasDAO {
 	public static Entrada updateEntrada(Entrada entrada) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"update entradas set ocupado = ? where id_funcion = ? and columna = ? and fila = ?");
+					"update entradas set ocupado = ?,ventaId = ? where id_funcion = ? and columna = ? and fila = ?");
 			query.setBoolean(1, entrada.getAsiento().isOcupado());
-			query.setInt(2, entrada.getFuncion().getId());
-			query.setString(3, entrada.getAsiento().getColumna());
-			query.setString(4, entrada.getAsiento().getFila());
+			query.setInt(2, entrada.getVentaId());
+			query.setInt(3, entrada.getFuncion().getId());
+			query.setString(4, entrada.getAsiento().getColumna());
+			query.setString(5, entrada.getAsiento().getFila());
 			query.execute();
 
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
