@@ -1,5 +1,5 @@
-jdbc=jdbc:sqlserver://
-servidor=localhost:1433
-usuario=sa
-password=DaMus!15463798
+jdbc=jdbc:mysql://
+servidor=104.131.62.52:3306
+usuario=api
+password=123
 conexiones=3
