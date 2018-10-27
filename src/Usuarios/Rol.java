@@ -9,5 +9,7 @@ public abstract class Rol {
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
+	
+	public abstract int Identificarme();
 
 }

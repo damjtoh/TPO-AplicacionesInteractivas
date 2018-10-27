@@ -2,6 +2,7 @@ package SistemaFacturacion;
 
 import java.time.LocalDate;
 
+import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
 import presentacion.DescuentoPresentacion;
 import presentacion.xPorcentajePrecioVentaPresentacion;
@@ -16,13 +17,12 @@ public class xPorcentajePrecioVenta extends Descuento{
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 	}
 
-	@Override
 	public void EfectuarDescuento(Venta venta) {
-		venta.SetImporte(venta.GetImporte()*(1-(porcentaje/100)));
+		venta.setImporte(venta.getImporte()*(1-(porcentaje/100)));
 	}
 
-	@Override
 	public DescuentoPresentacion ToPresentacion() {
 		return new xPorcentajePrecioVentaPresentacion(id,fechaInicio,fechaFin,porcentaje,nombre);
 	}
+
 }

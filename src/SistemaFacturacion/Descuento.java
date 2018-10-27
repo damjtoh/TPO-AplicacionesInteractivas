@@ -2,6 +2,7 @@ package SistemaFacturacion;
 
 import java.time.LocalDate;
 
+import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
 import presentacion.DescuentoPresentacion;
 

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import Persistencas.PoolConnection;
@@ -24,8 +25,7 @@ public class VentasDAO {
 				venta.getEntradas().add(EntradasDAO.insertEntrada(entrada));
 			}	
 			
-			
-			query.setString(2, venta.getFechaYHora().toString());
+			query.setDate(2, java.sql.Date.valueOf(venta.getFechaYHora()));
 			query.setObject(3, venta.getTipoDePago());
 			query.setLong(4, venta.getNumeroDeTarjeta());
 			query.setDouble(5, venta.getImporte());
@@ -94,7 +94,7 @@ public class VentasDAO {
 			Venta venta = null;
 			
 			if (res.last()) {
-				venta = new Venta(EntradasDAO.getByVentaId(id), LocalDate.parse(res.getString("fechaYHora")),
+				venta = new Venta(EntradasDAO.getByVentaId(id), res.getDate("fechaYHora").toLocalDate(),
 						(ITipoDePago)res.getObject("tipoDePago"), res.getLong("numeroDeTarjeta"), res.getDouble("importe"), res.getInt("id"));
 			}
 			

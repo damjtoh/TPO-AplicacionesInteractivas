@@ -4,7 +4,11 @@ public class AgenteComercial extends Rol {
 
 	public AgenteComercial(Usuario usuario) {
 		super(usuario);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int Identificarme() {
+		return 3;
 	}
 
 }

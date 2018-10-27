@@ -11,37 +11,32 @@ import java.util.List;
 import java.util.Map;
 
 import Persistencas.PoolConnection;
-import sistemaCine.clases.AsientoVirtual;
+import sistemaCine.clases.AsinentoVirtual;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class FuncionDAO {
-	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("insert into funciones values (?,?,?,?,?,?)");
-			query.setInt(1, getLastId(coneccion));
-			query.setInt(2, funcion.getPelicula().getId());
+					.prepareStatement("insert into funciones values ((select max(id)+1 from funciones),?,?,?,?,?)");
+			query.setInt(1, funcion.getPelicula().getId());
+			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, funcion.getSala().getNombre());
-			query.setInt(4, cuitEstablecimiento);
-			query.setDate(5, funcion.getFechaYHora());
-			query.setDouble(6, funcion.getValor());
+			query.setDate(4, funcion.getFechaYHora());
+			query.setDouble(5, funcion.getValor());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-
-	}
-	private static int getLastId(Connection conection) throws SQLException {
-		PreparedStatement query = conection.prepareStatement("(select max(id)+1 from funciones)");
-		ResultSet rs = query.executeQuery();
-		if (rs.next()) {
-			return rs.getInt(1);
+		} catch (Exception e) {
+			System.out.println();
 		}
-		return 0;
 	}
 
-	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
 					"update funciones set id_pelicula = ?,cuit_establecimiento = ?, nombre_sala = ?,fecha_hora = ?,valor = ? where id = ?");
@@ -53,6 +48,9 @@ public class FuncionDAO {
 			query.setInt(6, funcion.getId());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		} catch (Exception e) {
+			System.out.println();
+		}
 	}
 
 	public static void deleteFuncion(Funcion funcion) {
@@ -74,7 +72,7 @@ public class FuncionDAO {
 	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ? and fecha_hora >= ? order by fecha_hora ASC";
+			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ?, fecha_hora >= ? order by fecha_hora ASC";
 //			if (cuitEstablecimiento !=null) {
 //				consultaSql = consultaSql.replace("cuit"," cuit_establecimiento = ? and ");
 //			}else {
@@ -132,7 +130,7 @@ public class FuncionDAO {
 		return null;		
 	}
 
-	public static Map<FilaColumna, AsientoVirtual> selectAsientos(Funcion funcion) {
+	public static Map<FilaColumna, AsinentoVirtual> selectAsientos(Funcion funcion) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where id_funcion = ?";
@@ -140,9 +138,9 @@ public class FuncionDAO {
 			query.setInt(1, funcion.getId());
 
 			ResultSet rs = query.executeQuery();
-			Map<FilaColumna, AsientoVirtual> mapaDeAsientos = new HashMap<>();
+			Map<FilaColumna, AsinentoVirtual> mapaDeAsientos = new HashMap<>();
 			while (rs.next()) {
-				AsientoVirtual asiento = new AsientoVirtual(rs.getString(2), rs.getString(3));
+				AsinentoVirtual asiento = new AsinentoVirtual(rs.getString(2), rs.getString(3));
 				asiento.setOcupado(rs.getBoolean(4));
 				mapaDeAsientos.put(new FilaColumna(rs.getString(2), rs.getString(3)), asiento);
 			}
@@ -154,31 +152,24 @@ public class FuncionDAO {
 		return new HashMap<>();
 	}
 
-	public static List<Pelicula> selectPeliculasEstablecimiento(int cuit, Date fecha) throws SQLException {
+	public static List<Integer> selectPeliculasEstablecimiento(int cuit, Date fecha) {
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String statementSql = "select * from peliculas where id in (select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora >= ? order by fecha_hora)";
+			String statementSql = "select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora > ? order_by fecha_hora";
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
 			query.setInt(1, cuit);
 			query.setDate(2, fecha);
-			ResultSet result = query.executeQuery();
-			
-			List<Pelicula> peliculas = new ArrayList<>();
-			while (result.next()) {
-				String nombre = result.getString(2);
-				String director = result.getString(3);
-				String genero = result.getString(4);
-				int duracion = result.getInt(5);
-				String idioma = result.getString(6);
-				boolean subtitilos = result.getBoolean(7);
-				double calificacion = result.getDouble(8);
-				String observaciones = result.getString(9);
-				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
-						observaciones);
-				pelicula.setId(result.getInt(1));
-				peliculas.add(pelicula);
+			ResultSet rs = query.executeQuery();
+			List<Integer> idsPelicula = new ArrayList<>();
+			while (rs.next()) {
+				idsPelicula.add(rs.getInt(1));
 			}
-			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return peliculas;
+			return idsPelicula;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ArrayList<>();
 
 	}
 
@@ -190,7 +181,7 @@ public class FuncionDAO {
 			query.setString(2, sala.getNombre());
 			ResultSet rs = query.executeQuery();
 			List<Funcion> funciones = new ArrayList<>();
-			while (rs.next()) {
+			if (rs.next()) {
 				Funcion funcion = new Funcion(rs.getDate(1), new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
 				funcion.setId(rs.getInt(4));
 				funcion.getPelicula().setId(rs.getInt(5));

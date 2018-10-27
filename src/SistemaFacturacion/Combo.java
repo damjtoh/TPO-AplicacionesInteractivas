@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
 import presentacion.ComboPresentacion;
 import presentacion.DescuentoPresentacion;

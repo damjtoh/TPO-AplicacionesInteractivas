@@ -3,8 +3,11 @@ package sistemaCine.view.admin;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,19 +18,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import sistemaCine.clases.Establecimiento;
+import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
-import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IsTest;
 
-public class adminCinesView extends  GeneralFrame {
+public class adminCinesView extends javax.swing.JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static adminCinesView instancia;
+	private JFrame frame;
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
 	private Map<String, Establecimiento> establecimientos;
@@ -126,44 +127,27 @@ public class adminCinesView extends  GeneralFrame {
 				AltaModificacionEstablecimientoView.getInstancia(null);
 			}
 		});
-		
-		addItemsEstablecimientos();
-		addItemsPeliculas();
-
-	}
-	private void addItemsEstablecimientos() {
-		try {
-			if (!IsTest.is) {
-				this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
-			} else {
-				myTest();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		comboBoxEstablecimiento.removeAllItems();
 		comboBoxEstablecimiento.addItem(null);
-		for (String nombreEstablecimiento : establecimientos.keySet()) {
-			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
-		}
-		comboBoxEstablecimiento.setVisible(false);
-		comboBoxEstablecimiento.setVisible(true);
-	}
-	private void addItemsPeliculas() {
 		if (!IsTest.is) {
-			this.peliculas = PeliculaServices.getAllPeliculasMap();
+			try {
+				this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
+				this.peliculas = PeliculaServices.getAllPeliculasMap();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		} else {
 			myTest();
 		}
-		comboBoxPeliculas.removeAllItems();
-		comboBoxPeliculas.addItem(null);
 		List<String> list = new ArrayList<>();
 		list.addAll(peliculas.keySet());
 		list.sort((a, b) -> a.compareToIgnoreCase(b));
+		for (String nombreEstablecimiento : establecimientos.keySet()) {
+			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
+		}
 		for (String key : list) {
 			comboBoxPeliculas.addItem(key);
 		}
+
 	}
 
 	private void myTest() {

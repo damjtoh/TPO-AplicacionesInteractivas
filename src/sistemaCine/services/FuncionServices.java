@@ -1,29 +1,35 @@
 package sistemaCine.services;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.FuncionDAO;
+import sistemaCine.clases.AsinentoVirtual;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
 import sistemaCine.utils.DateUtils;
+import sistemaCine.utils.FilaColumna;
 
 public class FuncionServices {
 
-	public static void crearFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+	public static void crearFuncion(Funcion funcion, int cuitEstablecimiento) {
 		FuncionDAO.insertFuncion(funcion, cuitEstablecimiento);
-		EntradaService.crearMapaEntradas(funcion);
 	}
 
-	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) {
 		FuncionDAO.updateFuncion(funcion, cuitEstablecimiento);
 	}
 
-	public static void eliminarFuncion(Funcion funcion) throws SQLException {
+	public static void eliminarFuncion(Funcion funcion) {
 		FuncionDAO.deleteFuncion(funcion);
 		EntradaService.eliminarEntradasFuncion(funcion);
 	}
@@ -42,7 +48,7 @@ public class FuncionServices {
 		return funcionesMap;
 	}
 
-	public static List<Pelicula> getPeliculasEstablecimientoIDS(int cuit, Date fecha) throws SQLException {
+	public static List<Integer> getPeliculasEstablecimientoIDS(int cuit, Date fecha) {
 		return FuncionDAO.selectPeliculasEstablecimiento(cuit, fecha);
 	}
 
@@ -52,11 +58,7 @@ public class FuncionServices {
 		}
 	}
 	public static List<Funcion> getFuncionesSala(Sala sala, int cuit) throws SQLException{
-		List<Funcion> funciones = FuncionDAO.selectFuncionesSala(sala, cuit);
-		for (Funcion funcion : funciones) {
-			funcion.setPelicula(PeliculaServices.getPelicula(funcion.getPelicula().getId()));
-		}
-		return funciones;
+		return FuncionDAO.selectFuncionesSala(sala, cuit);
 	}
 	
 

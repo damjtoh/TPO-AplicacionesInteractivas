@@ -4,7 +4,11 @@ public class Cliente extends Rol {
 
 	public Cliente(Usuario usuario) {
 		super(usuario);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int Identificarme() {
+		return 1;
 	}
 
 }
