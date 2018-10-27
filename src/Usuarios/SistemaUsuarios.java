@@ -6,6 +6,8 @@ import java.util.Vector;
 
 public class SistemaUsuarios {
 	protected static Vector<Usuario>usuarios;
+	private static Usuario userLog;
+	
 	public SistemaUsuarios(Vector<Usuario> usuarios) {
 		super();
 		usuarios = new Vector<Usuario>();
@@ -23,14 +25,17 @@ public class SistemaUsuarios {
 	}
 	
 	public static boolean validarUsuario(String usuario, String password)
-	{/*
+	{
 		Usuario user = buscarUsuario(usuario);
 		if(user!=null)
 		{
-			return(user.esPassword(password));
+			if(user.esPassword(password))
+			{
+				userLog = user;
+				return true;
+			}
 		}
-		return false;*/
-		return true; //hago esto para validar que funcionen las pantallas, el codigo que va es el de arriba
+		return false;
 	}
 	
 	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNacimiento)
@@ -43,24 +48,21 @@ public class SistemaUsuarios {
 		}
 	}
 	
-	public static void ModificarUsuario(String nombreUsuario, String email, String password, String domicilio)
+	public static void ModificarUsuario(String email, String password, String domicilio)
 	{
-		Usuario user = buscarUsuario(nombreUsuario);
-		if(user!=null)
+		if(userLog!=null)
 		{
-			user.setDomicilio(domicilio);
-			user.setEmail(email);
-			user.setPassword(password);
+			userLog.setDomicilio(domicilio);
+			userLog.setEmail(email);
+			userLog.setPassword(password);
 		}
 	}
 	
-	public static void BajaUsuario(String nombreUsuario, String Password)
+	public static void BajaUsuario(String Password)
 	{
-		boolean verifica = validarUsuario(nombreUsuario, Password);
-		if(verifica!= false)
+		if(userLog!= null)
 		{
-			Usuario user = buscarUsuario(nombreUsuario);
-			usuarios.remove(user);
+			usuarios.remove(userLog);
 		}
 	}
 	

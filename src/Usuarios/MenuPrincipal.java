@@ -25,7 +25,6 @@ public class MenuPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JTextField UsuarioValidar;
 	private JTextField PasswordValidar;
-	private Usuario usuarioLogeado;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -143,7 +142,6 @@ public class MenuPrincipal extends JFrame {
 				{
 					panel.setVisible(false);
 					panel_1.setVisible(true);
-					usuarioLogeado = SistemaUsuarios.buscarUsuario(UsuarioValidar.getText());
 				}
 				else
 				{
