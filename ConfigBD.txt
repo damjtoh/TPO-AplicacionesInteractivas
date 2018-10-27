@@ -1,0 +1,5 @@
+jdbc=jdbc:sqlserver://
+servidor=localhost:1433
+usuario=sa
+password=DaMus!15463798
+conexiones=3

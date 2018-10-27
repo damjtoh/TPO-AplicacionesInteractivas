@@ -145,7 +145,7 @@ public class MenuPrincipal extends JFrame {
 				}
 				else
 				{
-					IngresoIncorrecto.setVisible(true);
+					JOptionPane.showMessageDialog(null, "Usuario o contrasena incorrecta.");
 				}
 			}
 		});

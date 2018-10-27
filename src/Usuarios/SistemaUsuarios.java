@@ -15,7 +15,7 @@ public class SistemaUsuarios {
 	
 	public static Usuario buscarUsuario(String Usuario)
 	{
-		Usuario user = MapperUsuario.getInstancia().buscarUsuario(Usuario);
+		Usuario user = MapperUsuario.getByNombreUsuario(Usuario);
 		if(user!=null)
 		{
 			usuarios.add(user);
@@ -31,6 +31,7 @@ public class SistemaUsuarios {
 		{
 			if(user.esPassword(password))
 			{
+				System.out.println("Encontre el usuario: "+ user.getNombre()+user.getEmail()+user.getNombreUsuario()+ user.getPassword());
 				userLog = user;
 				return true;
 			}

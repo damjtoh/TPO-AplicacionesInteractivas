@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Vector;
 
@@ -13,51 +14,61 @@ import Persistencas.PoolConnection;
 
 public class MapperUsuario extends AdministradorPersistencia
 {
-
-	private static MapperUsuario instancia;
-	
-	private MapperUsuario()
-	{
-		
-	}
-	public static MapperUsuario getInstancia()
-	{
-		if (instancia == null)
-			instancia = new MapperUsuario();
-		return instancia;
-	}
-
-	public Usuario buscarUsuario(String nombreUsuario)
-	{
-		try
-		{
-			Usuario u = null;
-			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("select * from A_Interactivas_01.dbo.Usuarios where nombreUsuario = ?");		
-			s.setString(1,nombreUsuario);
-			ResultSet result = s.executeQuery();
+	private static Usuario parseResultSet(ResultSet result) {
+		Usuario u = null;
+		try {
 			while (result.next())
 			{
-				String nombre = result.getString(1);
-				String email = result.getString(2);
-				String password = result.getString(3);
-				String nombreUsuario1 = result.getString(4);
-				String domicilio = result.getString(5);
-				int dni = result.getInt(6);
+				String id = result.getString(1);
+				String nombre = result.getString(2);
+				String email = result.getString(3);
+				String password = result.getString(4);
+				String nombreUsuario1 = result.getString(5);
+				//String domicilio = result.getString(6);
+				int dni = Integer.parseInt(result.getString(6));
 				Date fecha = result.getDate(7);
 				LocalDate fechaNacimiento = fecha.toLocalDate();
-				
-				u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
+			    String domicilio = "Calle siempre viva 123";
+			    u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
 			}
 			
-			PoolConnection.getPoolConnection().realeaseConnection(con);
-			return u;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception e)
+		return u;
+	}
+	public static Usuario getByNombreUsuario(String nombreUsuario) {
+		Usuario u = null;
+		try
 		{
-			System.out.println();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT * FROM dbo.Usuarios WHERE nombreUsuario = ?");		
+			s.setString(1,nombreUsuario);
+			ResultSet result = s.executeQuery();
+			u = MapperUsuario.parseResultSet(result);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+		return u;
+	}
+	public static Usuario getById(int id)
+	{
+		Usuario u = null;
+		try
+		{
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT * FROM dbo.Usuarios WHERE id = ?");		
+			s.setInt(1,id);
+			ResultSet result = s.executeQuery();
+			u = MapperUsuario.parseResultSet(result);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return u;
 	}
 	@Override
 	public void insert(Object o) {
@@ -97,7 +108,7 @@ public class MapperUsuario extends AdministradorPersistencia
 					"set nombreUsuario =?," +
 					"set domicilio =?," +
 					"set dni =?," +
-					"set fechaNaccimiento = ?,"
+					"set fechaNacimiento = ?,"
 					);
 			s.setString(1,u.getNombre());
 			s.setString(2, u.getEmail());
