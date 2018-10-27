@@ -1,10 +1,13 @@
-package Usuarios;
+package Views;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Usuarios.SistemaUsuarios;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -12,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
-public class AltaUsuario extends JFrame {
+public class AltaUsuarioView extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNombre;
@@ -35,7 +38,7 @@ public class AltaUsuario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AltaUsuario frame = new AltaUsuario();
+					AltaUsuarioView frame = new AltaUsuarioView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +48,7 @@ public class AltaUsuario extends JFrame {
 	}
 
 	
-	public AltaUsuario() {
+	public AltaUsuarioView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
