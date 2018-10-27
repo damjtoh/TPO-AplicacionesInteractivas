@@ -18,7 +18,6 @@ public class ModificarUsuario extends JFrame {
 	private JTextField textEmail;
 	private JTextField textPassword;
 	private JTextField textDomicilio;
-	private JTextField nombreUsuario;
 	
 	
 	public static void main(String[] args) {
@@ -42,58 +41,54 @@ public class ModificarUsuario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		nombreUsuario = new JTextField();
-		nombreUsuario.setBounds(203, 33, 86, 20);
-		contentPane.add(nombreUsuario);
-		nombreUsuario.setColumns(10);
-		
 		JLabel Email = new JLabel("Email");
-		Email.setBounds(10, 117, 106, 14);
+		Email.setBounds(10, 79, 106, 14);
 		contentPane.add(Email);
 		
 		textEmail = new JTextField();
 		textEmail.setColumns(10);
-		textEmail.setBounds(141, 117, 133, 20);
+		textEmail.setBounds(141, 79, 133, 20);
 		contentPane.add(textEmail);
 		
 		JLabel Password = new JLabel("Password");
-		Password.setBounds(10, 151, 99, 14);
+		Password.setBounds(10, 113, 99, 14);
 		contentPane.add(Password);
 		
 		textPassword = new JTextField();
 		textPassword.setColumns(10);
-		textPassword.setBounds(141, 148, 133, 20);
+		textPassword.setBounds(141, 110, 133, 20);
 		contentPane.add(textPassword);
 		
 		JLabel Domicilio = new JLabel("Domicilio");
-		Domicilio.setBounds(10, 178, 86, 14);
+		Domicilio.setBounds(10, 140, 86, 14);
 		contentPane.add(Domicilio);
 		
 		textDomicilio = new JTextField();
 		textDomicilio.setColumns(10);
-		textDomicilio.setBounds(141, 176, 133, 20);
+		textDomicilio.setBounds(141, 138, 133, 20);
 		contentPane.add(textDomicilio);
 		
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SistemaUsuarios.ModificarUsuario(nombreUsuario.getText(), Email.getText(), textPassword.getText(), textDomicilio.getText());
+				SistemaUsuarios.ModificarUsuario(Email.getText(), textPassword.getText(), textDomicilio.getText());
 			}
 		});
-		btnModificar.setBounds(252, 227, 77, 23);
+		btnModificar.setBounds(242, 188, 90, 23);
 		contentPane.add(btnModificar);
 		
 		JButton button_1 = new JButton("Salir");
-		button_1.setBounds(339, 227, 60, 23);
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		button_1.setBounds(341, 188, 60, 23);
 		contentPane.add(button_1);
 		
 		JLabel lblUstedPuedeModificar = new JLabel("Usted puede modificar los siguientes campos:");
-		lblUstedPuedeModificar.setBounds(10, 92, 333, 14);
+		lblUstedPuedeModificar.setBounds(10, 37, 333, 14);
 		contentPane.add(lblUstedPuedeModificar);
-		
-		JLabel lblIngreseSuContrasea = new JLabel("Ingrese Nombre de Usuario");
-		lblIngreseSuContrasea.setBounds(10, 36, 171, 14);
-		contentPane.add(lblIngreseSuContrasea);
 		
 	}
 
