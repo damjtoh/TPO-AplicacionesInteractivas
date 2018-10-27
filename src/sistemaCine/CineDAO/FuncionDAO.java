@@ -74,7 +74,7 @@ public class FuncionDAO {
 	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ?, fecha_hora >= ? order by fecha_hora ASC";
+			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ? and fecha_hora >= ? order by fecha_hora ASC";
 //			if (cuitEstablecimiento !=null) {
 //				consultaSql = consultaSql.replace("cuit"," cuit_establecimiento = ? and ");
 //			}else {
@@ -154,24 +154,31 @@ public class FuncionDAO {
 		return new HashMap<>();
 	}
 
-	public static List<Integer> selectPeliculasEstablecimiento(int cuit, Date fecha) {
-		try {
+	public static List<Pelicula> selectPeliculasEstablecimiento(int cuit, Date fecha) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String statementSql = "select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora > ? order_by fecha_hora";
+			String statementSql = "select * from peliculas where id in (select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora >= ? order by fecha_hora)";
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
 			query.setInt(1, cuit);
 			query.setDate(2, fecha);
-			ResultSet rs = query.executeQuery();
-			List<Integer> idsPelicula = new ArrayList<>();
-			while (rs.next()) {
-				idsPelicula.add(rs.getInt(1));
+			ResultSet result = query.executeQuery();
+			
+			List<Pelicula> peliculas = new ArrayList<>();
+			while (result.next()) {
+				String nombre = result.getString(2);
+				String director = result.getString(3);
+				String genero = result.getString(4);
+				int duracion = result.getInt(5);
+				String idioma = result.getString(6);
+				boolean subtitilos = result.getBoolean(7);
+				double calificacion = result.getDouble(8);
+				String observaciones = result.getString(9);
+				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+						observaciones);
+				pelicula.setId(result.getInt(1));
+				peliculas.add(pelicula);
 			}
-			return idsPelicula;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<>();
+			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+			return peliculas;
 
 	}
 

@@ -239,8 +239,7 @@ public class PeliculaDAO {
 			String stringConsulta = "select * from peliculas where id in (?)";
 			PreparedStatement query;
 			query = conection.prepareStatement(stringConsulta);
-			query.setArray(1, conection.createArrayOf("INT", idsPeliculas.toArray()));
-			ResultSet result = query.executeQuery();
+		ResultSet result = query.executeQuery();
 			List<Pelicula> peliculas = new ArrayList<>();
 			while (result.next()) {
 				String nombre = result.getString(2);

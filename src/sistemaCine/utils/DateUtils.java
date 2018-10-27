@@ -13,7 +13,7 @@ public final class DateUtils {
 		date.set(Calendar.MINUTE,0);
 		date.set(Calendar.SECOND,0);
 		date.set(Calendar.MILLISECOND,0);
-		return (Date) date.getTime();
+		return getFechaSql( date.getTime());
 	}
 	public static final Date getFechaSql(java.util.Date fecha) {
 		return new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay());

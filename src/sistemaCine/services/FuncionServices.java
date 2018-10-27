@@ -42,7 +42,7 @@ public class FuncionServices {
 		return funcionesMap;
 	}
 
-	public static List<Integer> getPeliculasEstablecimientoIDS(int cuit, Date fecha) {
+	public static List<Pelicula> getPeliculasEstablecimientoIDS(int cuit, Date fecha) throws SQLException {
 		return FuncionDAO.selectPeliculasEstablecimiento(cuit, fecha);
 	}
 
