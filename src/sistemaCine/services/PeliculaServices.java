@@ -42,4 +42,8 @@ public class PeliculaServices {
 		return PeliculaDAO.getPeliculas(idsPeliculas);
 	}
 
+	public static Pelicula getPelicula(Integer id) throws SQLException {
+		return PeliculaDAO.getById(id);
+	}
+
 }

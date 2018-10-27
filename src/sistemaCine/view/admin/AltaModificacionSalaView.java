@@ -22,17 +22,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sistemaCine.clases.AsinentoFisico;
+import sistemaCine.clases.AsientoFisico;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Sala;
 import sistemaCine.services.FuncionServices;
 import sistemaCine.services.SalaServices;
 import sistemaCine.utils.FilaColumna;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
 import javax.swing.JComboBox;
 
-public class AltaModificacionSalaView extends javax.swing.JFrame {
+public class AltaModificacionSalaView extends GeneralFrame {
 
 	/**
 	 * 
@@ -42,7 +43,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	private static Sala sala;
 	private JFrame frame;
 	private JPanel asientosPane;
-	private HashMap<Integer, Map<Integer, AsinentoFisico>> asientos;
+	private HashMap<Integer, Map<Integer, AsientoFisico>> asientos;
 	private JButton btnCrear;
 	private static Integer cuit;
 	private JButton btnCancelar;
@@ -88,6 +89,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionSalaView() {
+		super.frame = frame;
 		if (IsTest.is) {
 			testMy();
 		}
@@ -102,7 +104,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 800);
 
@@ -172,7 +174,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		frame.getContentPane().add(btnNuevosAsientos);
 
 		panelFunciones = new JPanel();
-		panelFunciones.setBounds(197, 679, 290, 61);
+		panelFunciones.setBounds(197, 679, 437, 61);
 		frame.getContentPane().add(panelFunciones);
 		panelFunciones.setLayout(null);
 		panelFunciones.setVisible(false);
@@ -180,7 +182,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 		btnCreareditarFunciones.setBounds(0, 38, 169, 25);
 		panelFunciones.add(btnCreareditarFunciones);
 		comboBoxFunciones = new JComboBox<>();
-		comboBoxFunciones.setBounds(0, 0, 290, 24);
+		comboBoxFunciones.setBounds(0, 0, 437, 24);
 		panelFunciones.add(comboBoxFunciones);
 
 		btnCreareditarFunciones.addActionListener(e -> {
@@ -254,11 +256,14 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 			}
 		});
 
-		List<Funcion> funciones;
+		
 		try {
+			List<Funcion> funciones;
 			funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);
 			funcionesMap = new HashMap<>();
+			comboBoxFunciones.addItem(null);
 			for (Funcion funcion : funciones) {
+				funcion.setSala(sala);
 				funcionesMap.put(funcion.toString(), funcion);
 				comboBoxFunciones.addItem(funcion.toString());
 			}
@@ -270,10 +275,10 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	}
 
 	private void setMapaAsientosDefault() {
-		Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisicos = new HashMap<>();
+		Map<FilaColumna, AsientoFisico> mapaDeAsientosFisicos = new HashMap<>();
 		for (int nroFila = 1; nroFila <= compFilas.getInt(); nroFila++) {
 			for (int nroColumna = 1; nroColumna <= compColumnas.getInt(); nroColumna++) {
-				AsinentoFisico asinentoFisico = new AsinentoFisico(Integer.toString(nroFila),
+				AsientoFisico asinentoFisico = new AsientoFisico(Integer.toString(nroFila),
 						Integer.toString(nroColumna), nroFila, nroColumna);
 				mapaDeAsientosFisicos.put(new FilaColumna(Integer.toString(nroFila), Integer.toString(nroColumna)),
 						asinentoFisico);
@@ -285,10 +290,10 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 	private void setMapaAsientos() {
 		asientosPane.removeAll();
 		asientosPane.setLayout(new GridLayout(sala.getCantFilas() + 1, sala.getCantColumnas() + 1));
-		asientos = new HashMap<Integer, Map<Integer, AsinentoFisico>>();
-		for (AsinentoFisico asiento : sala.getMapaDeAsientos().values()) {
+		asientos = new HashMap<Integer, Map<Integer, AsientoFisico>>();
+		for (AsientoFisico asiento : sala.getMapaDeAsientos().values()) {
 			if (!asientos.containsKey(asiento.getNroFila())) {
-				asientos.put(asiento.getNroFila(), new HashMap<Integer, AsinentoFisico>());
+				asientos.put(asiento.getNroFila(), new HashMap<Integer, AsientoFisico>());
 			}
 			asientos.get(asiento.getNroFila()).put(asiento.getNroColumna(), asiento);
 		}
@@ -299,7 +304,7 @@ public class AltaModificacionSalaView extends javax.swing.JFrame {
 			asientosPane.add(columnaCero.get(nroFila));
 			for (int nroColumna = 0; nroColumna <= sala.getCantColumnas(); nroColumna++) {
 				if (nroFila != 0 && nroColumna != 0) {
-					AsinentoFisico asiento = asientos.get(nroFila).get(nroColumna);
+					AsientoFisico asiento = asientos.get(nroFila).get(nroColumna);
 					JButton btnAsiento = new JButton(asientos.get(nroFila).get(nroColumna).toString());
 					final int nc = nroColumna;
 					final int nf = nroFila;

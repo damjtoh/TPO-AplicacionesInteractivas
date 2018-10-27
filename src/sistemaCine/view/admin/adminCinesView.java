@@ -22,9 +22,10 @@ import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IsTest;
 
-public class adminCinesView extends javax.swing.JFrame {
+public class adminCinesView extends GeneralFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static adminCinesView instancia;
@@ -65,6 +66,7 @@ public class adminCinesView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public adminCinesView() {
+		super.frame = frame;
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -72,7 +74,7 @@ public class adminCinesView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 400);
 

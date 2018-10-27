@@ -92,6 +92,9 @@ public class IntegerField extends JTextField {
 		if (super.getText().isEmpty()) {
 			return null;
 		}
+		if (super.getText().contains(".")) {
+			super.setText(super.getText().replace(".0", ""));
+		}
 		return Integer.parseInt(super.getText());
 
 	}

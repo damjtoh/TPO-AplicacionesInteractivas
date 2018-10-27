@@ -11,6 +11,7 @@ import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Sala;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.SalaServices;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
 
@@ -33,7 +34,7 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
-public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
+public class AltaModificacionEstablecimientoView extends GeneralFrame {
 	static AltaModificacionEstablecimientoView instancia;
 	private JFrame frame;
 	private JTextField compNombre;
@@ -77,6 +78,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionEstablecimientoView() {
+		super.frame = frame;
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -84,7 +86,7 @@ public class AltaModificacionEstablecimientoView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.addWindowListener(new WindowAdapter() {
 			@Override

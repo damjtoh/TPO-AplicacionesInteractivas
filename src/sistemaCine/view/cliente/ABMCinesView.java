@@ -12,9 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.view.admin.adminCinesView;
 
-public class ABMCinesView extends javax.swing.JFrame{
+public class ABMCinesView extends GeneralFrame{
 
 	/**
 	 * 
@@ -53,6 +54,7 @@ public class ABMCinesView extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public ABMCinesView() {
+		super.frame = frame;
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -60,7 +62,7 @@ public class ABMCinesView extends javax.swing.JFrame{
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		
@@ -76,8 +78,7 @@ public class ABMCinesView extends javax.swing.JFrame{
 		btnEstablecimientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEstablecimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ABMFuncionesEstablecimientosView.getInstancia().setLocationRelativeTo(null);
-				ABMFuncionesEstablecimientosView.getInstancia().setVisible(true);
+				ABMFuncionesEstablecimientosView.getInstancia();
 			}
 		});
 		btnEstablecimientos.setBounds(12, 137, 408, 67);

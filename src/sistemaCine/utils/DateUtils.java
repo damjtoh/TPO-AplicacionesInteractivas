@@ -13,12 +13,34 @@ public final class DateUtils {
 		date.set(Calendar.MINUTE,0);
 		date.set(Calendar.SECOND,0);
 		date.set(Calendar.MILLISECOND,0);
-		return (Date) date.getTime();
+		return new Date(date.getTimeInMillis());
 	}
-
+	public static final Date getFechaSql(java.util.Date fecha) {
+		Calendar date = Calendar.getInstance();
+		date.setTime(fecha);
+		return new Date(date.getTimeInMillis());		
+	}
+	public static final Date getDateConHora(int anio,int mes,int dia,int hora , int min) {
+		Calendar date = Calendar.getInstance();
+		date.setTime(new java.util.Date());
+		date.set(anio, mes, dia,hora,min);
+		date.set(Calendar.SECOND,0);
+		date.set(Calendar.MILLISECOND,0);
+		return new Date(date.getTimeInMillis());
+	}
+	public static final int get(Date fecha,int calendarInt) {
+		Calendar date = Calendar.getInstance();
+		date.setTime(fecha);
+		return date.get(calendarInt);
+	}
 //	public static final Date getDateSql(java.util.Date fecha) {		
 //		return (Date) fecha;
 //	}
+	public static String getHoraString(Date fechaYHora) {
+		Calendar date = Calendar.getInstance();
+		date.setTime(fechaYHora);
+		return date.get(Calendar.HOUR_OF_DAY)+":"+date.get(Calendar.MINUTE);
+	}
 	
 	
 }

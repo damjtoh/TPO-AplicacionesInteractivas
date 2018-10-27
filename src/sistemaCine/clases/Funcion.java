@@ -1,10 +1,12 @@
 package sistemaCine.clases;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import sistemaCine.utils.DateUtils;
 import sistemaCine.utils.FilaColumna;
 
 public class Funcion {
@@ -12,12 +14,9 @@ public class Funcion {
 	private Pelicula pelicula;
 	private Sala sala;
 	private Date fechaYHora;
-	private Map<FilaColumna, AsinentoVirtual> mapaDeAsientos;
+	private Map<FilaColumna, AsientoVirtual> mapaDeAsientos;
 	private double valor;
 	private int salaId;
-	
-
-	
 
 	public Funcion(Pelicula pelicula, Sala sala, Date fechaYHora) {
 		super();
@@ -38,7 +37,7 @@ public class Funcion {
 		this.fechaYHora = fechaYHora;
 	}
 
-	public void setMapaDeAsientos(Map<FilaColumna, AsinentoVirtual> mapaDeAsientos) {
+	public void setMapaDeAsientos(Map<FilaColumna, AsientoVirtual> mapaDeAsientos) {
 		this.mapaDeAsientos = mapaDeAsientos;
 	}
 
@@ -50,20 +49,20 @@ public class Funcion {
 		this.valor = valor;
 	}
 
-	public Funcion(Date date, Pelicula pelicula, Sala sala,double valor) {
+	public Funcion(Date date, Pelicula pelicula, Sala sala, double valor) {
 		super();
 		this.fechaYHora = date;
 		this.pelicula = pelicula;
 		this.sala = sala;
 		this.valor = valor;
-		this.mapaDeAsientos = new HashMap<>(); 
+		this.mapaDeAsientos = new HashMap<>();
 		setMapaDeAsientosIni(sala.getMapaDeAsientos());
 	}
 
-	private void setMapaDeAsientosIni(Map<FilaColumna, AsinentoFisico> mapaDeAsientosFisico) {
-		for (Entry<FilaColumna, AsinentoFisico> entry : mapaDeAsientosFisico.entrySet()) {
+	private void setMapaDeAsientosIni(Map<FilaColumna, AsientoFisico> mapaDeAsientosFisico) {
+		for (Entry<FilaColumna, AsientoFisico> entry : mapaDeAsientosFisico.entrySet()) {
 			this.mapaDeAsientos.put(entry.getKey(),
-					new AsinentoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
+					new AsientoVirtual(entry.getValue().getFila(), entry.getValue().getColumna()));
 		}
 	}
 
@@ -79,7 +78,7 @@ public class Funcion {
 		return sala;
 	}
 
-	public Map<FilaColumna, AsinentoVirtual> getMapaDeAsientos() {
+	public Map<FilaColumna, AsientoVirtual> getMapaDeAsientos() {
 		return mapaDeAsientos;
 	}
 
@@ -90,9 +89,14 @@ public class Funcion {
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return pelicula.toString() + "-" + fechaYHora.toString();
+		return pelicula.toString() + "-" + fechaYHora.toString() + "-" + DateUtils.get(fechaYHora, Calendar.HOUR_OF_DAY) + ":"
+				+ DateUtils.get(fechaYHora, Calendar.MINUTE);
+	}
+	public void generateMapaAsientos() {
+		setMapaDeAsientosIni(this.sala.getMapaDeAsientos());
 	}
 }

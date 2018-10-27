@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.PeliculaServices;
+import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 
 import javax.swing.JLabel;
@@ -18,7 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Font;
 
-public class AltaModificacionPeliculaView extends javax.swing.JFrame {
+public class AltaModificacionPeliculaView extends GeneralFrame {
 
 	private JFrame frame;
 
@@ -65,6 +66,7 @@ public class AltaModificacionPeliculaView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionPeliculaView() {
+		super.frame = frame;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -72,7 +74,7 @@ public class AltaModificacionPeliculaView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 470, 300);
 		

@@ -24,9 +24,14 @@ import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.FuncionServices;
 import sistemaCine.services.PeliculaServices;
+import sistemaCine.utils.GeneralFrame;
 
-public class ABMPeliculasView extends javax.swing.JFrame {
+public class ABMPeliculasView extends GeneralFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static ABMPeliculasView instancia;
 	private JFrame frame;
 	private JButton btnSeleccionar;
@@ -76,6 +81,7 @@ public class ABMPeliculasView extends javax.swing.JFrame {
 	 * Create the application.
 	 */
 	public ABMPeliculasView() {
+		super.frame = frame;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -83,7 +89,7 @@ public class ABMPeliculasView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 515, 321);
 		

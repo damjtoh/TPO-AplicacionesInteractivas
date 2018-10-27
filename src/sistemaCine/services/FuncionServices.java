@@ -1,35 +1,29 @@
 package sistemaCine.services;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Persistencas.PoolConnection;
 import sistemaCine.CineDAO.FuncionDAO;
-import sistemaCine.clases.AsinentoVirtual;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
 import sistemaCine.utils.DateUtils;
-import sistemaCine.utils.FilaColumna;
 
 public class FuncionServices {
 
-	public static void crearFuncion(Funcion funcion, int cuitEstablecimiento) {
+	public static void crearFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
 		FuncionDAO.insertFuncion(funcion, cuitEstablecimiento);
+		EntradaService.crearMapaEntradas(funcion);
 	}
 
-	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) {
+	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
 		FuncionDAO.updateFuncion(funcion, cuitEstablecimiento);
 	}
 
-	public static void eliminarFuncion(Funcion funcion) {
+	public static void eliminarFuncion(Funcion funcion) throws SQLException {
 		FuncionDAO.deleteFuncion(funcion);
 		EntradaService.eliminarEntradasFuncion(funcion);
 	}
@@ -43,12 +37,12 @@ public class FuncionServices {
 						new HashMap<String, Funcion>());
 			}
 			funcionesMap.get(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString())
-					.put(funcion.getFechaYHora().toString(), funcion);
+					.put(DateUtils.getHoraString(funcion.getFechaYHora()), funcion);
 		}
 		return funcionesMap;
 	}
 
-	public static List<Integer> getPeliculasEstablecimientoIDS(int cuit, Date fecha) {
+	public static List<Pelicula> getPeliculasEstablecimientoIDS(int cuit, Date fecha) throws SQLException {
 		return FuncionDAO.selectPeliculasEstablecimiento(cuit, fecha);
 	}
 
@@ -58,9 +52,14 @@ public class FuncionServices {
 		}
 	}
 	public static List<Funcion> getFuncionesSala(Sala sala, int cuit) throws SQLException{
-		return FuncionDAO.selectFuncionesSala(sala, cuit);
+		List<Funcion> funciones = FuncionDAO.selectFuncionesSala(sala, cuit);
+		for (Funcion funcion : funciones) {
+			funcion.setPelicula(PeliculaServices.getPelicula(funcion.getPelicula().getId()));
+		}
+		return funciones;
 	}
 	
 
 
 }
+
