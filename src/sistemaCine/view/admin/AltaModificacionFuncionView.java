@@ -264,6 +264,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		btnEliminar.addActionListener(e -> {
 			try {
 				FuncionServices.eliminarFuncion(funcion);
+				btnCancelar.doClick();
 			} catch (SQLException e1) {
 				btnEliminar.setBackground(Color.RED);
 				e1.printStackTrace();
