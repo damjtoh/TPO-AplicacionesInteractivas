@@ -14,11 +14,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class BajaUsuarioView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField NombreU;
 	private JTextField Password;
 
 	public static void main(String[] args) {
@@ -43,36 +43,34 @@ public class BajaUsuarioView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel NombreUsuario = new JLabel("Nombre de Usuario");
-		NombreUsuario.setBounds(34, 104, 115, 14);
-		contentPane.add(NombreUsuario);
-		
-		NombreU = new JTextField();
-		NombreU.setColumns(10);
-		NombreU.setBounds(166, 101, 115, 20);
-		contentPane.add(NombreU);
-		
 		JLabel Contraseña = new JLabel("Contrase\u00F1a");
-		Contraseña.setBounds(34, 132, 80, 14);
+		Contraseña.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		Contraseña.setBounds(34, 100, 80, 14);
 		contentPane.add(Contraseña);
 		
 		Password = new JTextField();
 		Password.setColumns(10);
-		Password.setBounds(166, 129, 115, 20);
+		Password.setBounds(166, 97, 115, 20);
 		contentPane.add(Password);
 		
 		JButton baja = new JButton("Eliminar");
+		baja.setFont(new Font("Tahoma", Font.BOLD, 12));
 		baja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SistemaUsuarios.BajaUsuario(NombreU.getText(), Password.getText());
+				SistemaUsuarios.BajaUsuario(Password.getText());
 			}
 		});
-		baja.setBounds(258, 167, 122, 23);
+		baja.setBounds(265, 138, 122, 23);
 		contentPane.add(baja);
 		
-		JLabel label_2 = new JLabel("Ingrese los siguientes datos:");
-		label_2.setBounds(34, 59, 225, 14);
-		contentPane.add(label_2);
+		JLabel lblIngreseLaContrasea = new JLabel("Ingrese la contrase\u00F1a para confirmar:");
+		lblIngreseLaContrasea.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblIngreseLaContrasea.setBounds(34, 59, 225, 14);
+		contentPane.add(lblIngreseLaContrasea);
+		
+		JLabel lblBajaUsuario = new JLabel("Baja Usuario");
+		lblBajaUsuario.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblBajaUsuario.setBounds(34, 11, 178, 23);
+		contentPane.add(lblBajaUsuario);
 	}
-
 }
