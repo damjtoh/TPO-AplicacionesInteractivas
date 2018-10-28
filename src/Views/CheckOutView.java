@@ -121,7 +121,7 @@ public class CheckOutView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ConfirmarVenta cVenta = new ConfirmarVenta();
 				if (txtNumeroTarjeta.getText() != null)
-				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toString(), listCombos.getSelectedItem(), txtNumeroTarjeta.getText(), importe)
+				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toString(), listCombos.getSelectedItem(), txtNumeroTarjeta.getText(), importe);
 			}
 		});
 	}

@@ -43,10 +43,18 @@ public class BajaUsuarioView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel Contraseña = new JLabel("Contrase\u00F1a");
-		Contraseña.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		Contraseña.setBounds(34, 100, 80, 14);
-		contentPane.add(Contraseña);
+		JLabel NombreUsuario = new JLabel("Nombre de Usuario");
+		NombreUsuario.setBounds(34, 104, 115, 14);
+		contentPane.add(NombreUsuario);
+		
+		NombreU = new JTextField();
+		NombreU.setColumns(10);
+		NombreU.setBounds(166, 101, 115, 20);
+		contentPane.add(NombreU);
+		
+		JLabel Contrasena = new JLabel("Contrase\u00F1a");
+		Contrasena.setBounds(34, 132, 80, 14);
+		contentPane.add(Contrasena);
 		
 		Password = new JTextField();
 		Password.setColumns(10);

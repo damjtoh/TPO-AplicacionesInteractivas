@@ -15,9 +15,9 @@ public class Usuario {
 	private boolean activo = true;
 	private ArrayList<Rol> roles;
 
-	
-	public Usuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni,
-			LocalDate fechaNacimiento) {
+	private ArrayList<Rol> roles; // Falta definir la interfaz del rol 
+
+	public Usuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNac) {
 		super();
 		this.nombre = nombre;
 		this.email = email;

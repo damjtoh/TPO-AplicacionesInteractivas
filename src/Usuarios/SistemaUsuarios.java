@@ -42,8 +42,10 @@ public class SistemaUsuarios {
 	}
 		
 	
-	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, 
-									int dni, LocalDate fechaNacimiento)
+		//return true; //hago esto para validar que funcionen las pantallas, el codigo que va es el de arriba
+	}
+	
+	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNacimiento)
 	{
 		Usuario user = buscarUsuario(nombreUsuario); 
 		if(user == null)

@@ -27,6 +27,7 @@ public class MapperUsuario extends AdministradorPersistencia
 				int dni = Integer.parseInt(result.getString(6));
 				Date fecha = result.getDate(7);
 				LocalDate fechaNacimiento = fecha.toLocalDate();
+			    String domicilio = "Calle siempre viva 123";
 			    u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
 			}
 			
@@ -40,7 +41,7 @@ public class MapperUsuario extends AdministradorPersistencia
 		try
 		{
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM dbo.Usuarios WHERE nombreUsuario = ?");		
+			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios WHERE nombreUsuario = ?");		
 			s.setString(1,nombreUsuario);
 			ResultSet result = s.executeQuery();
 			u = MapperUsuario.parseResultSet(result);
@@ -56,7 +57,7 @@ public class MapperUsuario extends AdministradorPersistencia
 		try
 		{
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM dbo.Usuarios WHERE id = ?");		
+			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios WHERE id = ?");		
 			s.setInt(1,id);
 			ResultSet result = s.executeQuery();
 			u = MapperUsuario.parseResultSet(result);
@@ -74,7 +75,7 @@ public class MapperUsuario extends AdministradorPersistencia
 		{
 			Usuario u = (Usuario)o;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("insert into A_Interactivas_01.dbo.Usuarios values (?,?,?,?,?,?,?)");
+			PreparedStatement s = con.prepareStatement("insert into Usuarios values (?,?,?,?,?,?,?)");
 			s.setString(1,u.getNombre());
 			s.setString(2, u.getEmail());
 			s.setString(3,u.getPassword());
@@ -99,7 +100,7 @@ public class MapperUsuario extends AdministradorPersistencia
 		{
 			Usuario u = (Usuario)o;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("update A_Interactivas_01.dbo.Usuarios " +
+			PreparedStatement s = con.prepareStatement("update FROM Usuarios " +
 					"set nombre = ?," +
 					"set email = ?," +
 					"set password =?," +
@@ -133,7 +134,7 @@ public class MapperUsuario extends AdministradorPersistencia
 		{
 			Usuario u = (Usuario)d;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("delete from A_Interactivas_01.dbo.Usuarios where nombreUsuario = ?");
+			PreparedStatement s = con.prepareStatement("delete from Usuarios where nombreUsuario = ?");
 			s.setString(1, u.getNombreUsuario());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
