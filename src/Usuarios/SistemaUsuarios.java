@@ -6,12 +6,20 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class SistemaUsuarios {
-	protected static Vector<Usuario>usuarios;
-	private static Usuario userLog;
 	
-	public SistemaUsuarios(Vector<Usuario> usuarios) {
+	private Usuario usuarioLogueado;
+	
+	private static SistemaUsuarios instancia;
+	
+	public static SistemaUsuarios getInstancia()
+	{
+		if (instancia == null)
+			instancia = new SistemaUsuarios();
+		return instancia;
+	}
+	
+	public SistemaUsuarios() {
 		super();
-		usuarios = new Vector<Usuario>();
 	}
 	
 	public static Usuario buscarUsuario(String Usuario)
@@ -25,24 +33,19 @@ public class SistemaUsuarios {
 	}
 	
 	
-	public static boolean validarUsuario(String usuario, String password)
+	public boolean login(String usuario, String password)
 	{
 		Usuario user = buscarUsuario(usuario);
 		if(user!=null)
 		{
 			if(user.esPassword(password))
 			{
-			userLog = user;
-			System.out.println("Encontre el usuario: "+ user.getNombre()+user.getEmail()+user.getNombreUsuario()+ user.getPassword());
+			this.usuarioLogueado = user;
 			return true;
 			}
 		}
 		return false;
 		
-	}
-		
-	
-		//return true; //hago esto para validar que funcionen las pantallas, el codigo que va es el de arriba
 	}
 	
 	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNacimiento)
@@ -50,29 +53,28 @@ public class SistemaUsuarios {
 		Usuario user = buscarUsuario(nombreUsuario); 
 		if(user == null)
 		{
-			user = new Usuario(nombre, email, password, nombreUsuario, domicilio, dni, fechaNacimiento);
+			user = new Usuario(0, nombre, email, password, nombreUsuario, domicilio, dni, fechaNacimiento);
 			usuarios.add(user);
 		}
 	}
 	
 	
-	public static void ModificarUsuario(String email, String password, String domicilio)
+	public Usuario getUsuarioLogueado() {
+		return this.usuarioLogueado;
+	}
+	
+	public static void ModificarUsuario(Usuario usuario, String nuevoEmail, String nuevoPassword, String nuevoDomicilio)
 	{
-		if(userLog!=null)
-		{
-			userLog.setDomicilio(domicilio);
-			userLog.setEmail(email);
-			userLog.setPassword(password);
-		}
+		usuario.setEmail(nuevoEmail);
+		usuario.setPassword(nuevoPassword);
+		usuario.setDomicilio(nuevoDomicilio);
+		MapperUsuario.update(usuario);
 	}
 	
 	
-	public static void BajaUsuario(String Password)
+	public static void BajaUsuarioById(Usuario usuario)
 	{
-		if(userLog!= null)
-		{
-			usuarios.remove(userLog);
-		}
+		MapperUsuario.delete(usuario);
 	}
 	
 }

@@ -6,10 +6,10 @@ VALUES
 INSERT INTO APIDB.Roles (rolId, descripcion) VALUES (null, 'Agente comercial');
 INSERT INTO APIDB.Roles (rolId, descripcion) VALUES (null, 'Vendedor');
 
-INSERT INTO APIDB.UsuarioRol (usuarioRolId, rolId, usuarioId) VALUES (null, 1, 1);
+INSERT INTO APIDB.UsuarioRol (usuarioRolId, rolId, usuarioId) VALUES (null, 4, 1);
 
-SELECT *
+SELECT Usuarios.*, UsuarioRol.rolId
 FROM Usuarios 
-INNER JOIN RolesUsuarios ON dbo.Usuarios.usuarioId = RolesUsuarios.rolUsuarioId
-INNER JOIN Roles ON RolesUsuarios.rolId = Roles.rolId
+INNER JOIN UsuarioRol ON Usuarios.usuarioId = UsuarioRol.usuarioId
+INNER JOIN Roles ON UsuarioRol.rolId = Roles.rolId
 WHERE nombreUsuario = 'dami';

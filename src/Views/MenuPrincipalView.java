@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -22,9 +23,13 @@ import Usuarios.Usuario;
 public class MenuPrincipalView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField UsuarioValidar;
-	private JTextField PasswordValidar;
-	private Usuario usuarioLogeado;
+	JMenuBar menuBar = new JMenuBar();
+	private JMenu menuInicio = new JMenu("Inicio");
+	JMenu mnUsuarios = new JMenu("Usuarios");
+	JPanel altaUsuarioPanel = new AltaUsuarioPanel();
+	JPanel currentPanel;
+	private MenuPrincipalView that = this;
+	private LoginPanel loginPanel = new LoginPanel(this);
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -41,32 +46,35 @@ public class MenuPrincipalView extends JFrame {
 
 	public MenuPrincipalView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-
-		JMenuBar menuBar = new JMenuBar();
+		setBounds(100, 100, 494, 459);
 		setJMenuBar(menuBar);
 
-		JMenu mnNewMenu = new JMenu("Menu Usuarios");
-		menuBar.add(mnNewMenu);
+		menuBar.add(menuInicio);
+		
+		JMenuItem mntmIniciarSesion = new JMenuItem("Iniciar Sesi\u00F3n ");
+		mntmIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				that.setPanel(loginPanel);
+			}
+		});
+		menuInicio.add(mntmIniciarSesion);
+		
 
 		JMenuItem mntmAltausuario = new JMenuItem("Registrar");
 		mntmAltausuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaUsuarioView a = new AltaUsuarioView();
-				a.setVisible(true);
+				that.setPanel(that.altaUsuarioPanel);
 			}
 		});
+		menuInicio.add(mntmAltausuario);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 0, 414, 225);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		panel.setVisible(false);
+		
+		altaUsuarioPanel.setVisible(false);
+		contentPane.add(altaUsuarioPanel);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 0, 292, 35);
@@ -94,68 +102,56 @@ public class MenuPrincipalView extends JFrame {
 			}
 		});
 
-		JLabel label = new JLabel("Nombre de Usuario");
-		label.setBounds(22, 92, 115, 14);
-		panel.add(label);
-
-		UsuarioValidar = new JTextField();
-		UsuarioValidar.setBounds(154, 89, 115, 20);
-		UsuarioValidar.setColumns(10);
-		panel.add(UsuarioValidar);
-
-		JLabel label_1 = new JLabel("Contrase\u00F1a");
-		label_1.setBounds(22, 120, 80, 14);
-		panel.add(label_1);
-
-		PasswordValidar = new JTextField();
-		PasswordValidar.setBounds(154, 117, 115, 20);
-		PasswordValidar.setColumns(10);
-		panel.add(PasswordValidar);
-
-		JMenuItem mntmIniciarSesion = new JMenuItem("Iniciar Sesi\u00F3n ");
-		mntmIniciarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panel.setVisible(true);
-			}
-		});
-		mnNewMenu.add(mntmIniciarSesion);
-		mnNewMenu.add(mntmAltausuario);
-
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
+		
+		menuBar.add(mnUsuarios);
+		this.mnUsuarios.setVisible(false);
+		
 		menuBar.add(btnSalir);
+		
+		getContentPane().add(loginPanel);
+		this.setPanel(loginPanel);
+		System.out.println(this.getContentPane().getName());
 
-		JLabel IngresoIncorrecto = new JLabel("Los datos ingresados son incorrectos");
-		IngresoIncorrecto.setForeground(new Color(220, 20, 60));
-		IngresoIncorrecto.setBounds(46, 200, 267, 14);
-		panel.add(IngresoIncorrecto);
-		IngresoIncorrecto.setVisible(false);
 
-		JButton button = new JButton("Iniciar Sesi\u00F3n");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("intento ingresar: " + UsuarioValidar.getText() + PasswordValidar.getText());
-				if (SistemaUsuarios.validarUsuario(UsuarioValidar.getText(), PasswordValidar.getText())) {
-					System.out.println("Usuario correcto!");
-					panel.setVisible(false);
-					panel_1.setVisible(true);
-					usuarioLogeado = SistemaUsuarios.buscarUsuario(UsuarioValidar.getText());
-					HubView nextScreen = new HubView(usuarioLogeado);
-				} else {
-					JOptionPane.showMessageDialog(null, "Usuario o contrasena incorrecta.");
-				}
+	}
+	
+	private void setPanel(JPanel nextPanel) {
+
+		if (this.currentPanel != null) {
+			this.remove(this.currentPanel);
+			this.currentPanel.setVisible(false);
+		}
+		getContentPane().add(nextPanel);
+		this.currentPanel = nextPanel;
+		this.currentPanel.setVisible(true);
+	}
+	
+	
+	
+	public void setMenuAfterLogin() {
+		//this.menuBar.remove(this.menuInicio);
+		this.menuInicio.setVisible(false);
+		this.mnUsuarios.setVisible(true);
+		
+		JMenuItem mntmCrearUsuario = new JMenuItem("Crear usuario");
+		mnUsuarios.add(mntmCrearUsuario);
+		mntmCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				that.setPanel(new AltaUsuarioPanel());
 			}
 		});
-		button.setBounds(246, 155, 122, 23);
-		panel.add(button);
-
-		JLabel lblIngreseLosSiguientes = new JLabel("Ingrese los siguientes datos:");
-		lblIngreseLosSiguientes.setBounds(22, 47, 159, 14);
-		panel.add(lblIngreseLosSiguientes);
-
+		
+		JMenuItem mntmModificarUsuario = new JMenuItem("Modificar usuario");
+		mnUsuarios.add(mntmModificarUsuario);
+		
+		JMenuItem mntmEliminarUsuario = new JMenuItem("Eliminar usuario");
+		mnUsuarios.add(mntmEliminarUsuario);
+		
 	}
 }

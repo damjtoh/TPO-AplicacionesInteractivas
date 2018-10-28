@@ -5,35 +5,56 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import Persistencas.PoolConnection;
 
 
-public class MapperUsuario extends AdministradorPersistencia
-{
+public class MapperUsuario {
+	private static Rol getUserRolById(int rolId, Usuario usuario) {
+		Rol rol;
+		switch(rolId) {
+			case 1: rol = new AgenteComercial(usuario);
+				break;
+			case 2: rol = new Operador(usuario);
+				break;
+			case 3: rol = new Administrador(usuario);
+				break;
+			case 4: rol = new Cliente(usuario);
+				break;
+			default: rol = null;
+				break;
+			//case 5: rol = new Vendedor(usuario);
+		}
+		return rol;
+	}
 	private static Usuario parseResultSet(ResultSet result) {
 		Usuario u = null;
+		ArrayList<Rol> roles = new ArrayList<Rol>();
 		try {
 			while (result.next())
 			{
-				String id = result.getString(1);
+				int id = result.getInt(1);
 				String nombre = result.getString(2);
 				String email = result.getString(3);
 				String password = result.getString(4);
 				String nombreUsuario1 = result.getString(5);
-				//String domicilio = result.getString(6);
-				String domicilio = "Calle siempre viva 123";
 				int dni = Integer.parseInt(result.getString(6));
 				Date fecha = result.getDate(7);
 				LocalDate fechaNacimiento = fecha.toLocalDate();
-			    String domicilio = "Calle siempre viva 123";
-			    u = new Usuario(nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
+			    String domicilio = result.getString(8);
+			    int rolId = result.getInt(9);
+			    u = new Usuario(id, nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
+			    Rol rol = MapperUsuario.getUserRolById(rolId, u);
+			    roles.add(rol);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		u.setRoles(roles);
 		return u;
 	}
 	public static Usuario getByNombreUsuario(String nombreUsuario) {
@@ -41,7 +62,11 @@ public class MapperUsuario extends AdministradorPersistencia
 		try
 		{
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios WHERE nombreUsuario = ?");		
+			PreparedStatement s = con.prepareStatement("SELECT Usuarios.*, UsuarioRol.rolId\r\n" + 
+					"FROM Usuarios \r\n" + 
+					"INNER JOIN UsuarioRol ON Usuarios.usuarioId = UsuarioRol.usuarioId\r\n" + 
+					"INNER JOIN Roles ON UsuarioRol.rolId = Roles.rolId\r\n" + 
+					"WHERE nombreUsuario = ?;");		
 			s.setString(1,nombreUsuario);
 			ResultSet result = s.executeQuery();
 			u = MapperUsuario.parseResultSet(result);
@@ -69,33 +94,54 @@ public class MapperUsuario extends AdministradorPersistencia
 		}
 		return u;
 	}
-	@Override
-	public void insert(Object o) {
+
+	public static void insert(Object o) {
 		try
 		{
+			System.out.println("About to create: \n");
 			Usuario u = (Usuario)o;
+			System.out.println(u.toString());
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("insert into Usuarios values (?,?,?,?,?,?,?)");
+			PreparedStatement s = con.prepareStatement("insert into Usuarios (nombre, email, password, nombreUsuario, dni, fechaNacimiento, domicilio) values (?,?,?,?,?,?,?)");
 			s.setString(1,u.getNombre());
 			s.setString(2, u.getEmail());
 			s.setString(3,u.getPassword());
 			s.setString(4, u.getNombreUsuario());
-			s.setString(5,u.getDomicilio());
-			s.setInt(6, u.getDni());
+			s.setInt(5, u.getDni());
 			LocalDate fecha = u.getFechaNacimiento();
 			Date fechaNacimiento = Date.valueOf(fecha);
-			s.setDate(7,fechaNacimiento);
+			s.setDate(6,fechaNacimiento);
+			s.setString(7,u.getDomicilio());
+			System.out.println("query: "+s.toString());
 			s.execute();
+			PreparedStatement sId = con.prepareStatement("SELECT LAST_INSERT_ID();");
+			ResultSet resultId = sId.executeQuery();
+			if (resultId.next()) {				
+				Integer userId = resultId.getInt(1);
+				//SELECT LAST_INSERT_ID();
+				System.out.println("Latest user id: "+userId.toString());
+				ArrayList<Integer> rolesIds = u.getRolesIds();
+				System.out.println(rolesIds.stream().map(Object::toString)
+                        .collect(Collectors.joining(", ")));
+				for (Integer rolId : rolesIds) {
+					PreparedStatement sRoles = con.prepareStatement("INSERT INTO UsuarioRol (usuarioRolId, rolId, usuarioId) VALUES (null, ?, ?);");
+					sRoles.setInt(1, rolId);
+					sRoles.setInt(2, userId);
+					System.out.println("Roles query: "+sRoles.toString());
+					sRoles.execute();
+				}
+			}
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			System.out.println();
 		}
 		
 	}
-	@Override
-	public void update(Object o) {
+
+	public static void update(Object o) {
 		try
 		{
 			Usuario u = (Usuario)o;
@@ -128,8 +174,8 @@ public class MapperUsuario extends AdministradorPersistencia
 		
 	}
 	
-	@Override
-	public void delete(Object d) {
+
+	public static void delete(Object d) {
 		try
 		{
 			Usuario u = (Usuario)d;
@@ -146,7 +192,6 @@ public class MapperUsuario extends AdministradorPersistencia
 		
 	}
 	
-	@Override
 	public Vector<Object> select(Object o) {
 		return null;
 	}

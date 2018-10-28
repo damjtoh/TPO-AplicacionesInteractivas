@@ -4,10 +4,18 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import Usuarios.Administrador;
+import Usuarios.AgenteComercial;
+import Usuarios.Cliente;
+import Usuarios.MapperUsuario;
+import Usuarios.Operador;
 import Usuarios.Rol;
 import Usuarios.SistemaUsuarios;
+import Usuarios.Usuario;
+import Usuarios.Vendedor;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -23,12 +31,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JList;
 
-public class AltaUsuarioView extends JFrame {
+public class AltaUsuarioPanel extends JPanel {
 
-	private JPanel contentPane;
+	//private JPanel this;
 	private JTextField txtNombre;
 	private JTextField txtEmail;
-	private JTextField txtPassword;
+	private JPasswordField txtPassword;
 	private JTextField txtNombredeusuario;
 	private JTextField txtDomicilio;
 	private JTextField txtDni;
@@ -46,6 +54,8 @@ public class AltaUsuarioView extends JFrame {
 	private JCheckBox chckbxAdministrador;
 	private JCheckBox chckbxOperador;
 	private JCheckBox chckbxAgenteComercial;
+	private JCheckBox chckbxVendedor;
+	private AltaUsuarioPanel that = this;
 
 	private int cant;
 	private ArrayList<Rol> roles;
@@ -54,7 +64,7 @@ public class AltaUsuarioView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AltaUsuarioView frame = new AltaUsuarioView();
+					AltaUsuarioPanel frame = new AltaUsuarioPanel();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,119 +74,125 @@ public class AltaUsuarioView extends JFrame {
 	}
 
 	
-	public AltaUsuarioView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	public AltaUsuarioPanel() {
+		setBounds(10, 0, 414, 255);
+		setLayout(null);
+		setVisible(false);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNombre.setBounds(21, 56, 99, 14);
-		contentPane.add(lblNombre);
+		this.add(lblNombre);
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(152, 56, 133, 20);
-		contentPane.add(txtNombre);
+		this.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblEmail.setBounds(21, 79, 106, 14);
-		contentPane.add(lblEmail);
+		this.add(lblEmail);
 		
 		txtEmail = new JTextField();
 		txtEmail.setBounds(152, 79, 133, 20);
-		contentPane.add(txtEmail);
+		this.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPassword.setBounds(21, 103, 99, 14);
-		contentPane.add(lblPassword);
+		this.add(lblPassword);
 		
-		txtPassword = new JTextField();
+		txtPassword = new JPasswordField();
 		txtPassword.setBounds(152, 101, 133, 20);
-		contentPane.add(txtPassword);
+		this.add(txtPassword);
 		txtPassword.setColumns(10);
 		
 		JLabel lblNombreDeUsuario = new JLabel("Nombre de Usuario");
 		lblNombreDeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNombreDeUsuario.setBounds(21, 125, 133, 14);
-		contentPane.add(lblNombreDeUsuario);
+		this.add(lblNombreDeUsuario);
 		
 		txtNombredeusuario = new JTextField();
 		txtNombredeusuario.setBounds(152, 123, 133, 20);
-		contentPane.add(txtNombredeusuario);
+		this.add(txtNombredeusuario);
 		txtNombredeusuario.setColumns(10);
 		
 		JLabel lblDomicilio = new JLabel("Domicilio");
 		lblDomicilio.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblDomicilio.setBounds(21, 149, 86, 14);
-		contentPane.add(lblDomicilio);
+		this.add(lblDomicilio);
 		
 		txtDomicilio = new JTextField();
 		txtDomicilio.setBounds(152, 147, 133, 20);
-		contentPane.add(txtDomicilio);
+		this.add(txtDomicilio);
 		txtDomicilio.setColumns(10);
 		
 		JLabel lblDni = new JLabel("DNI");
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblDni.setBounds(21, 169, 99, 14);
-		contentPane.add(lblDni);
+		this.add(lblDni);
 		
 		txtDni = new JTextField();
 		txtDni.setBounds(152, 169, 133, 20);
-		contentPane.add(txtDni);
+		this.add(txtDni);
 		txtDni.setColumns(10);
 		lblDia = new JLabel("dia");
 		lblDia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblDia.setBounds(152, 196, 46, 14);
-		contentPane.add(lblDia);
+		this.add(lblDia);
 		
 		textDia = new JTextField();
 		textDia.setBounds(180, 196, 30, 20);
-		contentPane.add(textDia);
+		this.add(textDia);
 		textDia.setColumns(10);
 		
 		lblMes = new JLabel("mes");
 		lblMes.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblMes.setBounds(220, 196, 46, 14);
-		contentPane.add(lblMes);
+		this.add(lblMes);
 		
 		textMes = new JTextField();
 		textMes.setBounds(247, 196, 30, 20);
-		contentPane.add(textMes);
+		this.add(textMes);
 		textMes.setColumns(10);
 		
 		lblAo = new JLabel("a\u00F1o");
 		lblAo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAo.setBounds(287, 196, 46, 14);
-		contentPane.add(lblAo);
+		this.add(lblAo);
 		
 		textAnio = new JTextField();
 		textAnio.setBounds(313, 196, 46, 20);
-		contentPane.add(textAnio);
+		this.add(textAnio);
 		textAnio.setColumns(10);
 		
 		JLabel lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento:");
 		lblFechaDeNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblFechaDeNacimiento.setBounds(21, 195, 133, 14);
-		contentPane.add(lblFechaDeNacimiento);
+		this.add(lblFechaDeNacimiento);
 		
 		btnCrear = new JButton("Crear");
 		btnCrear.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			SistemaUsuarios.AltaUsuario(txtNombre.getText(), txtEmail.getText(), txtPassword.getText(), 
-						txtNombredeusuario.getText(), txtDomicilio.getText(), Integer.parseInt(txtDni.getText()), 
-						LocalDate.of(Integer.parseInt(textDia.getText()), Integer.parseInt(textMes.getText()), Integer.parseInt(textAnio.getText()))); 
+			Integer id = null;
+			String nombre = txtNombre.getText();
+			String email = txtEmail.getText();
+			String password = new String(txtPassword.getPassword());
+			String nombreUsuario = txtNombredeusuario.getText();
+			String domicilio = txtDomicilio.getText();
+			Integer dni = Integer.parseInt(txtDni.getText());
+			LocalDate fechaNacimiento = LocalDate.of(Integer.parseInt(textAnio.getText()), Integer.parseInt(textMes.getText()), Integer.parseInt(textDia.getText()));
+			Usuario nuevoUsuario = new Usuario(id, nombre, email, password, nombreUsuario, domicilio, dni, fechaNacimiento);
+			ArrayList<Rol> roles = that.getRolesFromCheckbox(nuevoUsuario);
+			nuevoUsuario.setRoles(roles);
+			MapperUsuario.insert(nuevoUsuario);
 			}
 		});
 		btnCrear.setBounds(264, 227, 77, 23);
-		contentPane.add(btnCrear);
+		this.add(btnCrear);
 		
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -186,40 +202,72 @@ public class AltaUsuarioView extends JFrame {
 			}
 		});
 		btnSalir.setBounds(351, 227, 60, 23);
-		contentPane.add(btnSalir);
+		this.add(btnSalir);
 		
 		lblCompleteLosSiguientes = new JLabel("Complete los siguientes campos:");
 		lblCompleteLosSiguientes.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCompleteLosSiguientes.setBounds(21, 31, 281, 14);
-		contentPane.add(lblCompleteLosSiguientes);
+		this.add(lblCompleteLosSiguientes);
 		
 		lblRegistrar = new JLabel("Registrar Usuario");
 		lblRegistrar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblRegistrar.setBounds(21, 11, 264, 23);
-		contentPane.add(lblRegistrar);
+		this.add(lblRegistrar);
 		
-		JLabel lblRol = new JLabel("Rol");
-		lblRol.setBounds(295, 57, 46, 14);
-		contentPane.add(lblRol);
-		
-		chckbxCliente = new JCheckBox("Cliente");
-		chckbxCliente.setBounds(313, 76, 97, 23);
-		contentPane.add(chckbxCliente);
-		
-		 
-		chckbxAdministrador = new JCheckBox("Administrador");
-		chckbxAdministrador.setBounds(314, 146, 97, 23);
-		contentPane.add(chckbxAdministrador);
-		
-		chckbxOperador = new JCheckBox("Operador");
-		chckbxOperador.setBounds(313, 100, 97, 23);
-		contentPane.add(chckbxOperador);
-		
-		chckbxAgenteComercial = new JCheckBox("Agente Comercial");
-		chckbxAgenteComercial.setBounds(313, 122, 115, 23);
-		contentPane.add(chckbxAgenteComercial);
+		if (SistemaUsuarios.getInstancia().getUsuarioLogueado() != null) {
+			// checkear si es admin tambien
+			
+			JLabel lblRol = new JLabel("Rol");
+			lblRol.setBounds(295, 57, 46, 14);
+			this.add(lblRol);
+			
+			chckbxCliente = new JCheckBox("Cliente");
+			chckbxCliente.setBounds(313, 76, 97, 23);
+			this.add(chckbxCliente);
+			
+			 
+			chckbxAdministrador = new JCheckBox("Administrador");
+			chckbxAdministrador.setBounds(314, 146, 97, 23);
+			this.add(chckbxAdministrador);
+			
+			chckbxOperador = new JCheckBox("Operador");
+			chckbxOperador.setBounds(313, 100, 97, 23);
+			this.add(chckbxOperador);
+			
+			chckbxAgenteComercial = new JCheckBox("Agente Comercial");
+			chckbxAgenteComercial.setBounds(313, 122, 115, 23);
+			this.add(chckbxAgenteComercial);
+			
+			chckbxVendedor = new JCheckBox("Agente Comercial");
+			chckbxVendedor.setBounds(313, 168, 115, 23);
+			this.add(chckbxVendedor);
+			
+		} else {
+			chckbxCliente = new JCheckBox("Cliente");
+			this.chckbxCliente.setSelected(true);
+		}
 			 
 		
+	}
+	
+	private ArrayList<Rol> getRolesFromCheckbox(Usuario u) {
+		ArrayList<Rol> roles = new ArrayList<Rol>();
+		if (chckbxCliente.isSelected()) {
+			roles.add(new Cliente(u));
+		}
+		if (chckbxAdministrador.isSelected()) {
+			roles.add(new Administrador(u));
+		}
+		if (chckbxOperador.isSelected()) {
+			roles.add(new Operador(u));
+		}
+		if (chckbxAgenteComercial.isSelected()) {
+			roles.add(new AgenteComercial(u));
+		}
+		if (chckbxVendedor.isSelected()) {
+			roles.add(new Vendedor(u));
+		}
+		return roles;
 	}
 }
 

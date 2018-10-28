@@ -2,6 +2,7 @@ package Usuarios;
 
 public class Cliente extends Rol {
 
+	private String descripcion = "Cliente";
 	public Cliente(Usuario usuario) {
 		super(usuario);
 	}

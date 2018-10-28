@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-public class HubView {
+public class HubView extends JFrame{
 
 	private JFrame frame;
 
