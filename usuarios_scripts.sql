@@ -13,3 +13,7 @@ FROM Usuarios
 INNER JOIN UsuarioRol ON Usuarios.usuarioId = UsuarioRol.usuarioId
 INNER JOIN Roles ON UsuarioRol.rolId = Roles.rolId
 WHERE nombreUsuario = 'dami';
+
+SELECT LAST_INSERT_ID();
+
+DELETE FROM UsuarioRol WHERE usuarioId = 5;DELETE FROM Usuarios WHERE usuarioId = 5;

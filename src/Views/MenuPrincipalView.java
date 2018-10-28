@@ -30,6 +30,7 @@ public class MenuPrincipalView extends JFrame {
 	JPanel currentPanel;
 	private MenuPrincipalView that = this;
 	private LoginPanel loginPanel = new LoginPanel(this);
+	private static MenuPrincipalView instancia;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -43,8 +44,16 @@ public class MenuPrincipalView extends JFrame {
 			}
 		});
 	}
+	
+	public static MenuPrincipalView getInstancia()
+	{
+		if (instancia == null)
+			instancia = new MenuPrincipalView();
+		return instancia;
+	}
 
 	public MenuPrincipalView() {
+		instancia = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 494, 459);
 		setJMenuBar(menuBar);
@@ -76,31 +85,6 @@ public class MenuPrincipalView extends JFrame {
 		altaUsuarioPanel.setVisible(false);
 		contentPane.add(altaUsuarioPanel);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 0, 292, 35);
-		contentPane.add(panel_1);
-		panel_1.setVisible(false);
-		panel_1.setLayout(null);
-
-		JButton btnModificarUsuario = new JButton("Modificar Usuario");
-		btnModificarUsuario.setBounds(0, 0, 144, 23);
-		panel_1.add(btnModificarUsuario);
-
-		JButton btnBajaUsuario = new JButton("Baja Usuario");
-		btnBajaUsuario.setBounds(150, 0, 132, 23);
-		panel_1.add(btnBajaUsuario);
-		btnBajaUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BajaUsuarioView b = new BajaUsuarioView();
-				b.setVisible(true);
-			}
-		});
-		btnModificarUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModificarUsuario m = new ModificarUsuario();
-				m.setVisible(true);
-			}
-		});
 
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
@@ -121,10 +105,10 @@ public class MenuPrincipalView extends JFrame {
 
 	}
 	
-	private void setPanel(JPanel nextPanel) {
+	public void setPanel(JPanel nextPanel) {
 
 		if (this.currentPanel != null) {
-			this.remove(this.currentPanel);
+			//this.remove(this.currentPanel);
 			this.currentPanel.setVisible(false);
 		}
 		getContentPane().add(nextPanel);
@@ -139,6 +123,8 @@ public class MenuPrincipalView extends JFrame {
 		this.menuInicio.setVisible(false);
 		this.mnUsuarios.setVisible(true);
 		
+		this.setPanel(new BienvenidoPanel(SistemaUsuarios.getInstancia().getUsuarioLogueado()));
+		
 		JMenuItem mntmCrearUsuario = new JMenuItem("Crear usuario");
 		mnUsuarios.add(mntmCrearUsuario);
 		mntmCrearUsuario.addActionListener(new ActionListener() {
@@ -147,11 +133,13 @@ public class MenuPrincipalView extends JFrame {
 			}
 		});
 		
-		JMenuItem mntmModificarUsuario = new JMenuItem("Modificar usuario");
+		JMenuItem mntmModificarUsuario = new JMenuItem("Gestionar usuarios");
 		mnUsuarios.add(mntmModificarUsuario);
-		
-		JMenuItem mntmEliminarUsuario = new JMenuItem("Eliminar usuario");
-		mnUsuarios.add(mntmEliminarUsuario);
+		mntmModificarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				that.setPanel(new GestionarUsuarioPanel());
+			}
+		});
 		
 	}
 }

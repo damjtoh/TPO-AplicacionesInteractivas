@@ -20,6 +20,7 @@ public class SistemaUsuarios {
 	
 	public SistemaUsuarios() {
 		super();
+		instancia = this;
 	}
 	
 	public static Usuario buscarUsuario(String Usuario)

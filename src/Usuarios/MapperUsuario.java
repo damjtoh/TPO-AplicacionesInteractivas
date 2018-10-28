@@ -30,33 +30,47 @@ public class MapperUsuario {
 		}
 		return rol;
 	}
+	
+	
 	private static Usuario parseResultSet(ResultSet result) {
 		Usuario u = null;
-		ArrayList<Rol> roles = new ArrayList<Rol>();
 		try {
-			while (result.next())
-			{
-				int id = result.getInt(1);
-				String nombre = result.getString(2);
-				String email = result.getString(3);
-				String password = result.getString(4);
-				String nombreUsuario1 = result.getString(5);
-				int dni = Integer.parseInt(result.getString(6));
-				Date fecha = result.getDate(7);
-				LocalDate fechaNacimiento = fecha.toLocalDate();
-			    String domicilio = result.getString(8);
-			    int rolId = result.getInt(9);
-			    u = new Usuario(id, nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
-			    Rol rol = MapperUsuario.getUserRolById(rolId, u);
-			    roles.add(rol);
-			}
+			int id = result.getInt(1);
+			String nombre = result.getString(2);
+			String email = result.getString(3);
+			String password = result.getString(4);
+			String nombreUsuario1 = result.getString(5);
+			int dni = Integer.parseInt(result.getString(6));
+			Date fecha = result.getDate(7);
+			LocalDate fechaNacimiento = fecha.toLocalDate();
+		    String domicilio = result.getString(8);
+		    u = new Usuario(id, nombre, email, password, nombreUsuario1, domicilio, dni, fechaNacimiento);
+		    
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		u.setRoles(roles);
 		return u;
 	}
+	
+	public static ArrayList<Usuario> list() {
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		try
+		{
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios;");		
+			ResultSet result = s.executeQuery();
+			while(result.next()) {
+				Usuario u = MapperUsuario.parseResultSet(result);
+				usuarios.add(u);
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuarios;
+	}
+	
 	public static Usuario getByNombreUsuario(String nombreUsuario) {
 		Usuario u = null;
 		try
@@ -69,7 +83,14 @@ public class MapperUsuario {
 					"WHERE nombreUsuario = ?;");		
 			s.setString(1,nombreUsuario);
 			ResultSet result = s.executeQuery();
-			u = MapperUsuario.parseResultSet(result);
+			ArrayList<Rol> roles = new ArrayList<Rol>();
+			while(result.next()) {				
+				u = MapperUsuario.parseResultSet(result);
+				int rolId = result.getInt(9);
+				Rol rol = MapperUsuario.getUserRolById(rolId, u);
+			    roles.add(rol);
+			}
+			u.setRoles(roles);
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,7 +106,9 @@ public class MapperUsuario {
 			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios WHERE id = ?");		
 			s.setInt(1,id);
 			ResultSet result = s.executeQuery();
-			u = MapperUsuario.parseResultSet(result);
+			if(result.next()) {				
+				u = MapperUsuario.parseResultSet(result);
+			}
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		} 
 		catch (Exception e) 
@@ -136,7 +159,6 @@ public class MapperUsuario {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println();
 		}
 		
 	}
@@ -146,30 +168,23 @@ public class MapperUsuario {
 		{
 			Usuario u = (Usuario)o;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("update FROM Usuarios " +
-					"set nombre = ?," +
-					"set email = ?," +
-					"set password =?," +
-					"set nombreUsuario =?," +
-					"set domicilio =?," +
-					"set dni =?," +
-					"set fechaNacimiento = ?,"
+			PreparedStatement s = con.prepareStatement("UPDATE Usuarios " + 
+					"SET email = ?, " + 
+					"password = ?, " + 
+					"domicilio = ? " + 
+					"WHERE usuarioId = ?;"
 					);
-			s.setString(1,u.getNombre());
-			s.setString(2, u.getEmail());
-			s.setString(3,u.getPassword());
-			s.setString(4, u.getNombreUsuario());
-			s.setString(5,u.getDomicilio());
-			s.setInt(6, u.getDni());
-			LocalDate fecha = u.getFechaNacimiento();
-			Date fechaNacimiento = Date.valueOf(fecha);
-			s.setDate(7,fechaNacimiento);
+			s.setString(1, u.getEmail());
+			s.setString(2,u.getPassword());
+			s.setString(3,u.getDomicilio());
+			s.setInt(4, u.getId());
+			System.out.println("query: "+s.toString());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
 		catch (Exception e)
 		{
-			System.out.println();
+			e.printStackTrace();
 		}
 		
 	}
@@ -180,14 +195,19 @@ public class MapperUsuario {
 		{
 			Usuario u = (Usuario)d;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("delete from Usuarios where nombreUsuario = ?");
-			s.setString(1, u.getNombreUsuario());
+			PreparedStatement s = con.prepareStatement("DELETE FROM UsuarioRol WHERE usuarioId = ?;");
+			s.setInt(1, u.getId());
+			System.out.println("query: "+s.toString());
 			s.execute();
+			PreparedStatement s2 = con.prepareStatement("DELETE FROM Usuarios WHERE usuarioId = ?;");
+			s2.setInt(1, u.getId());
+			System.out.println("query: "+s2.toString());
+			s2.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
 		catch (Exception e)
 		{
-			System.out.println();
+			e.printStackTrace();
 		}
 		
 	}

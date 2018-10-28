@@ -60,20 +60,6 @@ public class AltaUsuarioPanel extends JPanel {
 	private int cant;
 	private ArrayList<Rol> roles;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltaUsuarioPanel frame = new AltaUsuarioPanel();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	
 	public AltaUsuarioPanel() {
 		setBounds(10, 0, 414, 255);
 		setLayout(null);
