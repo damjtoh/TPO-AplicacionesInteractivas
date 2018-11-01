@@ -79,7 +79,7 @@ public class PeliculaDAO {
 	public static void deletePelicula(Pelicula pelicula) {
 		try {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = conection.prepareStatement("delete from peliculas where id = ?");
+			PreparedStatement query = conection.prepareStatement("update peliculas set activa = 0 where id = ?");
 			query.setInt(1, pelicula.getId());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
@@ -96,7 +96,7 @@ public class PeliculaDAO {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			// cambiar por nombre de la base nuestra
 			// (A_Interactivas_01.dbo.peliculas)
-			PreparedStatement query = conection.prepareStatement("Select * from peliculas");
+			PreparedStatement query = conection.prepareStatement("Select * from peliculas where activa = 1");
 			ResultSet result = query.executeQuery();
 			while (result.next()) {
 				int id = result.getInt(1);
@@ -157,6 +157,7 @@ public class PeliculaDAO {
 						stringConsulta = stringConsulta.concat(" subtitulos = ? ");
 					}
 				}
+				stringConsulta = stringConsulta.concat(" and activa = 1 ");
 				query = conection.prepareStatement(stringConsulta);
 				int pos = 1;
 				if (pelicula.getGenero() != null) {
@@ -236,7 +237,7 @@ public class PeliculaDAO {
 	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) {
 		try {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
-			String stringConsulta = "select * from peliculas where id in (?)";
+			String stringConsulta = "select * from peliculas where id in (?) and activa = 1";
 			PreparedStatement query;
 			query = conection.prepareStatement(stringConsulta);
 		ResultSet result = query.executeQuery();

@@ -1,6 +1,7 @@
 package sistemaCine.services;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import sistemaCine.CineDAO.EntradasDAO;
@@ -39,6 +40,10 @@ public class EntradaService {
 
 	public static void eliminarEntradasFuncion(Funcion funcion) throws SQLException {
 		EntradasDAO.deleteEntradas(funcion.getId());	
+	}
+
+	public static List<Entrada> getEntradasVendidas(Funcion funcion) throws SQLException {
+		return EntradasDAO.getEntradasVendidas(funcion);
 	}
 
 }

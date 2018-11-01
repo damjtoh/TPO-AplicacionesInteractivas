@@ -141,4 +141,26 @@ public class EntradasDAO {
 	
 	}
 
+	public static List<Entrada> getEntradasVendidas(Funcion funcion) throws SQLException {
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		String statementSql = "select * from entradas where id_funcion = ? and ocupado = 1" /*and columna in (?) */;
+		PreparedStatement query = coneccion.prepareStatement(statementSql);
+//		List<String> columnas = new ArrayList<>();
+//		for (FilaColumna columna : funcion.getSala().getMapaDeAsientos().keySet()) {
+//			columnas.add(columna.getColumna());
+//		}
+		query.setInt(1, funcion.getId());
+//		query.setArray(2, coneccion.createArrayOf("VARCHAR", columnas.toArray()));
+		ResultSet rs = query.executeQuery();
+		List<Entrada> asientos = new ArrayList<>();
+		while (rs.next()) {
+			AsientoVirtual asiento;
+			asiento = new AsientoVirtual(rs.getString(2), rs.getString(3));
+			asiento.setOcupado(rs.getBoolean(4));
+			asientos.add(new Entrada(asiento, funcion));
+		}
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		return asientos;
+	}
+
 }

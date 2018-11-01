@@ -22,8 +22,7 @@ public class FuncionDAO {
 	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion
-					.prepareStatement("insert into funciones values (?,?,?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into funciones values (?,?,?,?,?,?)");
 			funcion.setId(getLastId(coneccion));
 			query.setInt(1, funcion.getId());
 			query.setInt(2, funcion.getPelicula().getId());
@@ -37,6 +36,7 @@ public class FuncionDAO {
 			System.out.println();
 		}
 	}
+
 	private static int getLastId(Connection conection) throws SQLException {
 		PreparedStatement query = conection.prepareStatement("(select max(id)+1 from funciones)");
 		ResultSet rs = query.executeQuery();
@@ -68,7 +68,7 @@ public class FuncionDAO {
 
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("delete from funciones where id = ?");
+			PreparedStatement query = coneccion.prepareStatement("update funciones set and activa = 0 where id = ?");
 			query.setInt(1, funcion.getId());
 			query.execute();
 
@@ -83,7 +83,7 @@ public class FuncionDAO {
 	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ? and fecha_hora >= ? order by fecha_hora ASC";
+			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ? and fecha_hora >= ? and activa = 1 order by fecha_hora ASC";
 //			if (cuitEstablecimiento !=null) {
 //				consultaSql = consultaSql.replace("cuit"," cuit_establecimiento = ? and ");
 //			}else {
@@ -99,7 +99,8 @@ public class FuncionDAO {
 			ResultSet rs = query.executeQuery();
 			List<Funcion> funciones = new ArrayList<>();
 			if (rs.next()) {
-				Funcion funcion = new Funcion(new Date(rs.getTimestamp(1).getTime()), pelicula, new Sala(rs.getString(2)), rs.getDouble(3));
+				Funcion funcion = new Funcion(new Date(rs.getTimestamp(1).getTime()), pelicula,
+						new Sala(rs.getString(2)), rs.getDouble(3));
 				funcion.setId(rs.getInt(4));
 				funciones.add(funcion);
 			}
@@ -110,7 +111,7 @@ public class FuncionDAO {
 		}
 		return new ArrayList<>();
 	}
-	
+
 	public static Funcion getById(int id) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
@@ -118,24 +119,26 @@ public class FuncionDAO {
 
 			PreparedStatement query = coneccion.prepareStatement(consultaSql);
 			query.setInt(1, id);
-			
+
 			Funcion funcion = null;
-			
+
 			ResultSet resFuncion = query.executeQuery();
-			
+
 			List<Funcion> funciones = new ArrayList<>();
 			if (resFuncion.next()) {
-				funcion = new Funcion(PeliculaDAO.getById(resFuncion.getInt("id_pelicula")), SalaDAO.getById(resFuncion.getInt("salaId")), new Date(resFuncion.getTimestamp("fecha_hora").getTime()));
+				funcion = new Funcion(PeliculaDAO.getById(resFuncion.getInt("id_pelicula")),
+						SalaDAO.getById(resFuncion.getInt("salaId")),
+						new Date(resFuncion.getTimestamp("fecha_hora").getTime()));
 				funcion.setId(resFuncion.getInt(4));
 				funciones.add(funcion);
 			}
-			
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return funcion;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;		
+		return null;
 	}
 
 	public static Map<FilaColumna, AsientoVirtual> selectAsientos(Funcion funcion) {
@@ -160,51 +163,69 @@ public class FuncionDAO {
 		return new HashMap<>();
 	}
 
-
 	public static List<Pelicula> selectPeliculasEstablecimiento(int cuit, Date fecha) throws SQLException {
-			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String statementSql = "select * from peliculas where id in (select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora >= ? order by fecha_hora)";
-			PreparedStatement query = coneccion.prepareStatement(statementSql);
-			query.setInt(1, cuit);
-			query.setDate(2, fecha);
-			ResultSet result = query.executeQuery();
-			
-			List<Pelicula> peliculas = new ArrayList<>();
-			while (result.next()) {
-				String nombre = result.getString(2);
-				String director = result.getString(3);
-				String genero = result.getString(4);
-				int duracion = result.getInt(5);
-				String idioma = result.getString(6);
-				boolean subtitilos = result.getBoolean(7);
-				double calificacion = result.getDouble(8);
-				String observaciones = result.getString(9);
-				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
-						observaciones);
-				pelicula.setId(result.getInt(1));
-				peliculas.add(pelicula);
-			}
-			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return peliculas;
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		String statementSql = "select * from peliculas where id in (select distinct id_pelicula from funciones where cuit_establecimiento = ? and fecha_hora >= ? and activa = 1 order by fecha_hora)";
+		PreparedStatement query = coneccion.prepareStatement(statementSql);
+		query.setInt(1, cuit);
+		query.setDate(2, fecha);
+		ResultSet result = query.executeQuery();
+
+		List<Pelicula> peliculas = new ArrayList<>();
+		while (result.next()) {
+			String nombre = result.getString(2);
+			String director = result.getString(3);
+			String genero = result.getString(4);
+			int duracion = result.getInt(5);
+			String idioma = result.getString(6);
+			boolean subtitilos = result.getBoolean(7);
+			double calificacion = result.getDouble(8);
+			String observaciones = result.getString(9);
+			Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+					observaciones);
+			pelicula.setId(result.getInt(1));
+			peliculas.add(pelicula);
+		}
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		return peliculas;
 
 	}
 
 	public static List<Funcion> selectFuncionesSala(Sala sala, int cuit) throws SQLException {
-			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			String consultaSql = "select fecha_hora,nombre_sala,valor,id,id_pelicula from funciones where  cuit_establecimiento = ? and nombre_sala = ?";		
-			PreparedStatement query = coneccion.prepareStatement(consultaSql);
-			query.setInt(1, cuit);
-			query.setString(2, sala.getNombre());
-			ResultSet rs = query.executeQuery();
-			List<Funcion> funciones = new ArrayList<>();
-			while (rs.next()) {
-				Funcion funcion = new Funcion(new Date(rs.getTimestamp(1).getTime()), new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
-				funcion.setId(rs.getInt(4));
-				funcion.getPelicula().setId(rs.getInt(5));
-				funciones.add(funcion);
-			}
-			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			return funciones;
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		String consultaSql = "select fecha_hora,nombre_sala,valor,id,id_pelicula from funciones where  cuit_establecimiento = ? and nombre_sala = ? and activa = 1";
+		PreparedStatement query = coneccion.prepareStatement(consultaSql);
+		query.setInt(1, cuit);
+		query.setString(2, sala.getNombre());
+		ResultSet rs = query.executeQuery();
+		List<Funcion> funciones = new ArrayList<>();
+		while (rs.next()) {
+			Funcion funcion = new Funcion(new Date(rs.getTimestamp(1).getTime()),
+					new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
+			funcion.setId(rs.getInt(4));
+			funcion.getPelicula().setId(rs.getInt(5));
+			funciones.add(funcion);
+		}
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		return funciones;
+	}
+
+	public static List<Funcion> selectFuncionesPelicula(Pelicula pelicula) throws SQLException {
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		String consultaSql = "select fecha_hora,nombre_sala,valor,id,id_pelicula from funciones where id_pelicula = ? and activa = 1";
+		PreparedStatement query = coneccion.prepareStatement(consultaSql);
+		query.setInt(1, pelicula.getId());
+		ResultSet rs = query.executeQuery();
+		List<Funcion> funciones = new ArrayList<>();
+		while (rs.next()) {
+			Funcion funcion = new Funcion(new Date(rs.getTimestamp(1).getTime()),
+					new Pelicula(null, null, null, 0, null, null, 0, null), new Sala(rs.getString(2)), rs.getDouble(3));
+			funcion.setId(rs.getInt(4));
+			funcion.getPelicula().setId(rs.getInt(5));
+			funciones.add(funcion);
+		}
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		return funciones;
 	}
 
 }

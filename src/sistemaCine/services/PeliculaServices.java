@@ -23,8 +23,12 @@ public class PeliculaServices {
 		PeliculaDAO.updatePelicula(pelicula);
 	}
 
-	public static void deletePelicula(Pelicula pelicula) {
-		PeliculaDAO.deletePelicula(pelicula);
+	public static void deletePelicula(Pelicula pelicula) throws SQLException {
+		if (!FuncionServices.getFunciones(pelicula).isEmpty()) {
+			PeliculaDAO.deletePelicula(pelicula);
+		}else {
+			throw new SQLException("La Pelicula Tiene Funciones Activas");
+		}
 	}
 
 	public static Map<String, Pelicula> getAllPeliculasMap() {

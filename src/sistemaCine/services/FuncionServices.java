@@ -24,8 +24,13 @@ public class FuncionServices {
 	}
 
 	public static void eliminarFuncion(Funcion funcion) throws SQLException {
-		FuncionDAO.deleteFuncion(funcion);
-		EntradaService.eliminarEntradasFuncion(funcion);
+		if (EntradaService.getEntradasVendidas(funcion).isEmpty()) {
+			FuncionDAO.deleteFuncion(funcion);
+			EntradaService.eliminarEntradasFuncion(funcion);
+		}
+		else {
+			throw new SQLException("Hay entradas Vendidas");
+		}
 	}
 
 	public static Map<String, Map<String, Funcion>>  getFuncionesMap(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
@@ -57,6 +62,10 @@ public class FuncionServices {
 			funcion.setPelicula(PeliculaServices.getPelicula(funcion.getPelicula().getId()));
 		}
 		return funciones;
+	}
+
+	public static List<Funcion> getFunciones(Pelicula pelicula) throws SQLException {
+		return FuncionDAO.selectFuncionesPelicula(pelicula);
 	}
 	
 

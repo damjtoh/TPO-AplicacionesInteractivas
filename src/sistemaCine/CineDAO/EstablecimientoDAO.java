@@ -60,7 +60,7 @@ public class EstablecimientoDAO {
 
 			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("delete from establecimientos where cuit = ?");
+			PreparedStatement query = coneccion.prepareStatement("update establecimientos set activo = 0 where cuit = ?");
 			query.setInt(1, establecimiento.getCuit());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
@@ -85,7 +85,7 @@ public class EstablecimientoDAO {
 	public static Map<String,Establecimiento> selectAllEstablecimietos() throws SQLException {
 
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("select * from establecimientos");
+			PreparedStatement query = coneccion.prepareStatement("select * from establecimientos where activa = 1");
 			ResultSet rs = query.executeQuery();
 			Map<String,Establecimiento> establecimientos = new HashMap<>();
 			while (rs.next()) {

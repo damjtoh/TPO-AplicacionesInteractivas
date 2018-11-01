@@ -88,22 +88,22 @@ public class SalaDAO {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("delete from salas where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
+					.prepareStatement("update salas set activa = 0 where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();
-			query = coneccion.prepareStatement(
-					"delete from sala_asientos where " + CUIT_ESTABLECIMIENTO + " = ? and nombre_sala like ?");
-			query.setInt(1, cuitEstablecimiento);
-			query.setString(2, sala.getNombre());
-			query.execute();
+//			query = coneccion.prepareStatement(
+//					"delete from sala_asientos where " + CUIT_ESTABLECIMIENTO + " = ? and nombre_sala like ?");
+//			query.setInt(1, cuitEstablecimiento);
+//			query.setString(2, sala.getNombre());
+//			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 	}
 
 	public static List<Sala> selectSalas(int cuitEstablecimiento) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("select nombre from salas where " + CUIT_ESTABLECIMIENTO + " = ?");
+					.prepareStatement("select nombre from salas where " + CUIT_ESTABLECIMIENTO + " = ? and activa = 1");
 			query.setInt(1, cuitEstablecimiento);
 			ResultSet rs = query.executeQuery();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
@@ -154,7 +154,7 @@ public class SalaDAO {
 	public static Sala selectSala(String nombre, Integer cuit) throws SQLException {
 		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 		PreparedStatement query = coneccion
-				.prepareStatement("select * from salas where " + CUIT_ESTABLECIMIENTO + " = ? and nombre = ?");
+				.prepareStatement("select * from salas where " + CUIT_ESTABLECIMIENTO + " = ? and nombre = ? and activa = 1");
 		query.setInt(1, cuit);
 		query.setString(2, nombre);
 		ResultSet rs = query.executeQuery();
