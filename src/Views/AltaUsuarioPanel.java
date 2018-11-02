@@ -173,8 +173,12 @@ public class AltaUsuarioPanel extends JPanel {
 			Integer dni = Integer.parseInt(txtDni.getText());
 			LocalDate fechaNacimiento = LocalDate.of(Integer.parseInt(textAnio.getText()), Integer.parseInt(textMes.getText()), Integer.parseInt(textDia.getText()));
 			Usuario nuevoUsuario = new Usuario(id, nombre, email, password, nombreUsuario, domicilio, dni, fechaNacimiento);
-			ArrayList<Rol> roles = that.getRolesFromCheckbox(nuevoUsuario);
-			nuevoUsuario.setRoles(roles);
+			if (SistemaUsuarios.getInstancia().getUsuarioLogueado() == null) {
+				nuevoUsuario.addRol(new Cliente(nuevoUsuario));
+			} else {				
+				ArrayList<Rol> roles = that.getRolesFromCheckbox(nuevoUsuario);
+				nuevoUsuario.setRoles(roles);
+			}
 			MapperUsuario.insert(nuevoUsuario);
 			JOptionPane.showMessageDialog(null, "Usuario creado con exito.");
 			}
