@@ -21,7 +21,7 @@ public class SalaDAO {
 	public static void insertSala(Object object, int cuitEstablecimiento) throws SQLException {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into salas values (?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into salas values (?,?,1)");
 			query.setInt(1, cuitEstablecimiento);
 			query.setString(2, sala.getNombre());
 			query.execute();

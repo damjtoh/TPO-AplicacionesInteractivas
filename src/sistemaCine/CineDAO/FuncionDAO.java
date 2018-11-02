@@ -22,7 +22,7 @@ public class FuncionDAO {
 	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into funciones values (?,?,?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into funciones values (?,?,?,?,?,?,1)");
 			funcion.setId(getLastId(coneccion));
 			query.setInt(1, funcion.getId());
 			query.setInt(2, funcion.getPelicula().getId());

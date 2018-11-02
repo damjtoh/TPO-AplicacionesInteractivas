@@ -24,7 +24,6 @@ public class ABMCinesView extends GeneralFrame{
 	private static ABMCinesView instancia;
 	private JFrame frame;
 	private JButton btnEstablecimientos;
-	private JButton btnPeliculas;
 	private Container lblNombreUsuario;
 
 	
@@ -81,21 +80,8 @@ public class ABMCinesView extends GeneralFrame{
 				ABMFuncionesEstablecimientosView.getInstancia();
 			}
 		});
-		btnEstablecimientos.setBounds(12, 137, 408, 67);
+		btnEstablecimientos.setBounds(12, 83, 408, 67);
 		frame.getContentPane().add(btnEstablecimientos);
-		
-		btnPeliculas = new JButton("Buscar por Peliculas");
-		btnPeliculas.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnPeliculas.setBounds(12, 40, 408, 67);
-		frame.getContentPane().add(btnPeliculas);
-		btnPeliculas.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ABMPeliculasView.getInstancia().setLocationRelativeTo(null);
-				ABMPeliculasView.getInstancia().setVisible(true);				
-			}
-		});
 		
 		lblNombreUsuario = new JLabel("");
 		lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));

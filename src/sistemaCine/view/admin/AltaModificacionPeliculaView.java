@@ -139,7 +139,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 		lblCalificacion.setBounds(157, 141, 86, 16);
 		frame.getContentPane().add(lblCalificacion);
 
-		compCalificacion = new IntegerField();
+		compCalificacion = new IntegerField(0,5);
 		compCalificacion.setBounds(157, 170, 116, 22);
 		frame.getContentPane().add(compCalificacion);
 		compCalificacion.setColumns(10);

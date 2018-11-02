@@ -28,7 +28,7 @@ public class PeliculaDAO {
 
 		Pelicula p = (Pelicula) object;
 		Connection conection = PoolConnection.getPoolConnection().getConnection();
-		PreparedStatement query = conection.prepareStatement("insert into peliculas values (?,?,?,?,?,?,?,?,?)");
+		PreparedStatement query = conection.prepareStatement("insert into peliculas values (?,?,?,?,?,?,?,?,?,1)");
 		query.setInt(1, getLastId(conection));
 		query.setString(2, p.getNombre());
 		query.setString(3, p.getDirector());
