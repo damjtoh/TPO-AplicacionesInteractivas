@@ -98,38 +98,38 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 //		
 		frame.getContentPane().setLayout(null);
 		compCuit = new IntegerField();
-		compCuit.setBounds(22, 43, 131, 20);
+		compCuit.setBounds(22, 29, 131, 20);
 		frame.getContentPane().add(compCuit);
 
 		compNombre = new JTextField();
-		compNombre.setBounds(22, 99, 131, 20);
+		compNombre.setBounds(22, 83, 131, 20);
 		frame.getContentPane().add(compNombre);
 		compNombre.setColumns(10);
 
 		compDireccion = new JTextField();
-		compDireccion.setBounds(22, 155, 131, 20);
+		compDireccion.setBounds(22, 143, 131, 20);
 		frame.getContentPane().add(compDireccion);
 		compDireccion.setColumns(10);
 
 		compCapacidad = new IntegerField();
-		compCapacidad.setBounds(22, 211, 131, 20);
+		compCapacidad.setBounds(22, 199, 131, 20);
 		frame.getContentPane().add(compCapacidad);
 		compCapacidad.setColumns(10);
 
 		JLabel lblCapacidad = new JLabel("Capacidad");
-		lblCapacidad.setBounds(22, 186, 131, 14);
+		lblCapacidad.setBounds(22, 176, 131, 14);
 		frame.getContentPane().add(lblCapacidad);
 
 		JLabel lblDireccion = new JLabel("Direcci\u00F3n");
-		lblDireccion.setBounds(23, 130, 130, 14);
+		lblDireccion.setBounds(23, 116, 130, 14);
 		frame.getContentPane().add(lblDireccion);
 
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(22, 74, 131, 14);
+		lblNombre.setBounds(22, 62, 131, 14);
 		frame.getContentPane().add(lblNombre);
 
 		JLabel lblCuit = new JLabel("Cuit");
-		lblCuit.setBounds(22, 18, 131, 14);
+		lblCuit.setBounds(22, 13, 131, 14);
 		frame.getContentPane().add(lblCuit);
 
 		btnCrear = new JButton("Crear");
@@ -142,7 +142,7 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 		frame.getContentPane().add(btnCancelar);
 
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(152, 263, 117, 25);
+		btnEliminar.setBounds(22, 224, 117, 25);
 		frame.getContentPane().add(btnEliminar);
 
 		panelSalas = new JPanel();
