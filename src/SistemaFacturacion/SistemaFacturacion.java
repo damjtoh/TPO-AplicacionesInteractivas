@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
+import Usuarios.Rol;
 import Usuarios.SistemaUsuarios;
+import Usuarios.Usuario;
 import presentacion.DescuentoPresentacion;
 import presentacion.Promo2x1Presentacion;
 import presentacion.xPorcentajePrecioVentaPresentacion;
@@ -76,27 +79,27 @@ public class SistemaFacturacion {
 	}
 	
 	public void AltaDescuentoPorcentaje(LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
-		if(SistemaUsuarios.GetInstancia().UsuarioLogueadoEsAgenteComercial()) {
-			AgenteComercial agente = SistemaUsuarios.GetInstancia().GetAgenteComercial();
-			Descuento descuento = new xPorcentajePrecioVenta(agente,fechaInicio,fechaFin,porcentaje,nombre);
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
+			Descuento descuento = new xPorcentajePrecioVenta(usuarioLogueado,fechaInicio,fechaFin,porcentaje,nombre);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
 		}
 	}
 	
 	public void AltaDescuento2x1(LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
-		if(SistemaUsuarios.GetInstancia().UsuarioLogueadoEsAgenteComercial()) {
-			AgenteComercial agente = SistemaUsuarios.GetInstancia().GetAgenteComercial();
-			Descuento descuento = new Promo2x1(agente,fechaInicio,fechaFin,nombre);
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado()
+		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
+			Descuento descuento = new Promo2x1(usuarioLogueado,fechaInicio,fechaFin,nombre);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
 		}
 	}
 	
 	public void AltaDescuentoCombo(LocalDate fechaInicio, LocalDate fechaFin, Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
-		if(SistemaUsuarios.GetInstancia().UsuarioLogueadoEsAgenteComercial()) {
-			AgenteComercial agente = SistemaUsuarios.GetInstancia().GetAgenteComercial();
-			Descuento combo = new Combo(agente,fechaInicio,fechaFin,descuentosPresentacion,nombre);
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
+			Descuento combo = new Combo(usuarioLogueado,fechaInicio,fechaFin,descuentosPresentacion,nombre);
 			descuentos.add(combo);
 			//Guardar en la base de datos
 		}
@@ -112,7 +115,8 @@ public class SistemaFacturacion {
 	
 	
 	public void BajaDescuento(int idDescuento) {
-		if(SistemaUsuarios.GetInstancia().UsuarioLogueadoEsAgenteComercial()) {
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = BuscarDescuento(idDescuento);
 			descuentos.remove(descuento);
 			//Borrar de la base de datos
@@ -120,7 +124,8 @@ public class SistemaFacturacion {
 	}
 
 	public void ModificarDescuento(int idDescuento, LocalDate fechaInicio, LocalDate fechaFin) {
-		if(SistemaUsuarios.GetInstancia().UsuarioLogueadoEsAgenteComercial()) {
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = BuscarDescuento(idDescuento);
 			descuento.SetFechaInicio(fechaInicio);
 			descuento.SetFechaFin(fechaFin);	

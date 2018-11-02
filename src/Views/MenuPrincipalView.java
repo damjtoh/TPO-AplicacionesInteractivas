@@ -17,8 +17,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Usuarios.Rol;
 import Usuarios.SistemaUsuarios;
 import Usuarios.Usuario;
+import sistemaCine.view.admin.adminCinesView;
+import sistemaCine.view.cliente.ABMFuncionesEstablecimientosView;
 
 public class MenuPrincipalView extends JFrame {
 
@@ -121,25 +124,85 @@ public class MenuPrincipalView extends JFrame {
 	public void setMenuAfterLogin() {
 		//this.menuBar.remove(this.menuInicio);
 		this.menuInicio.setVisible(false);
-		this.mnUsuarios.setVisible(true);
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+		this.setPanel(new BienvenidoPanel(usuarioLogueado));
 		
-		this.setPanel(new BienvenidoPanel(SistemaUsuarios.getInstancia().getUsuarioLogueado()));
 		
-		JMenuItem mntmCrearUsuario = new JMenuItem("Crear usuario");
-		mnUsuarios.add(mntmCrearUsuario);
-		mntmCrearUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				that.setPanel(new AltaUsuarioPanel());
-			}
-		});
+		if (usuarioLogueado.tieneRol(Rol.ADMINISTRADOR_ID)) {			
+			this.mnUsuarios.setVisible(true);
+			
+			
+			JMenuItem mntmCrearUsuario = new JMenuItem("Crear usuario");
+			mnUsuarios.add(mntmCrearUsuario);
+			mntmCrearUsuario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					that.setPanel(new AltaUsuarioPanel());
+				}
+			});
+			
+			JMenuItem mntmModificarUsuario = new JMenuItem("Gestionar usuarios");
+			mnUsuarios.add(mntmModificarUsuario);
+			mntmModificarUsuario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					that.setPanel(new GestionarUsuarioPanel());
+				}
+			});
+		}
 		
-		JMenuItem mntmModificarUsuario = new JMenuItem("Gestionar usuarios");
-		mnUsuarios.add(mntmModificarUsuario);
-		mntmModificarUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				that.setPanel(new GestionarUsuarioPanel());
-			}
-		});
+		if (usuarioLogueado.tieneRol(Rol.CLIENTE_ID)) {
+			
+			JMenu menuEntradas = new JMenu("Entradas");
+			JMenuItem subMenuComprarEntradas = new JMenuItem("Comprar entradas");
+			menuEntradas.add(subMenuComprarEntradas);
+			subMenuComprarEntradas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ABMFuncionesEstablecimientosView.getInstancia().setLocationRelativeTo(null);
+					ABMFuncionesEstablecimientosView.getInstancia().setVisible(true);
+				}
+			});
+			this.menuBar.add(menuEntradas);
+		}
+		
+		if (usuarioLogueado.tieneRol(Rol.VENDEDOR_ID)) {
+			
+			JMenu menuVentas = new JMenu("Ventas");
+			JMenuItem subMenuVenderEntrada = new JMenuItem("Nueva venta");
+			menuVentas.add(subMenuVenderEntrada);
+			subMenuVenderEntrada.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					that.setPanel(new AltaUsuarioPanel());
+				}
+			});
+			this.menuBar.add(menuVentas);
+		}
+		
+		if (usuarioLogueado.tieneRol(Rol.OPERADOR_ID)) {
+			
+			JMenu menuPeliculas = new JMenu("Peliculas");
+			JMenuItem subMenuPeliculasFunciones = new JMenuItem("Agregar Peliculas y Funciones");
+			menuPeliculas.add(subMenuPeliculasFunciones);
+			subMenuPeliculasFunciones.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					adminCinesView.getInstancia().setVisible(true);
+				}
+			});
+			this.menuBar.add(menuPeliculas);
+		}
+		
+		if (usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
+			
+			JMenu menuDescuentos = new JMenu("Descuentos");
+			JMenuItem subMenuAdministrarDescuentos = new JMenuItem("Administrar descuentos");
+			menuDescuentos.add(subMenuAdministrarDescuentos);
+			subMenuAdministrarDescuentos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JFrame descuentosView = new DescuentosView();
+					descuentosView.setLocationRelativeTo(null);
+					descuentosView.setVisible(true);
+				}
+			});
+			this.menuBar.add(menuDescuentos);
+		}
 		
 	}
 }

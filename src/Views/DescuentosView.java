@@ -22,6 +22,10 @@ import presentacion.DescuentoPresentacion;
 
 public class DescuentosView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frmDescuentos;
 	private JTable table;
 
@@ -53,6 +57,10 @@ public class DescuentosView extends JFrame {
 				"ID", "Nombre", "Tipo", "Fecha Inicio", "Fecha Fin"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false
 			};

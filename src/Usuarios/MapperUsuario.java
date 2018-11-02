@@ -16,17 +16,18 @@ public class MapperUsuario {
 	private static Rol getUserRolById(int rolId, Usuario usuario) {
 		Rol rol;
 		switch(rolId) {
-			case 1: rol = new AgenteComercial(usuario);
+			case 3: rol = new AgenteComercial(usuario);
 				break;
 			case 2: rol = new Operador(usuario);
 				break;
-			case 3: rol = new Administrador(usuario);
+			case 4: rol = new Administrador(usuario);
 				break;
-			case 4: rol = new Cliente(usuario);
+			case 1: rol = new Cliente(usuario);
 				break;
 			default: rol = null;
 				break;
-			//case 5: rol = new Vendedor(usuario);
+			case 5: rol = new Vendedor(usuario);
+				break;
 		}
 		return rol;
 	}

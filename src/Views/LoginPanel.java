@@ -51,8 +51,6 @@ public class LoginPanel extends JPanel {
 					//panel_1.setVisible(true);
 					menuPrincipalView.setMenuAfterLogin();
 					System.out.println(SistemaUsuarios.getInstancia().getUsuarioLogueado().toString());
-					HubView nextScreen = new HubView(SistemaUsuarios.getInstancia().getUsuarioLogueado());
-					nextScreen.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuario o contrasena incorrecta.");
 				}

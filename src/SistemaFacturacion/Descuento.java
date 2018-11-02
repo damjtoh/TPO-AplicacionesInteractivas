@@ -4,19 +4,20 @@ import java.time.LocalDate;
 
 import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
+import Usuarios.Usuario;
 import presentacion.DescuentoPresentacion;
 
 public abstract class Descuento {
 
 	private static int contador = 1;
 	protected int id;
-	protected AgenteComercial creadoPor;
+	protected Usuario creadoPor;
 	protected LocalDate fechaInicio;
 	protected LocalDate fechaFin;
 	protected ETipoDescuento tipo;
 	protected String nombre;
 	
-	public Descuento(AgenteComercial creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	public Descuento(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
 		this.creadoPor = creadoPor;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -57,7 +58,7 @@ public abstract class Descuento {
 		return fechaFin;
 	}
 	
-	public AgenteComercial GetAgenteComercial() {
+	public Usuario GetAgenteComercial() {
 		return creadoPor;
 	}
 	

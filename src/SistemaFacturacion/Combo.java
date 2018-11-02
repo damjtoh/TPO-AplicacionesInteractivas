@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
+import Usuarios.Usuario;
 import presentacion.ComboPresentacion;
 import presentacion.DescuentoPresentacion;
 import presentacion.xPorcentajePrecioVentaPresentacion;
@@ -14,19 +15,19 @@ public class Combo extends Descuento{
 	
 	private Collection<Descuento> descuentos;
 
-	public Combo(AgenteComercial creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	public Combo(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
 		super(creadoPor, fechaInicio, fechaFin,nombre);
 		this.tipo = ETipoDescuento.COMBO;
 		descuentos = new ArrayList<Descuento>();
 	}
 	
-	public Combo(AgenteComercial creadoPor, LocalDate fechaInicio, LocalDate fechaFin, ArrayList<Descuento> descuentos, String nombre) {
+	public Combo(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, ArrayList<Descuento> descuentos, String nombre) {
 		super(creadoPor, fechaInicio, fechaFin,nombre);
 		this.tipo = ETipoDescuento.COMBO;
 		this.descuentos = descuentos;
 	}
 	
-	public Combo(AgenteComercial creadoPor, LocalDate fechaInicio, LocalDate fechaFin, Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
+	public Combo(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
 		super(creadoPor, fechaInicio, fechaFin,nombre);
 		this.tipo = ETipoDescuento.COMBO;
 		descuentos = new ArrayList<Descuento>();

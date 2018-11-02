@@ -132,6 +132,15 @@ public class Usuario {
 		return ids;
 	}
 	
+	public boolean tieneRol(int rolId) {
+		for (Rol rol : this.roles) {
+			if (rol.Identificarme() == rolId) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String toString() {
         return "ID:" + String.valueOf(this.id) + "\n"
         		+ "Nombre:" + this.nombre + "\n"
