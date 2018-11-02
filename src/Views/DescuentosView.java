@@ -31,6 +31,7 @@ public class DescuentosView extends JFrame {
 
 	public DescuentosView() {
 		initialize();
+		this.frmDescuentos.setVisible(true);
 	}
 
 	private void initialize() {

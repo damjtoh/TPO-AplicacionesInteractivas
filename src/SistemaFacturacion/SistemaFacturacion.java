@@ -88,7 +88,7 @@ public class SistemaFacturacion {
 	}
 	
 	public void AltaDescuento2x1(LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
-		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado()
+		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = new Promo2x1(usuarioLogueado,fechaInicio,fechaFin,nombre);
 			descuentos.add(descuento);
