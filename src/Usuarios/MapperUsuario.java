@@ -15,6 +15,7 @@ import Persistencas.PoolConnection;
 public class MapperUsuario {
 	private static Rol getUserRolById(int rolId, Usuario usuario) {
 		Rol rol;
+		System.out.println(rolId);
 		switch(rolId) {
 			case 3: rol = new AgenteComercial(usuario);
 				break;
@@ -87,7 +88,7 @@ public class MapperUsuario {
 			ArrayList<Rol> roles = new ArrayList<Rol>();
 			while(result.next()) {				
 				u = MapperUsuario.parseResultSet(result);
-				int rolId = result.getInt(9);
+				int rolId = result.getInt(10);
 				Rol rol = MapperUsuario.getUserRolById(rolId, u);
 			    roles.add(rol);
 			}
