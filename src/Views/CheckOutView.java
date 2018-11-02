@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import SistemaVentas.ConfirmarVenta;
+import SistemaVentas.ITipoDePago;
 import SistemaVentas.TarjetaCreditoXPortal;
 import SistemaVentas.TarjetaDebitoXPortal;
 import sistemaCine.clases.Entrada;
@@ -67,7 +68,7 @@ public class CheckOutView extends JFrame {
 		
 		JTextArea txtNumeroTarjeta = new JTextArea();
 		txtNumeroTarjeta.setText("Ingresar numero de tarjeta");
-		txtNumeroTarjeta.setBounds(10, 172, 217, 22);
+		txtNumeroTarjeta.setBounds(10, 182, 217, 22);
 		contentPane.add(txtNumeroTarjeta);
 		txtNumeroTarjeta.setEditable(true);
 		txtNumeroTarjeta.setText(null);
@@ -106,22 +107,28 @@ public class CheckOutView extends JFrame {
 		txtSala.setText(funcion.getSala().getNombre());
 		
 		JLabel lblImporteAPagar = new JLabel("Importe a pagar");
-		lblImporteAPagar.setBounds(237, 144, 187, 14);
+		lblImporteAPagar.setBounds(239, 155, 187, 14);
 		contentPane.add(lblImporteAPagar);
 		
 		JTextArea txtImporte = new JTextArea();
-		txtImporte.setBounds(237, 172, 187, 22);
+		txtImporte.setBounds(237, 182, 187, 22);
 		contentPane.add(txtImporte);
+		txtImporte.setText(Double.toString(funcion.getValor()*entradas.size()));
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setBounds(237, 227, 187, 23);
 		contentPane.add(btnConfirmar);
 		
+		JLabel lblNumeroDeTarjeta = new JLabel("Numero de Tarjeta");
+		lblNumeroDeTarjeta.setBounds(10, 164, 142, 16);
+		contentPane.add(lblNumeroDeTarjeta);
+		
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ConfirmarVenta cVenta = new ConfirmarVenta();
 				if (txtNumeroTarjeta.getText() != null)
-				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toString(), listCombos.getSelectedItem(), txtNumeroTarjeta.getText(), importe);
+				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(), (ITipoDePago)listaTiposDePago.getSelectedItem(), Long.parseLong(txtNumeroTarjeta.getText()), funcion.getValor()*entradas.size());
+				getContentPane().setVisible(false);
 			}
 		});
 	}

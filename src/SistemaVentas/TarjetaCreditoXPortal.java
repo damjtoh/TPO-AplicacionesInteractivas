@@ -16,6 +16,14 @@ public class TarjetaCreditoXPortal extends Portal {
 		FechaVencimientoMes = fechaVencimientoMes;
 	}
 
+	public TarjetaCreditoXPortal() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Tarjeta de Credito";
+	}
+
 	public int getFechaVencimientoDia() {
 		return fechaVencimientoDia;
 	}
@@ -46,6 +54,11 @@ public class TarjetaCreditoXPortal extends Portal {
 
 	public void setCoutas(int coutas) {
 		this.coutas = coutas;
+	}
+
+	@Override
+	public int getNro() {
+		return 1;
 	}
 
 }

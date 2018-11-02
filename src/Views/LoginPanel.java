@@ -60,7 +60,7 @@ public class LoginPanel extends JPanel {
 		add(button);
 
 		JLabel lblIngreseLosSiguientes = new JLabel("Ingrese los siguientes datos:");
-		lblIngreseLosSiguientes.setBounds(22, 47, 159, 14);
+		lblIngreseLosSiguientes.setBounds(22, 47, 362, 14);
 		add(lblIngreseLosSiguientes);
 
 	}

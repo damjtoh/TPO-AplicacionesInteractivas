@@ -20,7 +20,7 @@ import sistemaCine.utils.FilaColumna;
 public class EntradasDAO {
 	public static Entrada insertEntrada(Entrada entrada) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into entradas values (?,?,?,?,null)");
 			query.setInt(1, entrada.getFuncion().getId());
 			query.setString(2, entrada.getAsiento().getColumna());
 			query.setString(3, entrada.getAsiento().getFila());

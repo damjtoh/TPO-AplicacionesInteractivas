@@ -13,7 +13,15 @@ public class TarjetaDebitoXPortal extends Portal {
 		this.fechaVencimientoMes = fechaVencimientoMes;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Tarjeta de Debito";
+	}
+	public TarjetaDebitoXPortal() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public int getFechaVencimientoDia() {
 		return fechaVencimientoDia;
 	}
@@ -25,6 +33,11 @@ public class TarjetaDebitoXPortal extends Portal {
 	}
 	public void setFechaVencimientoMes(int fechaVencimientoMes) {
 		this.fechaVencimientoMes = fechaVencimientoMes;
+	}
+
+	@Override
+	public int getNro() {
+		return 0;
 	}
 	
 	

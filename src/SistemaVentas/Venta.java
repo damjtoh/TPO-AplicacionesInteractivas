@@ -29,6 +29,21 @@ public class Venta {
 	
 	
 
+
+
+
+	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroTarjetaClub,
+			double importe) {
+		super();
+		this.entradas = entradas;
+		this.fechaYHora = fechaYHora;
+		this.tipoDePago = tipoDePago;
+		this.importe = importe;
+	}
+
+
+
+
 	public void addObserver(ObserverVenta observer) {
 		observers.add(observer);
 	}

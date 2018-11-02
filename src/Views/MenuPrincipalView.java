@@ -156,8 +156,7 @@ public class MenuPrincipalView extends JFrame {
 			menuEntradas.add(subMenuComprarEntradas);
 			subMenuComprarEntradas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					ABMFuncionesEstablecimientosView.getInstancia().setLocationRelativeTo(null);
-					ABMFuncionesEstablecimientosView.getInstancia().setVisible(true);
+					ABMFuncionesEstablecimientosView.getInstancia();
 				}
 			});
 			this.menuBar.add(menuEntradas);
@@ -183,7 +182,7 @@ public class MenuPrincipalView extends JFrame {
 			menuPeliculas.add(subMenuPeliculasFunciones);
 			subMenuPeliculasFunciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					adminCinesView.getInstancia().setVisible(true);
+					adminCinesView.getInstancia();
 				}
 			});
 			this.menuBar.add(menuPeliculas);
