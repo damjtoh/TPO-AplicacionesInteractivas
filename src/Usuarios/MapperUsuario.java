@@ -207,7 +207,7 @@ public class MapperUsuario {
 			Usuario u = (Usuario)d;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("UPDATE Usuarios " + 
-					"SET activo = 0, " + 
+					"SET activo = 0 " + 
 					"WHERE usuarioId = ?;");
 			s.setInt(1, u.getId());
 			System.out.println("query: "+s.toString());
