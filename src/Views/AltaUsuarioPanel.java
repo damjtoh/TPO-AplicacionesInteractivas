@@ -29,6 +29,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JList;
 
 public class AltaUsuarioPanel extends JPanel {
@@ -175,6 +176,7 @@ public class AltaUsuarioPanel extends JPanel {
 			ArrayList<Rol> roles = that.getRolesFromCheckbox(nuevoUsuario);
 			nuevoUsuario.setRoles(roles);
 			MapperUsuario.insert(nuevoUsuario);
+			JOptionPane.showMessageDialog(null, "Usuario creado con exito.");
 			}
 		});
 		btnCrear.setBounds(264, 227, 77, 23);

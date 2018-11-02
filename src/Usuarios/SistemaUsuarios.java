@@ -49,16 +49,6 @@ public class SistemaUsuarios {
 		
 	}
 	
-	public static void AltaUsuario(String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNacimiento)
-	{
-		Usuario user = buscarUsuario(nombreUsuario); 
-		if(user == null)
-		{
-			user = new Usuario(0, nombre, email, password, nombreUsuario, domicilio, dni, fechaNacimiento);
-			usuarios.add(user);
-		}
-	}
-	
 	
 	public Usuario getUsuarioLogueado() {
 		return this.usuarioLogueado;

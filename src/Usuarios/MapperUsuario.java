@@ -59,7 +59,7 @@ public class MapperUsuario {
 		try
 		{
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios;");		
+			PreparedStatement s = con.prepareStatement("SELECT * FROM Usuarios WHERE activo = 1;");		
 			ResultSet result = s.executeQuery();
 			while(result.next()) {
 				Usuario u = MapperUsuario.parseResultSet(result);
@@ -205,14 +205,16 @@ public class MapperUsuario {
 		{
 			Usuario u = (Usuario)d;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("DELETE FROM UsuarioRol WHERE usuarioId = ?;");
+			PreparedStatement s = con.prepareStatement("UPDATE Usuarios " + 
+					"SET activo = 0, " + 
+					"WHERE usuarioId = ?;");
 			s.setInt(1, u.getId());
 			System.out.println("query: "+s.toString());
 			s.execute();
-			PreparedStatement s2 = con.prepareStatement("DELETE FROM Usuarios WHERE usuarioId = ?;");
-			s2.setInt(1, u.getId());
-			System.out.println("query: "+s2.toString());
-			s2.execute();
+			//PreparedStatement s2 = con.prepareStatement("DELETE FROM Usuarios WHERE usuarioId = ?;");
+			//s2.setInt(1, u.getId());
+			//System.out.println("query: "+s2.toString());
+			//s2.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
 		catch (Exception e)
