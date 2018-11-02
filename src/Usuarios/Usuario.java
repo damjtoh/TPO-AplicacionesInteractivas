@@ -111,18 +111,6 @@ public class Usuario {
 	public boolean esPassword(String Password) {
 		return (Password.equals(password));
 	}
-
-	public void desactivar() {
-		this.activo = false;
-	}
-	
-	public void activar() {
-		this.activo = true;
-	}
-	
-	public void editar(String nombre, String email, String password, String domicilio) {
-		
-	}
 	
 	public ArrayList<Integer> getRolesIds() {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
