@@ -32,7 +32,13 @@ public class GestionarUsuarioPanel extends JPanel {
 		this.listadoPanel.setBounds(12, 12, 468, 352);
 		add(this.listadoPanel);
 		
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(209, 314, 114, 25);
+		listadoPanel.add(btnEliminar);
+		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setBounds(327, 314, 114, 25);
+		listadoPanel.add(btnModificar);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Usuario usuarioSelected = listadoPanel.getSelectedUsuario();
@@ -40,10 +46,6 @@ public class GestionarUsuarioPanel extends JPanel {
 				MenuPrincipalView.getInstancia().setPanel(new ModificarUsuarioPanel(usuarioSelected));
 			}
 		});
-		btnModificar.setBounds(359, 375, 114, 25);
-		add(btnModificar);
-		
-		JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Usuario usuarioSelected = listadoPanel.getSelectedUsuario();
@@ -56,8 +58,6 @@ public class GestionarUsuarioPanel extends JPanel {
 				}
 			}
 		});
-		btnEliminar.setBounds(219, 375, 114, 25);
-		add(btnEliminar);
 
 	}
 }
