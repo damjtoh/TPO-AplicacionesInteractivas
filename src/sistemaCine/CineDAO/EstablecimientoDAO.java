@@ -18,7 +18,7 @@ public class EstablecimientoDAO {
 
 			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("insert into establecimientos values (?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into establecimientos values (?,?,?,?,1)");
 
 			query.setInt(1, establecimiento.getCuit());
 			query.setString(2, establecimiento.getNombre());
