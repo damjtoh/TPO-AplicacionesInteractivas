@@ -8,22 +8,31 @@ import Usuarios.Usuario;
 import presentacion.DescuentoPresentacion;
 import presentacion.xPorcentajePrecioVentaPresentacion;
 
-public class xPorcentajePrecioVenta extends Descuento{
-	
+public class xPorcentajePrecioVenta extends Descuento {
+
 	private float porcentaje;
 
-	public xPorcentajePrecioVenta(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
-		super(creadoPor, fechaInicio, fechaFin,nombre);
+	public xPorcentajePrecioVenta(Integer id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin,
+			Float porcentaje, String nombre, int establecimientoCuit, int activo, int esCombo) {
+		super(id, creadoPor, fechaInicio, fechaFin, nombre, establecimientoCuit, activo, esCombo);
 		this.porcentaje = porcentaje;
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 	}
 
+	public float getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(float porcentaje) {
+		this.porcentaje = porcentaje;
+	}
+
 	public void EfectuarDescuento(Venta venta) {
-		venta.setImporte(venta.getImporte()*(1-(porcentaje/100)));
+		venta.setImporte(venta.getImporte() * (1 - (porcentaje / 100)));
 	}
 
 	public DescuentoPresentacion ToPresentacion() {
-		return new xPorcentajePrecioVentaPresentacion(id,fechaInicio,fechaFin,porcentaje,nombre);
+		return new xPorcentajePrecioVentaPresentacion(id, fechaInicio, fechaFin, porcentaje, nombre);
 	}
 
 }

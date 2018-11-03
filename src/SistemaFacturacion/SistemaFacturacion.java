@@ -81,7 +81,7 @@ public class SistemaFacturacion {
 	public void AltaDescuentoPorcentaje(LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
-			Descuento descuento = new xPorcentajePrecioVenta(usuarioLogueado,fechaInicio,fechaFin,porcentaje,nombre);
+			Descuento descuento = new xPorcentajePrecioVenta(null, usuarioLogueado,fechaInicio,fechaFin,porcentaje,nombre, 0, 0, 0);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
 		}
@@ -118,6 +118,7 @@ public class SistemaFacturacion {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = BuscarDescuento(idDescuento);
+			// check if null;
 			descuentos.remove(descuento);
 			//Borrar de la base de datos
 		}
