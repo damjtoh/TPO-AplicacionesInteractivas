@@ -32,7 +32,7 @@ public class AltaComboView extends JFrame {
 	private DescuentosView descuentosView;
 	
 	public AltaComboView() {
-		this.descuentosView = DescuentosDAO.getAll();
+		//this.descuentosView = DescuentosDAO.getAll();
 		initialize();
 		frmDescuentos.setVisible(true);
 	}

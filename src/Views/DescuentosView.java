@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 
 import SistemaFacturacion.SistemaFacturacion;
 import presentacion.DescuentoPresentacion;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 public class DescuentosView extends JFrame {
 
@@ -38,7 +40,7 @@ public class DescuentosView extends JFrame {
 		frmDescuentos = new JFrame();
 		frmDescuentos.setResizable(false);
 		frmDescuentos.setTitle("Descuentos");
-		frmDescuentos.setBounds(100, 100, 556, 358);
+		frmDescuentos.setBounds(100, 100, 556, 402);
 		frmDescuentos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDescuentos.getContentPane().setLayout(null);
 		
@@ -48,7 +50,7 @@ public class DescuentosView extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane);
+		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -97,7 +99,7 @@ public class DescuentosView extends JFrame {
 				}
 			}
 		});
-		btnAltaDescuentox.setBounds(29, 236, 187, 23);
+		btnAltaDescuentox.setBounds(29, 267, 187, 23);
 		frmDescuentos.getContentPane().add(btnAltaDescuentox);
 		
 		JButton btnAltaDescuentoPorcentaje = new JButton("Alta Descuento Porcentaje");
@@ -126,17 +128,17 @@ public class DescuentosView extends JFrame {
 				}
 			}
 		});
-		btnAltaDescuentoPorcentaje.setBounds(29, 264, 187, 23);
+		btnAltaDescuentoPorcentaje.setBounds(29, 302, 187, 23);
 		frmDescuentos.getContentPane().add(btnAltaDescuentoPorcentaje);
 		
 		final DescuentosView thisClass = this;
 		JButton btnAltaDescuentoCombo = new JButton("Alta Descuento Combo");
 		btnAltaDescuentoCombo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new AltaComboView(thisClass);
+				new AltaComboView();
 			}
 		});
-		btnAltaDescuentoCombo.setBounds(29, 295, 187, 23);
+		btnAltaDescuentoCombo.setBounds(29, 337, 187, 23);
 		frmDescuentos.getContentPane().add(btnAltaDescuentoCombo);
 		
 		JButton btnEliminarDescuentoSeleccionado = new JButton("Eliminar Descuento Seleccionado");
@@ -159,7 +161,7 @@ public class DescuentosView extends JFrame {
 				
 			}
 		});
-		btnEliminarDescuentoSeleccionado.setBounds(285, 236, 239, 23);
+		btnEliminarDescuentoSeleccionado.setBounds(285, 267, 239, 23);
 		frmDescuentos.getContentPane().add(btnEliminarDescuentoSeleccionado);
 		
 		JSeparator separator = new JSeparator();
@@ -200,8 +202,16 @@ public class DescuentosView extends JFrame {
 				}
 			}
 		});
-		btnModificarDescuentoSeleccionado.setBounds(285, 264, 239, 23);
+		btnModificarDescuentoSeleccionado.setBounds(285, 302, 239, 23);
 		frmDescuentos.getContentPane().add(btnModificarDescuentoSeleccionado);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(229, 237, 121, 24);
+		frmDescuentos.getContentPane().add(comboBox);
+		
+		JLabel lblEstablecimiento = new JLabel("Establecimiento");
+		lblEstablecimiento.setBounds(94, 237, 128, 15);
+		frmDescuentos.getContentPane().add(lblEstablecimiento);
 	}
 	
 	public void LoadTable() {

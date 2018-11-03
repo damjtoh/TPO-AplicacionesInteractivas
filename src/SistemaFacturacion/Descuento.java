@@ -9,23 +9,60 @@ import presentacion.DescuentoPresentacion;
 
 public abstract class Descuento {
 
-	private static int contador = 1;
 	protected int id;
-	protected Usuario creadoPor;
 	protected LocalDate fechaInicio;
 	protected LocalDate fechaFin;
-	protected ETipoDescuento tipo;
 	protected String nombre;
-	
-	public Descuento(Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	protected ETipoDescuento tipo;
+	private int establecimientoCuit;
+	private int activo;
+	private int estaCombo;
+	public Descuento(int id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre, int establecimientoCuit, int activo, int estaCombo) {
+		this.id = id;
 		this.creadoPor = creadoPor;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.nombre = nombre;
-		this.id = contador;
-		contador++;
+		this.establecimientoCuit = establecimientoCuit;
+		this.activo = activo;
+		this.estaCombo = estaCombo;
 	}
 	
+	public Usuario getCreadoPor() {
+		return creadoPor;
+	}
+
+	public void setCreadoPor(Usuario creadoPor) {
+		this.creadoPor = creadoPor;
+	}
+
+	protected Usuario creadoPor;
+
+	
+	public int getEstaCombo() {
+		return estaCombo;
+	}
+
+	public void setEstaCombo(int esCombo) {
+		this.estaCombo = esCombo;
+	}
+
+	public int getActivo() {
+		return activo;
+	}
+
+	public void setActivo(int activo) {
+		this.activo = activo;
+	}
+
+	public int getEstablecimientoCuit() {
+		return establecimientoCuit;
+	}
+
+	public void setEstablecimientoCuit(int establecimientoCuit) {
+		this.establecimientoCuit = establecimientoCuit;
+	}
+
 	public abstract DescuentoPresentacion ToPresentacion();
 	
 	public abstract void EfectuarDescuento(Venta venta);
