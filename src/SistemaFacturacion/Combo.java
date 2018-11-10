@@ -1,5 +1,6 @@
 package SistemaFacturacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,13 +15,23 @@ import presentacion.xPorcentajePrecioVentaPresentacion;
 public class Combo extends Descuento{
 	
 	private Collection<Descuento> descuentos;
-	public Combo(int id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre,
+	public Combo(int id, Usuario creadoPor, Date fechaInicioLocalDate, Date fechaFinLocalDate, String nombre,
 			int establecimientoCuit, int activo, int estaCombo, Collection<Descuento> descuentos) {
-		super(id, creadoPor, fechaInicio, fechaFin, nombre, establecimientoCuit, activo, estaCombo);
+		super(id, creadoPor, fechaInicioLocalDate, fechaFinLocalDate, nombre, establecimientoCuit, activo, estaCombo);
 		this.descuentos = descuentos;
 		this.tipo = ETipoDescuento.COMBO;
 	}
-
+	public Combo(Usuario creadoPor, Date fechaInicioLocalDate, Date fechaFinLocalDate, String nombre,
+			int establecimientoCuit, int activo, int estaCombo, Collection<Descuento> descuentos) {
+		super(creadoPor, fechaInicioLocalDate, fechaFinLocalDate, nombre, establecimientoCuit, activo, estaCombo);
+		this.descuentos = descuentos;
+		this.tipo = ETipoDescuento.COMBO;
+	}
+	public Combo(Usuario usuarioLogueado, Date fechaInicio, Date fechaFin,
+			Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
+		// TODO Auto-generated constructor stub
+		super(usuarioLogueado,fechaInicio,fechaFin,descuentosPresentacion,nombre);
+	}
 	public Collection<Descuento> getDescuentos() {
 		return descuentos;
 	}

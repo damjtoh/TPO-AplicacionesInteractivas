@@ -68,7 +68,7 @@ public class FuncionDAO {
 
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("update funciones set and activa = 0 where id = ?");
+			PreparedStatement query = coneccion.prepareStatement("update funciones set activa = 0 where id = ?");
 			query.setInt(1, funcion.getId());
 			query.execute();
 

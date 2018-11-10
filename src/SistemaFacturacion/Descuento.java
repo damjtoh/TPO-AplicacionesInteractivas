@@ -1,6 +1,8 @@
 package SistemaFacturacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Collection;
 
 import SistemaVentas.Venta;
 import Usuarios.AgenteComercial;
@@ -10,14 +12,14 @@ import presentacion.DescuentoPresentacion;
 public abstract class Descuento {
 
 	protected int id;
-	protected LocalDate fechaInicio;
-	protected LocalDate fechaFin;
+	protected Date fechaInicio;
+	protected Date fechaFin;
 	protected String nombre;
 	protected ETipoDescuento tipo;
 	private int establecimientoCuit;
 	private int activo;
 	private int estaCombo;
-	public Descuento(int id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre, int establecimientoCuit, int activo, int estaCombo) {
+	public Descuento(int id, Usuario creadoPor, Date fechaInicio, Date fechaFin, String nombre, int establecimientoCuit, int activo, int estaCombo) {
 		this.id = id;
 		this.creadoPor = creadoPor;
 		this.fechaInicio = fechaInicio;
@@ -28,6 +30,48 @@ public abstract class Descuento {
 		this.estaCombo = estaCombo;
 	}
 	
+	public Descuento(Date fechaInicio, Date fechaFin, String nombre, ETipoDescuento tipo, int establecimientoCuit,
+			int activo, int estaCombo, Usuario creadoPor) {
+		super();
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+		this.nombre = nombre;
+		this.tipo = tipo;
+		this.establecimientoCuit = establecimientoCuit;
+		this.activo = activo;
+		this.estaCombo = estaCombo;
+		this.creadoPor = creadoPor;
+	}
+
+	public Descuento(Usuario creadoPor2, Date fechaInicioLocalDate, Date fechaFinLocalDate, String nombre2,
+			int establecimientoCuit2, int activo2, int estaCombo2) {
+		// TODO Auto-generated constructor stub
+		this.creadoPor=creadoPor2;
+		this.fechaInicio = fechaInicioLocalDate;
+		this.fechaFin = fechaFinLocalDate;
+		this.nombre = nombre2;
+		this.establecimientoCuit = establecimientoCuit2;
+		this.activo=activo2;
+		this.estaCombo = estaCombo2;
+	}
+
+	public Descuento(Usuario usuarioLogueado, Date fechaInicio2, Date fechaFin2,
+			Collection<DescuentoPresentacion> descuentosPresentacion, String nombre2) {
+		// TODO Auto-generated constructor stub
+		this.creadoPor = usuarioLogueado;
+		this.fechaInicio = fechaInicio2;
+		this.fechaFin = fechaFin2;
+		this.nombre = nombre2;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Usuario getCreadoPor() {
 		return creadoPor;
 	}
@@ -71,11 +115,11 @@ public abstract class Descuento {
 		return tipo;
 	}
 	
-	public void ModificarFechaInicio(LocalDate fechaInicio) {
+	public void ModificarFechaInicio(Date fechaInicio) {
 		this.fechaInicio =  fechaInicio;
 	}
 	
-	public void ModificarFechaFin(LocalDate fechaFin) {
+	public void ModificarFechaFin(Date fechaFin) {
 		this.fechaFin =  fechaFin;
 	}
 	
@@ -87,11 +131,11 @@ public abstract class Descuento {
 		return this.id == id;
 	}
 	
-	public LocalDate GetFechaInicio() {
+	public Date GetFechaInicio() {
 		return fechaInicio;
 	}
 	
-	public LocalDate GetFechaFin() {
+	public Date GetFechaFin() {
 		return fechaFin;
 	}
 	
@@ -99,11 +143,11 @@ public abstract class Descuento {
 		return creadoPor;
 	}
 	
-	public void SetFechaInicio(LocalDate fechaInicio) {
+	public void SetFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	
-	public void SetFechaFin(LocalDate fechaFin) {
+	public void SetFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 

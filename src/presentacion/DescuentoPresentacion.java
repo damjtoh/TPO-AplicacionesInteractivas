@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import SistemaFacturacion.ETipoDescuento;
@@ -7,19 +8,19 @@ import SistemaFacturacion.ETipoDescuento;
 public abstract class DescuentoPresentacion {
 	
 	private int id;
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
+	private Date fechaInicio;
+	private Date fechaFin;
 	protected ETipoDescuento tipo;
 	private String nombre;
 	
-	public DescuentoPresentacion(int id, LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	public DescuentoPresentacion(int id, Date fechaInicio2, Date fechaFin2, String nombre) {
 		this.id = id;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
+		this.fechaInicio = fechaInicio2;
+		this.fechaFin = fechaFin2;
 		this.nombre = nombre;
 	}
 	
-	public DescuentoPresentacion(LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	public DescuentoPresentacion(Date fechaInicio, Date fechaFin, String nombre) {
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.nombre = nombre;
@@ -37,19 +38,19 @@ public abstract class DescuentoPresentacion {
 		this.id = id;
 	}
 
-	public LocalDate getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(LocalDate fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public LocalDate getFechaFin() {
+	public Date getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(LocalDate fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 

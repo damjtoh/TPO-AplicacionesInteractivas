@@ -113,4 +113,8 @@ public class Venta {
 			observer.NotifyTerminal();
 		}
 	}
+
+	public boolean TieneId(int idVenta) {
+		return this.id == idVenta;
+	}
 }

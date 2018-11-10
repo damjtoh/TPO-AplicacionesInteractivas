@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -85,11 +88,13 @@ public class DescuentosView extends JFrame {
 					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
 						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la fecha de fin (dd/mm/aaaa)");
 						if(fechaFinStr!=null && fechaFinStr.length()>0) {
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy");
+							
+							DateFormat formatter;
 							try{
-								LocalDate fechaInicio = LocalDate.parse(fechaInicioStr,formatter);
-								LocalDate fechaFin = LocalDate.parse(fechaFinStr,formatter);	
-								SistemaFacturacion.GetInstancia().AltaDescuento2x1(fechaInicio, fechaFin, nombre);
+								formatter = new SimpleDateFormat("dd/MM/yyyy");
+								Date fechainicio = (Date) formatter.parse(fechaInicioStr);
+								Date fechaFin = (Date) formatter.parse(fechaFinStr);
+								SistemaFacturacion.GetInstancia().AltaDescuento2x1(fechainicio, fechaFin, nombre);
 								LoadTable();
 							}catch(Exception e) {
 								JOptionPane.showMessageDialog(null,"Por favor ingresar la fecha correctamente");
@@ -111,10 +116,17 @@ public class DescuentosView extends JFrame {
 					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
 						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la fecha de fin (dd/mm/aaaa)");
 						if(fechaFinStr!=null && fechaFinStr.length()>0) {
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+							DateFormat formatter;
+							formatter = new SimpleDateFormat("dd/MM/yyyy");
 							try {
-								LocalDate fechaInicio = LocalDate.parse(fechaInicioStr,formatter);
-								LocalDate fechaFin = LocalDate.parse(fechaFinStr,formatter);	
+								
+								//Parsear para BASE DE DATOS
+								//			Date fecha = result.getDate(7);
+								//          LocalDate fechaNacimiento = fecha.toLocalDate();
+								// USAR AMBOS JUNTOS
+								Date fechaInicio = (Date) formatter.parse(fechaInicioStr);
+								Date fechaFin = (Date) formatter.parse(fechaFinStr);
+								
 						
 								float porcentaje = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el porcentaje de descuento (numero entero de 0.01 a 100)"));
 								
@@ -181,11 +193,12 @@ public class DescuentosView extends JFrame {
 					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
 						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la nueva fecha de fin (dd/mm/aaaa)");
 						if(fechaFinStr!=null && fechaFinStr.length()>0) {
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+							DateFormat formatter;
 							
 							try {
-								LocalDate fechaInicio = LocalDate.parse(fechaInicioStr,formatter);
-								LocalDate fechaFin = LocalDate.parse(fechaFinStr,formatter);	
+								formatter = new SimpleDateFormat("dd/MM/yyyy");
+								Date fechaInicio = (Date) formatter.parse(fechaInicioStr);
+								Date fechaFin = (Date) formatter.parse(fechaFinStr);
 								
 								SistemaFacturacion.GetInstancia().ModificarDescuento(id,fechaInicio, fechaFin);
 								LoadTable();

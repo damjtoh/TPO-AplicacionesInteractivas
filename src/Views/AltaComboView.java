@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -116,13 +119,13 @@ public class AltaComboView extends JFrame {
 					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
 						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la fecha de fin (dd/mm/aaaa)");
 						if(fechaFinStr!=null && fechaFinStr.length()>0) {
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-							
+							//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+							DateFormat formatter;
 							
 							try {
-							
-								LocalDate fechaInicio = LocalDate.parse(fechaInicioStr,formatter);
-								LocalDate fechaFin = LocalDate.parse(fechaFinStr,formatter);	
+								formatter = new SimpleDateFormat("dd/MM/yyyy");
+								Date fechaInicio = (Date) formatter.parse(fechaInicioStr);
+								Date fechaFin = (Date) formatter.parse(fechaFinStr);	
 								
 								if(!descuentosPresentacion.isEmpty()) {
 									for(DescuentoPresentacion descuento : descuentosPresentacion) {

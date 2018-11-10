@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import SistemaFacturacion.ETipoDescuento;
@@ -8,13 +9,13 @@ public class xPorcentajePrecioVentaPresentacion extends DescuentoPresentacion{
 
 	private float porcentaje;
 	
-	public xPorcentajePrecioVentaPresentacion(int id, LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
+	public xPorcentajePrecioVentaPresentacion(int id, Date fechaInicio, Date fechaFin, float porcentaje, String nombre) {
 		super(id, fechaInicio, fechaFin,nombre);
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 		this.porcentaje = porcentaje;
 	}
 	
-	public xPorcentajePrecioVentaPresentacion(LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
+	public xPorcentajePrecioVentaPresentacion(Date fechaInicio, Date fechaFin, float porcentaje, String nombre) {
 		super(fechaInicio, fechaFin,nombre);
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 		this.porcentaje = porcentaje;

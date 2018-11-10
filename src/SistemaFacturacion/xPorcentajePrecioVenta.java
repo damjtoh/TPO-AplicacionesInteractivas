@@ -1,5 +1,6 @@
 package SistemaFacturacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import SistemaVentas.Venta;
@@ -12,7 +13,7 @@ public class xPorcentajePrecioVenta extends Descuento {
 
 	private float porcentaje;
 
-	public xPorcentajePrecioVenta(Integer id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin,
+	public xPorcentajePrecioVenta(Integer id, Usuario creadoPor, Date fechaInicio, Date fechaFin,
 			Float porcentaje, String nombre, int establecimientoCuit, int activo, int esCombo) {
 		super(id, creadoPor, fechaInicio, fechaFin, nombre, establecimientoCuit, activo, esCombo);
 		this.porcentaje = porcentaje;

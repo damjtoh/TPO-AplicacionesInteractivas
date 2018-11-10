@@ -1,17 +1,15 @@
 package SistemaFacturacion;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import SistemaVentas.Venta;
-import Usuarios.AgenteComercial;
+import SistemaVentas.VentasDAO;
 import Usuarios.Rol;
 import Usuarios.SistemaUsuarios;
 import Usuarios.Usuario;
 import presentacion.DescuentoPresentacion;
-import presentacion.Promo2x1Presentacion;
-import presentacion.xPorcentajePrecioVentaPresentacion;
 
 public class SistemaFacturacion {
 	
@@ -26,9 +24,9 @@ public class SistemaFacturacion {
 	}
 	
 	private SistemaFacturacion() {
-		ventas = new ArrayList<Venta>();         //Traer ventas de la base de datos
+		ventas = new ArrayList<Venta>();         //Traer ventas de la base de datos TODO
 		descuentos = new ArrayList<Descuento>(); //Traer descuentos de la base de datos
-		
+		descuentos = DescuentoDAO.getInstancia().selectAllDescuentos();
 		
 		/* CARGA DE DATOS MANUAL PARA TESTING SIN BASE DE DATOS
 		
@@ -59,7 +57,8 @@ public class SistemaFacturacion {
 			if(venta.TieneId(idVenta))
 				return venta;
 		}
-		return null;
+		
+		return VentasDAO.getById(idVenta);
 	}
 	
 	public void EfectuarDescuento(int idVenta, int idDescuento) {
@@ -78,30 +77,33 @@ public class SistemaFacturacion {
 		return descuentosPresentacion;
 	}
 	
-	public void AltaDescuentoPorcentaje(LocalDate fechaInicio, LocalDate fechaFin, float porcentaje, String nombre) {
+	public void AltaDescuentoPorcentaje(Date fechaInicio, Date fechaFin, float porcentaje, String nombre) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = new xPorcentajePrecioVenta(null, usuarioLogueado,fechaInicio,fechaFin,porcentaje,nombre, 0, 0, 0);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
+			DescuentoDAO.Save(descuento);
 		}
 	}
 	
-	public void AltaDescuento2x1(LocalDate fechaInicio, LocalDate fechaFin, String nombre) {
+	public void AltaDescuento2x1(Date fechaInicio, Date fechaFin, String nombre) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
-			Descuento descuento = new Promo2x1(usuarioLogueado,fechaInicio,fechaFin,nombre);
+			Descuento descuento = new Promo2x1(0, usuarioLogueado,fechaInicio,fechaFin,nombre, 0, 0, 0);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
+			DescuentoDAO.Save(descuento);
 		}
 	}
 	
-	public void AltaDescuentoCombo(LocalDate fechaInicio, LocalDate fechaFin, Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
+	public void AltaDescuentoCombo(Date fechaInicio, Date fechaFin, Collection<DescuentoPresentacion> descuentosPresentacion, String nombre) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento combo = new Combo(usuarioLogueado,fechaInicio,fechaFin,descuentosPresentacion,nombre);
 			descuentos.add(combo);
 			//Guardar en la base de datos
+			DescuentoDAO.Save(combo);
 		}
 	}
 	
@@ -120,11 +122,11 @@ public class SistemaFacturacion {
 			Descuento descuento = BuscarDescuento(idDescuento);
 			// check if null;
 			descuentos.remove(descuento);
-			//Borrar de la base de datos
+			DescuentoDAO.getInstancia().deleteDescuento(idDescuento);
 		}
 	}
 
-	public void ModificarDescuento(int idDescuento, LocalDate fechaInicio, LocalDate fechaFin) {
+	public void ModificarDescuento(int idDescuento, Date fechaInicio, Date fechaFin) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
 			Descuento descuento = BuscarDescuento(idDescuento);

@@ -20,9 +20,7 @@ public class FacturacionMapper {
 			int id = result.getInt(1);
 			int creadoPor = result.getInt(2);
 			Date fechaInicio = result.getDate(3);
-			LocalDate fechaInicioLocalDate = fechaInicio.toLocalDate();
 			Date fechaFin = result.getDate(4);
-			LocalDate fechaFinLocalDate = fechaFin.toLocalDate();
 			String nombre = result.getString(5);
 			ETipoDescuento tipo = ETipoDescuento.valueOf(result.getString(6));
 			Float porcentaje = result.getFloat(7);
@@ -32,15 +30,15 @@ public class FacturacionMapper {
 
 			Usuario usuarioCreadoPor = MapperUsuario.getById(creadoPor);
 			if (tipo == ETipoDescuento.PROMO_2x1) {
-				descuento = (Descuento) new Promo2x1(id, usuarioCreadoPor, fechaInicioLocalDate, fechaFinLocalDate,
+				descuento = (Descuento) new Promo2x1(id, usuarioCreadoPor, fechaInicio, fechaFin,
 						nombre, establecimientoCuit, activo, estaCombo);
 			} else if (tipo == ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA) {
-				descuento = (Descuento) new xPorcentajePrecioVenta(id, usuarioCreadoPor, fechaInicioLocalDate,
-						fechaFinLocalDate, porcentaje, nombre, establecimientoCuit, activo, estaCombo);
+				descuento = (Descuento) new xPorcentajePrecioVenta(id, usuarioCreadoPor, fechaInicio,
+						fechaFin, porcentaje, nombre, establecimientoCuit, activo, estaCombo);
 			} else if (tipo == ETipoDescuento.COMBO) {
 				ArrayList<Descuento> descuentos = FacturacionMapper.listDescuentosByComboId(id);
-				descuento = (Descuento) new Combo(id, usuarioCreadoPor, fechaInicioLocalDate,
-						fechaFinLocalDate, nombre, establecimientoCuit, activo, estaCombo, descuentos);
+				descuento = (Descuento) new Combo(id, usuarioCreadoPor, fechaInicio,
+						fechaFin, nombre, establecimientoCuit, activo, estaCombo, descuentos);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,8 +97,8 @@ public class FacturacionMapper {
 					"INSERT INTO Descuentos (usuarioId, fechaInicio, fechaFin, nombre, tipo, porcentaje, establecimientoCuit, activo, estaCombo) values (?,?,?,?,?,?,?,?,?)");
 
 			s.setInt(1, descuento.getCreadoPor().getId());
-			s.setDate(2, Date.valueOf(descuento.fechaInicio));
-			s.setDate(3, Date.valueOf(descuento.fechaFin));
+			s.setDate(2, descuento.fechaInicio);
+			s.setDate(3, descuento.fechaFin);
 			s.setString(4, descuento.getNombre());
 			s.setString(5, String.valueOf(descuento.GetTipo()));
 			if (descuento.GetTipo() == ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA) {

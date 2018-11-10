@@ -1,5 +1,6 @@
 package SistemaFacturacion;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import SistemaVentas.Venta;
@@ -10,7 +11,7 @@ import presentacion.Promo2x1Presentacion;
 
 public class Promo2x1 extends Descuento {
 
-	public Promo2x1(int id, Usuario creadoPor, LocalDate fechaInicio, LocalDate fechaFin, String nombre,
+	public Promo2x1(int id, Usuario creadoPor, Date fechaInicio, Date fechaFin, String nombre,
 			int establecimientoCuit, int activo, int esCombo) {
 		super(id, creadoPor, fechaInicio, fechaFin, nombre, establecimientoCuit, activo, esCombo);
 		this.tipo = ETipoDescuento.PROMO_2x1;

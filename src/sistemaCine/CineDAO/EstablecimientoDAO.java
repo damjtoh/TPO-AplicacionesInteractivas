@@ -60,7 +60,7 @@ public class EstablecimientoDAO {
 
 			Establecimiento establecimiento = (Establecimiento) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("update establecimientos set activo = 0 where cuit = ?");
+			PreparedStatement query = coneccion.prepareStatement("update establecimientos set activa = 0 where cuit = ?");
 			query.setInt(1, establecimiento.getCuit());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
