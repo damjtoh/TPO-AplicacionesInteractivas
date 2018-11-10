@@ -24,6 +24,7 @@ import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IsTest;
+import javax.swing.SwingConstants;
 
 public class adminCinesView extends GeneralFrame {
 
@@ -33,11 +34,13 @@ public class adminCinesView extends GeneralFrame {
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
 	private Map<String, Establecimiento> establecimientos;
-	private JButton btnEditarEstablecimiento;
-	private JButton btnEditarPelicula;
+	private JButton btnCrearEstablecimiento;
+	private JButton btnCrearPelicula;
 	private JComboBox<String> comboBoxPeliculas;
 	private JLabel lblPelicula;
 	private Map<String, Pelicula> peliculas;
+	private JButton btnEditarEstablecimiento;
+	private JButton btnEditarPelicula;
 
 	public static adminCinesView getInstancia() {
 		if (instancia == null) {
@@ -66,7 +69,6 @@ public class adminCinesView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public adminCinesView() {
-		super.frame = frame;
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -76,6 +78,7 @@ public class adminCinesView extends GeneralFrame {
 	 */
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 600, 400);
 
 		frame.getContentPane().setLayout(null);
@@ -96,9 +99,10 @@ public class adminCinesView extends GeneralFrame {
 		comboBoxEstablecimiento.setBounds(12, 75, 130, 22);
 		frame.getContentPane().add(comboBoxEstablecimiento);
 
-		btnEditarEstablecimiento = new JButton("Crear/Editar");
-		btnEditarEstablecimiento.setBounds(12, 109, 138, 25);
-		frame.getContentPane().add(btnEditarEstablecimiento);
+		btnCrearEstablecimiento = new JButton("Crear");
+		btnCrearEstablecimiento.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCrearEstablecimiento.setBounds(12, 109, 70, 25);
+		frame.getContentPane().add(btnCrearEstablecimiento);
 
 		lblPelicula = new JLabel("Pelicula");
 		lblPelicula.setBounds(187, 51, 70, 15);
@@ -108,24 +112,37 @@ public class adminCinesView extends GeneralFrame {
 		comboBoxPeliculas.setBounds(187, 74, 279, 24);
 		frame.getContentPane().add(comboBoxPeliculas);
 		comboBoxPeliculas.addItem(null);
-		btnEditarPelicula = new JButton("Crear/Editar");
-		btnEditarPelicula.setBounds(187, 109, 145, 25);
+		btnCrearPelicula = new JButton("Crear");
+		btnCrearPelicula.setBounds(187, 109, 70, 25);
+		frame.getContentPane().add(btnCrearPelicula);
+
+		btnEditarEstablecimiento = new JButton("Editar");
+		btnEditarEstablecimiento.setBounds(83, 110, 70, 25);
+		frame.getContentPane().add(btnEditarEstablecimiento);
+
+		btnEditarPelicula = new JButton("Editar");
+		btnEditarPelicula.setBounds(262, 109, 70, 25);
 		frame.getContentPane().add(btnEditarPelicula);
 
 		btnEditarPelicula.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				AltaModificacionPeliculaView
-						.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
-			} else {
-				AltaModificacionPeliculaView.getInstancia(null);
+						.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString())).setOldGF(this);
 			}
 		});
+		btnCrearPelicula.addActionListener(e ->
+
+		AltaModificacionPeliculaView.getInstancia(null).setOldGF(this)
+
+		);
+		btnCrearEstablecimiento.addActionListener(e ->
+
+		AltaModificacionEstablecimientoView.getInstancia(null).setOldGF(this));
 		btnEditarEstablecimiento.addActionListener(e -> {
 			if (comboBoxEstablecimiento.getSelectedItem() != null) {
 				AltaModificacionEstablecimientoView
-						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
-			} else {
-				AltaModificacionEstablecimientoView.getInstancia(null);
+						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit())
+						.setOldGF(this);
 			}
 		});
 		comboBoxEstablecimiento.addItem(null);

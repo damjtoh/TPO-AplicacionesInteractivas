@@ -12,16 +12,8 @@ import sistemaCine.clases.Pelicula;
 
 public class PeliculaDAO {
 
-	private static PeliculaDAO instancia;
-
 	private PeliculaDAO() {
 
-	}
-
-	public static PeliculaDAO getInstancia() {
-		if (instancia == null)
-			instancia = new PeliculaDAO();
-		return instancia;
 	}
 
 	public static void insertPelicula(Object object) throws SQLException {
@@ -52,13 +44,12 @@ public class PeliculaDAO {
 		return 0;
 	}
 
-	public static void updatePelicula(Pelicula pelicula) {
-		try {
+	public static void updatePelicula(Pelicula pelicula) throws SQLException {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			// cambiar por nombre de la base nuestra
 			// (A_Interactivas_01.dbo.peliculas)
 			PreparedStatement query = conection.prepareStatement(
-					"update peliculas set nombre = ?, director = ?,genero = ?,duracion = ?,idioma = ?,subtitilos = ?, calificacion = ?,observaciones = ? where id = ?)");
+					"update peliculas set nombre = ?, director = ?,genero = ?,duracion = ?,idioma = ?,subtitulos = ?, calificacion = ?,observaciones = ? where id = ?");
 			query.setString(1, pelicula.getNombre());
 			query.setString(2, pelicula.getDirector());
 			query.setString(3, pelicula.getGenero());
@@ -70,27 +61,19 @@ public class PeliculaDAO {
 			query.setInt(9, pelicula.getId());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
-		} catch (Exception e) {
-			System.out.println();
-		}
 
 	}
 
-	public static void deletePelicula(Pelicula pelicula) {
-		try {
+	public static void deletePelicula(Pelicula pelicula) throws SQLException {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = conection.prepareStatement("update peliculas set activa = 0 where id = ?");
 			query.setInt(1, pelicula.getId());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
-		} catch (Exception e) {
-			System.out.println();
-		}
 
 	}
 
-	public static List<Pelicula> selectAllPeliculas() {
-		try {
+	public static List<Pelicula> selectAllPeliculas() throws SQLException {
 
 			List<Pelicula> peliculas = new ArrayList<>();
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
@@ -105,11 +88,11 @@ public class PeliculaDAO {
 				String genero = result.getString(4);
 				int duracion = result.getInt(5);
 				String idioma = result.getString(6);
-				boolean subtitilos = result.getBoolean(7);
+				boolean subtitulos = result.getBoolean(7);
 				double calificacion = result.getDouble(8);
 				String observaciones = result.getString(9);
 
-				Pelicula dis = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+				Pelicula dis = new Pelicula(nombre, director, genero, duracion, idioma, subtitulos, calificacion,
 						observaciones);
 				dis.setId(id);
 				peliculas.add(dis);
@@ -117,14 +100,9 @@ public class PeliculaDAO {
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
 			return peliculas;
-		} catch (Exception e) {
-
-		}
-		return new ArrayList<>();
 	}
 
-	public static List<Pelicula> buscarPeliculas(Pelicula pelicula) {
-		try {
+	public static List<Pelicula> buscarPeliculas(Pelicula pelicula) throws SQLException {
 			boolean cambiado = false;
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query;
@@ -190,52 +168,19 @@ public class PeliculaDAO {
 				String genero = result.getString(4);
 				int duracion = result.getInt(5);
 				String idioma = result.getString(6);
-				boolean subtitilos = result.getBoolean(7);
+				boolean subtitulos = result.getBoolean(7);
 				double calificacion = result.getDouble(8);
 				String observaciones = result.getString(9);
-				pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+				pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitulos, calificacion,
 						observaciones);
 				pelicula.setId(id);
 				peliculas.add(pelicula);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
 			return peliculas;
-		} catch (Exception e) {
-			return new ArrayList<>();
-		}
 	}
-//	public static Map<String, Pelicula> getPeliculasMap(Integer id) {
-//		try {
-//			boolean cambiado = false;
-//			Connection conection = PoolConnection.getPoolConnection().getConnection();
-//			PreparedStatement query;
-//			String stringConsulta = "select * from peliculas where id = ?";
-//			ResultSet result = query.executeQuery();
-//			Map<String, Pelicula> = ;
-//			while (result.next()) {
-//				String nombre = result.getString(2);
-//				String director = result.getString(3);
-//				String genero = result.getString(4);
-//				int duracion = result.getInt(5);
-//				String idioma = result.getString(6);
-//				boolean subtitilos = result.getBoolean(7);
-//				double calificacion = result.getDouble(8);
-//				String observaciones = result.getString(9);
-//				pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
-//						observaciones);
-//				pelicula.setId(id);
-//				peliculas.add(pelicula);
-//			}
-//			PoolConnection.getPoolConnection().realeaseConnection(conection);
-//			return peliculas;
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return new HashMap<>();
-//	}
 
-	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) {
-		try {
+	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) throws SQLException {
 			Connection conection = PoolConnection.getPoolConnection().getConnection();
 			String stringConsulta = "select * from peliculas where id in (?) and activa = 1";
 			PreparedStatement query;
@@ -248,20 +193,16 @@ public class PeliculaDAO {
 				String genero = result.getString(4);
 				int duracion = result.getInt(5);
 				String idioma = result.getString(6);
-				boolean subtitilos = result.getBoolean(7);
+				boolean subtitulos = result.getBoolean(7);
 				double calificacion = result.getDouble(8);
 				String observaciones = result.getString(9);
-				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitilos, calificacion,
+				Pelicula pelicula = new Pelicula(nombre, director, genero, duracion, idioma, subtitulos, calificacion,
 						observaciones);
 				pelicula.setId(result.getInt(1));
 				peliculas.add(pelicula);
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(conection);
 			return peliculas;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
 	}
 
 	public static Pelicula getById(int id) throws SQLException {

@@ -93,9 +93,15 @@ public class Funcion {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return pelicula.toString() + "-" + fechaYHora.toString() + "-" + DateUtils.get(fechaYHora, Calendar.HOUR_OF_DAY) + ":"
-				+ DateUtils.get(fechaYHora, Calendar.MINUTE);
+		return pelicula.toString() + "-" + fechaYHora.toString() + "-"
+				+ ((DateUtils.get(fechaYHora, Calendar.HOUR_OF_DAY) < 10)
+						? "0" + DateUtils.get(fechaYHora, Calendar.HOUR_OF_DAY)
+						: DateUtils.get(fechaYHora, Calendar.HOUR_OF_DAY))
+				+ ":"
+				+ ((DateUtils.get(fechaYHora, Calendar.MINUTE) < 10) ? "0" + DateUtils.get(fechaYHora, Calendar.MINUTE)
+						: DateUtils.get(fechaYHora, Calendar.MINUTE));
 	}
+
 	public void generateMapaAsientos() {
 		setMapaDeAsientosIni(this.sala.getMapaDeAsientos());
 	}

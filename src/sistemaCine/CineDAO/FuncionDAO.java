@@ -19,8 +19,8 @@ import sistemaCine.clases.Sala;
 import sistemaCine.utils.FilaColumna;
 
 public class FuncionDAO {
-	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) {
-		try {
+	public static void insertFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("insert into funciones values (?,?,?,?,?,?,1)");
 			funcion.setId(getLastId(coneccion));
@@ -32,9 +32,7 @@ public class FuncionDAO {
 			query.setDouble(6, funcion.getValor());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
+
 	}
 
 	private static int getLastId(Connection conection) throws SQLException {
@@ -46,8 +44,8 @@ public class FuncionDAO {
 		return 0;
 	}
 
-	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) {
-		try {
+	public static void updateFuncion(Funcion funcion, int cuitEstablecimiento) throws SQLException {
+
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
 					"update funciones set id_pelicula = ?,cuit_establecimiento = ?, nombre_sala = ?,fecha_hora = ?,valor = ? where id = ?");
@@ -59,14 +57,11 @@ public class FuncionDAO {
 			query.setInt(6, funcion.getId());
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
+
 	}
 
-	public static void deleteFuncion(Funcion funcion) {
+	public static void deleteFuncion(Funcion funcion) throws SQLException {
 
-		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement("update funciones set activa = 0 where id = ?");
 			query.setInt(1, funcion.getId());
@@ -74,14 +69,12 @@ public class FuncionDAO {
 
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 
 	}
 
-	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
-		try {
+	public static List<Funcion> selectFunciones(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) throws SQLException {
+
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String consultaSql = "select fecha_hora,nombre_sala,valor,id from funciones where  cuit_establecimiento = ? and id_pelicula = ? and fecha_hora >= ? and activa = 1 order by fecha_hora ASC";
 //			if (cuitEstablecimiento !=null) {
@@ -106,14 +99,9 @@ public class FuncionDAO {
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return funciones;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
 	}
 
-	public static Funcion getById(int id) {
-		try {
+	public static Funcion getById(int id) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String consultaSql = "select * where  id = ?";
 
@@ -124,25 +112,18 @@ public class FuncionDAO {
 
 			ResultSet resFuncion = query.executeQuery();
 
-			List<Funcion> funciones = new ArrayList<>();
 			if (resFuncion.next()) {
 				funcion = new Funcion(PeliculaDAO.getById(resFuncion.getInt("id_pelicula")),
 						SalaDAO.getById(resFuncion.getInt("salaId")),
 						new Date(resFuncion.getTimestamp("fecha_hora").getTime()));
 				funcion.setId(resFuncion.getInt(4));
-				funciones.add(funcion);
 			}
 
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return funcion;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
-	public static Map<FilaColumna, AsientoVirtual> selectAsientos(Funcion funcion) {
-		try {
+	public static Map<FilaColumna, AsientoVirtual> selectAsientos(Funcion funcion) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			String statementSql = "select * from entradas where id_funcion = ?";
 			PreparedStatement query = coneccion.prepareStatement(statementSql);
@@ -157,10 +138,6 @@ public class FuncionDAO {
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return mapaDeAsientos;
-		} catch (Exception e) {
-			System.out.println();
-		}
-		return new HashMap<>();
 	}
 
 	public static List<Pelicula> selectPeliculasEstablecimiento(int cuit, Date fecha) throws SQLException {

@@ -82,7 +82,6 @@ public class SeleccionarAsientosView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public SeleccionarAsientosView() {
-		super.frame = frame;
 		if (IsTest.is) {
 			testMy();
 		}
@@ -128,6 +127,7 @@ public class SeleccionarAsientosView extends GeneralFrame {
 	 */
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 1000, 800);
 
 		frame.getContentPane().setLayout(null);

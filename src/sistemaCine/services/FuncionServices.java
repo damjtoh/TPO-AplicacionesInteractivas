@@ -33,7 +33,7 @@ public class FuncionServices {
 		}
 	}
 
-	public static Map<String, Map<String, Funcion>>  getFuncionesMap(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) {
+	public static Map<String, Map<String, Funcion>>  getFuncionesMap(Pelicula pelicula, Date fecha, Integer cuitEstablecimiento) throws SQLException {
 		List<Funcion> funcionesObtenidas = FuncionDAO.selectFunciones(pelicula, fecha, cuitEstablecimiento);
 		Map<String, Map<String, Funcion>>  funcionesMap = new HashMap<>();
 		for (Funcion funcion : funcionesObtenidas) {

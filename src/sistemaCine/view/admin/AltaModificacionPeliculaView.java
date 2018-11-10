@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
@@ -14,10 +15,13 @@ import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AltaModificacionPeliculaView extends GeneralFrame {
 
@@ -37,6 +41,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 
 	private JCheckBox chckbxSubtitulada;
 	private JButton btnCancelar;
+	private JButton btnEliminar;
 
 	public static AltaModificacionPeliculaView getInstancia(Pelicula p) {
 		pelicula = p;
@@ -66,7 +71,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionPeliculaView() {
-		super.frame = frame;
+		
 		initialize();
 		frame.setVisible(true);
 	}
@@ -76,8 +81,8 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 	 */
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 470, 300);
-		
 
 		frame.getContentPane().setLayout(null);
 		frame.addWindowListener(new WindowAdapter() {
@@ -139,7 +144,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 		lblCalificacion.setBounds(157, 141, 86, 16);
 		frame.getContentPane().add(lblCalificacion);
 
-		compCalificacion = new IntegerField(0,5);
+		compCalificacion = new IntegerField(0, 5);
 		compCalificacion.setBounds(157, 170, 116, 22);
 		frame.getContentPane().add(compCalificacion);
 		compCalificacion.setColumns(10);
@@ -159,11 +164,18 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(323, 217, 97, 25);
+		btnCancelar.setBounds(298, 217, 97, 25);
 		frame.getContentPane().add(btnCancelar);
-		btnCancelar.addActionListener(e -> {
-			close();
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
 		});
+		btnEliminar.setBounds(298, 193, 97, 25);
+		frame.getContentPane().add(btnEliminar);
+		btnEliminar.setVisible(false);
+		btnCancelar.addActionListener(e -> close());
 		if (pelicula != null) {
 			setEditarPelicula();
 
@@ -173,7 +185,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 					PeliculaServices.crearPelicula(new Pelicula(compNombre.getText(), compDirector.getText(),
 							compGenero.getText(), compDuracion.getInt(), compIdioma.getText(),
 							chckbxSubtitulada.isSelected(), compCalificacion.getInt(), compObservacion.getText()));
-					frame.dispose();
+					btnCancelar.doClick();
 				} catch (Exception ex) {
 					btnCrear.setBackground(Color.RED);
 					ex.printStackTrace();
@@ -185,12 +197,29 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 
 	private void setEditarPelicula() {
 		btnCrear.setText("Modificar");
+		btnEliminar.setVisible(true);
+		btnEliminar.addActionListener(e -> {
+			try {
+				PeliculaServices.deletePelicula(pelicula);
+				btnCancelar.doClick();
+			} catch (SQLException e1) {
+				btnEliminar.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Eliminacion Fallida", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
+		});
 		btnCrear.addActionListener(e -> {
-			Pelicula p= new Pelicula(compNombre.getText(), compDirector.getText(),
-					compGenero.getText(), compDuracion.getInt(), compIdioma.getText(),
-					chckbxSubtitulada.isSelected(), compCalificacion.getInt(), compObservacion.getText()); 
-			p.setId(pelicula.getId());
-			PeliculaServices.updatePelicula(p);
+			try {
+				Pelicula p = new Pelicula(compNombre.getText(), compDirector.getText(), compGenero.getText(),
+						compDuracion.getInt(), compIdioma.getText(), chckbxSubtitulada.isSelected(),
+						compCalificacion.getInt(), compObservacion.getText());
+				p.setId(pelicula.getId());
+				PeliculaServices.updatePelicula(p);
+				btnCancelar.doClick();
+			} catch (Exception ex) {
+				btnCrear.setBackground(Color.RED);
+				ex.printStackTrace();
+			}
 		});
 		compNombre.setText(pelicula.getNombre());
 		compDirector.setText(pelicula.getDirector());

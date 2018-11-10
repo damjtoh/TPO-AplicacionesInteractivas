@@ -39,26 +39,22 @@ public class SalaDAO {
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 	}
 
-	public static void updateSala(Object object, int cuitEstablecimiento, String salaOldName) {
-		try {
+	public static void updateSala(Object object, int cuitEstablecimiento, String salaOldName) throws SQLException {
 			Sala sala = (Sala) object;
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion.prepareStatement(
-					"update into salas set nombre = ? where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
+					"update salas set nombre = ? where " + CUIT_ESTABLECIMIENTO + " = ? and nombre like ?");
 			query.setString(1, sala.getNombre());
 			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, salaOldName);
 			query.execute();
-			query = coneccion.prepareStatement("update into sala_asientos set nombre_sala = ? where " + CUIT_ESTABLECIMIENTO
-					+ " = ? and nombre like ?");
+			query = coneccion.prepareStatement("update sala_asientos set nombre_sala = ? where " + CUIT_ESTABLECIMIENTO
+					+ " = ? and nombre_sala like ?");
 			query.setString(1, sala.getNombre());
 			query.setInt(2, cuitEstablecimiento);
 			query.setString(3, salaOldName);
 			query.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-		} catch (Exception e) {
-			System.out.println();
-		}
 	}
 
 	public static void updateAsientosSala(Object object, int cuitEstablecimiento) throws SQLException {
@@ -115,8 +111,7 @@ public class SalaDAO {
 	}
 
 
-	public static Sala getById(int id) {
-		try {
+	public static Sala getById(int id) throws SQLException {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
 					.prepareStatement("select nombre from salas where id = ?");
@@ -128,10 +123,6 @@ public class SalaDAO {
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			
 			return sala;
-		} catch (Exception e) {
-			System.out.println();
-		}
-		return null;
 	}
 	
 	

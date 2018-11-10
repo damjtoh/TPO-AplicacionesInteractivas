@@ -67,7 +67,6 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 	private IntegerField compHora;
 	private IntegerField compMin;
 
-
 	public static AltaModificacionFuncionView getInstancia(Funcion f, int c) {
 		funcion = f;
 		cuit = c;
@@ -97,7 +96,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionFuncionView() {
-		super.frame = frame;
+		
 		initialize();
 		frame.setVisible(true);
 	}
@@ -108,20 +107,20 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 	@SuppressWarnings("deprecation")
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 1000, 800);
 		frame.getContentPane().setLayout(null);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				instancia = null;
-				frame.dispose();
+				close();
 			}
 		});
 
 		if (!IsTest.is) {
-			this.peliculas = PeliculaServices.getAllPeliculasMap();
 			try {
+				this.peliculas = PeliculaServices.getAllPeliculasMap();
 				funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
 			} catch (SQLException e1) {
 
@@ -220,7 +219,6 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		lblHoraHhmm.setBounds(720, 13, 86, 16);
 		frame.getContentPane().add(lblHoraHhmm);
 
-
 		btnCancelar.addActionListener(e -> {
 			close();
 		});
@@ -232,7 +230,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 			btnCrear.addActionListener(e -> {
 				try {
 					funcion.setPelicula(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
-					funcion.setFechaYHora(DateUtils.getDateConHora(compAnio.getInt(), compMes.getInt() -1 ,
+					funcion.setFechaYHora(DateUtils.getDateConHora(compAnio.getInt(), compMes.getInt(),
 							compDia.getInt(), compHora.getInt(), compMin.getInt()));
 					funcion.setValor(compValor.getInt());
 					FuncionServices.crearFuncion(funcion, cuit);
@@ -250,7 +248,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 
 	private void setModificar() {
 		compDia.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.DAY_OF_MONTH)));
-		compMes.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.MONDAY)+1));
+		compMes.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.MONTH)));
 		compAnio.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.YEAR)));
 		compHora.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.HOUR_OF_DAY)));
 		compMin.setText(Integer.toString(DateUtils.get(funcion.getFechaYHora(), Calendar.MINUTE)));
@@ -272,7 +270,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		btnCrear.addActionListener(e -> {
 			try {
 				funcion.setPelicula(peliculas.get(comboBoxPeliculas.getSelectedItem().toString()));
-				funcion.setFechaYHora(DateUtils.getDateConHora(compAnio.getInt(), compMes.getInt()-1,
+				funcion.setFechaYHora(DateUtils.getDateConHora(compAnio.getInt(), compMes.getInt() ,
 						compDia.getInt(), compHora.getInt(), compMin.getInt()));
 				funcion.setValor(compValor.getInt());
 				FuncionServices.updateFuncion(funcion, cuit);

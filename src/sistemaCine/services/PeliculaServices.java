@@ -19,19 +19,19 @@ public class PeliculaServices {
 		PeliculaDAO.insertPelicula(pelicula);
 	}
 
-	public static void updatePelicula(Pelicula pelicula) {
+	public static void updatePelicula(Pelicula pelicula) throws SQLException {
 		PeliculaDAO.updatePelicula(pelicula);
 	}
 
 	public static void deletePelicula(Pelicula pelicula) throws SQLException {
-		if (!FuncionServices.getFunciones(pelicula).isEmpty()) {
+		if (FuncionServices.getFunciones(pelicula).isEmpty()) {
 			PeliculaDAO.deletePelicula(pelicula);
 		}else {
 			throw new SQLException("La Pelicula Tiene Funciones Activas");
 		}
 	}
 
-	public static Map<String, Pelicula> getAllPeliculasMap() {
+	public static Map<String, Pelicula> getAllPeliculasMap() throws SQLException {
 		Map<String, Pelicula> mapaPeliculas= new HashMap<>();
 		for (Pelicula pelicula : PeliculaDAO.selectAllPeliculas()) {
 			mapaPeliculas.put(pelicula.toString(), pelicula);
@@ -39,10 +39,10 @@ public class PeliculaServices {
 		return mapaPeliculas;
 	}
 
-	public static List<Pelicula> buscarPeliculas(Pelicula pelicula) {
+	public static List<Pelicula> buscarPeliculas(Pelicula pelicula) throws SQLException {
 		return PeliculaDAO.buscarPeliculas(pelicula);
 	}
-	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) {
+	public static List<Pelicula> getPeliculas(List<Integer> idsPeliculas) throws SQLException {
 		return PeliculaDAO.getPeliculas(idsPeliculas);
 	}
 

@@ -35,8 +35,8 @@ public class SeleccionarAsientosViewTest {
 		}
 		funcion.getSala().setMapaDeAsientos(mapaDeAsientosFisicos);
 		funcion.setMapaDeAsientos(mapaDeAsientosVirtuales);
-		SeleccionarAsientosView.getInstance(funcion,new Establecimiento(0, null, null, 0)).setLocationRelativeTo(null);
-		SeleccionarAsientosView.getInstance(funcion,new Establecimiento(0, null, null, 0)).setVisible(true);
+		SeleccionarAsientosView.getInstance(funcion,new Establecimiento(0, null, null, 0), false).setLocationRelativeTo(null);
+		SeleccionarAsientosView.getInstance(funcion,new Establecimiento(0, null, null, 0), false).setVisible(true);
 
 	}
 

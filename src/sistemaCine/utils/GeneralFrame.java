@@ -14,17 +14,24 @@ public abstract class GeneralFrame extends javax.swing.JFrame{
 	protected JFrame frame;
 	protected abstract void deleteInstance();
 	protected void close() {
-		oldGF.reload();
+		if (oldGF!=null) {
+			oldGF.reload();
+		}
 		deleteInstance();
-		this.dispose();
+		frame.dispose();
 	}
 	
-
+	public void setOldGF(GeneralFrame oldGF) {
+		this.oldGF = oldGF;
+	}
 	public void addUpdate(WindowListener windowListener){
 		frame.addWindowListener(windowListener);
 	}
 	public void reload() {
+		frame.dispose();
 		initialize();
+		frame.setVisible(false);
+		frame.setVisible(true);
 	}
 	protected abstract void initialize();
 }

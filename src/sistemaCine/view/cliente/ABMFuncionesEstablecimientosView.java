@@ -1,11 +1,9 @@
 package sistemaCine.view.cliente;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,16 +16,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 import sistemaCine.CineDAO.PeliculaDAO;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.FuncionServices;
-import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.DateUtils;
+import sistemaCine.utils.GeneralFrame;
 
-public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
+public class ABMFuncionesEstablecimientosView extends GeneralFrame {
 
 	/**
 	 * 
@@ -89,15 +88,16 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 450, 300);
 
 		frame.getContentPane().setLayout(null);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				frame.dispose();
+				close();
 			}
 		});
 		lblEstablecimiento = new JLabel("Establecimiento");
@@ -170,9 +170,14 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				comboBoxDia.removeAllItems();
 				comboBoxDia.addItem(null);
-				funciones = FuncionServices.getFuncionesMap(peliculas.get(comboBoxPeliculas.getSelectedItem()),
-						DateUtils.getFechaSql(new java.util.Date()),
-						establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
+				try {
+					funciones = FuncionServices.getFuncionesMap(peliculas.get(comboBoxPeliculas.getSelectedItem()),
+							DateUtils.getFechaSql(new java.util.Date()),
+							establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit());
+				} catch (SQLException e1) {
+					funciones = new HashMap<>();
+					e1.printStackTrace();
+				}
 				for (String dia : funciones.keySet()) {
 					comboBoxDia.addItem(dia);
 				}
@@ -261,4 +266,11 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		comboBoxHorario.addItem(null);
 		comboBoxPeliculas.addItem(null);
 	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+		
+	}
+
 }

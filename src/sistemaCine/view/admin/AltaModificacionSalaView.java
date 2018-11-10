@@ -54,10 +54,11 @@ public class AltaModificacionSalaView extends GeneralFrame {
 	private JPanel panelScreen;
 	private JButton btnNuevosAsientos;
 	private static String oldSalaName;
-	private JButton btnCreareditarFunciones;
+	private JButton btnCrearFunciones;
 	private JComboBox<String> comboBoxFunciones;
 	private JPanel panelFunciones;
 	private Map<String, Funcion> funcionesMap;
+	private JButton btnEditarFunciones;
 
 	public static AltaModificacionSalaView getInstancia(String nombreSala, Integer cuit) {
 		oldSalaName = nombreSala;
@@ -89,7 +90,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionSalaView() {
-		super.frame = frame;
+		
 		if (IsTest.is) {
 			testMy();
 		}
@@ -106,6 +107,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 	 */
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.setBounds(100, 100, 1000, 800);
 
 		frame.getContentPane().setLayout(null);
@@ -124,18 +126,16 @@ public class AltaModificacionSalaView extends GeneralFrame {
 		asientosPane.setVisible(false);
 		btnCrear = new JButton("Crear");
 		btnCrear.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnCrear.setBounds(12, 679, 173, 40);
+		btnCrear.setBounds(12, 653, 173, 40);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(857, 715, 117, 25);
 		frame.getContentPane().add(btnCancelar);
-		btnCancelar.addActionListener(e -> {
-			close();
-		});
+		btnCancelar.addActionListener(e -> close());
 
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(12, 715, 173, 25);
+		btnEliminar.setBounds(12, 706, 173, 25);
 		frame.getContentPane().add(btnEliminar);
 		btnEliminar.setVisible(false);
 
@@ -172,25 +172,29 @@ public class AltaModificacionSalaView extends GeneralFrame {
 		frame.getContentPane().add(btnNuevosAsientos);
 
 		panelFunciones = new JPanel();
-		panelFunciones.setBounds(197, 679, 437, 61);
+		panelFunciones.setBounds(197, 643, 437, 97);
 		frame.getContentPane().add(panelFunciones);
 		panelFunciones.setLayout(null);
 		panelFunciones.setVisible(false);
-		btnCreareditarFunciones = new JButton("Crear/Editar");
-		btnCreareditarFunciones.setBounds(0, 38, 169, 25);
-		panelFunciones.add(btnCreareditarFunciones);
+		btnCrearFunciones = new JButton("Crear");
+		btnCrearFunciones.setBounds(0, 59, 82, 25);
+		panelFunciones.add(btnCrearFunciones);
 		comboBoxFunciones = new JComboBox<>();
-		comboBoxFunciones.setBounds(0, 0, 437, 24);
+		comboBoxFunciones.setBounds(0, 35, 437, 24);
 		panelFunciones.add(comboBoxFunciones);
 
-		btnCreareditarFunciones.addActionListener(e -> {
-			if (comboBoxFunciones.getSelectedItem() != null) {
-				AltaModificacionFuncionView
-						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()), cuit);
-			} else {
-				AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0), cuit);
-			}
-		});
+		JLabel lblFunciones = new JLabel("Funciones");
+		lblFunciones.setBounds(0, 13, 93, 16);
+		panelFunciones.add(lblFunciones);
+
+		btnEditarFunciones = new JButton("Editar");
+		btnEditarFunciones.setBounds(81, 59, 74, 25);
+		panelFunciones.add(btnEditarFunciones);
+
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(74, 23, 56, 16);
+		frame.getContentPane().add(lblNombre);
+
 		if (sala.getNombre() != null) {
 			try {
 				setModificar();
@@ -237,6 +241,15 @@ public class AltaModificacionSalaView extends GeneralFrame {
 	private void setModificar() throws SQLException {
 		sala = SalaServices.getSala(sala.getNombre(), cuit);
 
+		btnCrearFunciones.addActionListener(
+				e -> AltaModificacionFuncionView.getInstancia(new Funcion(null, null, sala, 0), cuit).setOldGF(this));
+		btnEditarFunciones.addActionListener(e -> {
+			if (comboBoxFunciones.getSelectedItem() != null) {
+				AltaModificacionFuncionView
+						.getInstancia(funcionesMap.get(comboBoxFunciones.getSelectedItem().toString()), cuit)
+						.setOldGF(this);
+			}
+		});
 		btnCrear.setText("Editar");
 		panelFunciones.setVisible(true);
 		btnEliminar.setVisible(true);
@@ -254,7 +267,6 @@ public class AltaModificacionSalaView extends GeneralFrame {
 			}
 		});
 
-		
 		try {
 			List<Funcion> funciones;
 			funciones = FuncionServices.getFuncionesSala(new Sala(oldSalaName), cuit);

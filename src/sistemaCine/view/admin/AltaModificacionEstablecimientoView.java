@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import sistemaCine.CineDAO.EstablecimientoDAO;
@@ -79,7 +80,6 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 	 * Create the application.
 	 */
 	public AltaModificacionEstablecimientoView() {
-		super.frame = frame;
 		initialize();
 		this.frame.setVisible(true);
 	}
@@ -89,6 +89,7 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 	 */
 	protected void initialize() {
 		frame = new JFrame();
+		super.frame = frame;
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -217,6 +218,7 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 				btnCancelar.doClick();
 			} catch (SQLException e1) {
 				btnEliminar.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Eliminacion Fallida", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 		});
@@ -245,11 +247,11 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 		}
 		btnEditarSala.addActionListener(e -> {
 			if (comboBoxSalas.getSelectedItem()!=null) {
-				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit);
+				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit).setOldGF(this);
 			}
 		});
 		btnCrearSala.addActionListener(e -> {
-				AltaModificacionSalaView.getInstancia(null,cuit);
+				AltaModificacionSalaView.getInstancia(null,cuit).setOldGF(this);
 		});
 		panelSalas.setVisible(true);
 	}
