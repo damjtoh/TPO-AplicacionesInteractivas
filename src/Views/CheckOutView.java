@@ -28,8 +28,7 @@ public class CheckOutView extends JFrame {
 
 	private JPanel contentPane;
 
-	public CheckOutView(List<Entrada> entradas, Funcion funcion) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public CheckOutView(List<Entrada> entradas, Funcion funcion, boolean esPorPortal) {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -127,7 +126,7 @@ public class CheckOutView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ConfirmarVenta cVenta = new ConfirmarVenta();
 				if (txtNumeroTarjeta.getText() != null)
-				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(), (ITipoDePago)listaTiposDePago.getSelectedItem(), Long.parseLong(txtNumeroTarjeta.getText()), funcion.getValor()*entradas.size());
+				cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(), (ITipoDePago)listaTiposDePago.getSelectedItem(), Long.parseLong(txtNumeroTarjeta.getText()), funcion.getValor()*entradas.size(),esPorPortal);
 				getContentPane().setVisible(false);
 			}
 		});

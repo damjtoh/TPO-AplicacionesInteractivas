@@ -131,9 +131,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 		btnCancelar.setBounds(857, 715, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 		btnCancelar.addActionListener(e -> {
-			instancia = null;
-			this.dispose();
-			frame.dispose();
+			close();
 		});
 
 		btnEliminar = new JButton("Eliminar");
@@ -371,5 +369,10 @@ public class AltaModificacionSalaView extends GeneralFrame {
 		}
 		asientosPane.setVisible(false);
 		asientosPane.setVisible(true);
+	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
 	}
 }

@@ -25,9 +25,10 @@ public class ABMCinesView extends GeneralFrame{
 	private JFrame frame;
 	private JButton btnEstablecimientos;
 	private Container lblNombreUsuario;
-
+	private static boolean esPorPortal;
 	
-	public static ABMCinesView getInstancia() {
+	public static ABMCinesView getInstancia(boolean esPorPortal2) {
+		esPorPortal = esPorPortal2;
 		if (instancia == null) {
 			instancia = new ABMCinesView();
 		}
@@ -61,6 +62,12 @@ public class ABMCinesView extends GeneralFrame{
 	/**
 	 * Initialize the contents of the frame.
 	 */
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -69,15 +76,14 @@ public class ABMCinesView extends GeneralFrame{
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				instancia = null;
-				frame.dispose();
+				close();
 			}
 		});
 		btnEstablecimientos = new JButton("Buscar por Establecimientos");
 		btnEstablecimientos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEstablecimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ABMFuncionesEstablecimientosView.getInstancia();
+				ABMFuncionesEstablecimientosView.getInstancia(esPorPortal);
 			}
 		});
 		btnEstablecimientos.setBounds(12, 83, 408, 67);

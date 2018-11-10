@@ -50,8 +50,10 @@ public class SeleccionarAsientosView extends GeneralFrame {
 	private Map<Integer, Map<Integer, AsientoFisico>> asientos;
 	private Map<FilaColumna, AsientoFisico> asientosSeleccionados;
 	private static Establecimiento establecimiento;
+	private static boolean esPorPortal;
 
-	public static SeleccionarAsientosView getInstance(Funcion f, Establecimiento e) {
+	public static SeleccionarAsientosView getInstance(Funcion f, Establecimiento e, boolean esPorPortal2) {
+		esPorPortal = esPorPortal2;
 		funcion = f;
 		establecimiento = e;
 		if (instancia == null) {
@@ -116,6 +118,11 @@ public class SeleccionarAsientosView extends GeneralFrame {
 
 	}
 
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -128,7 +135,7 @@ public class SeleccionarAsientosView extends GeneralFrame {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				frame.dispose();
+				close();
 			}
 		});
 
@@ -147,7 +154,7 @@ public class SeleccionarAsientosView extends GeneralFrame {
 				for (AsientoFisico asiento : asientosSeleccionados.values()) {
 					entradas.add(new Entrada(new AsientoVirtual(asiento.getColumna(), asiento.getFila()), funcion));
 				}
-				new CheckOutView(entradas, funcion).setVisible(true);;
+				new CheckOutView(entradas, funcion,esPorPortal).setVisible(true);;
 			}
 		});
 

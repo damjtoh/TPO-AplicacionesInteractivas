@@ -162,8 +162,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 		btnCancelar.setBounds(323, 217, 97, 25);
 		frame.getContentPane().add(btnCancelar);
 		btnCancelar.addActionListener(e -> {
-			instancia=null;
-			frame.dispose();
+			close();
 		});
 		if (pelicula != null) {
 			setEditarPelicula();
@@ -202,4 +201,10 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 		chckbxSubtitulada.setSelected(pelicula.isSubtitulos());
 		compGenero.setText(pelicula.getGenero());
 	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 }

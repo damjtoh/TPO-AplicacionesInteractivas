@@ -83,8 +83,7 @@ public class adminCinesView extends GeneralFrame {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				instancia = null;
-				frame.dispose();
+				close();
 			}
 		});
 		lblEstablecimiento = new JLabel("Establecimiento");
@@ -168,4 +167,10 @@ public class adminCinesView extends GeneralFrame {
 			peliculas.put(pelicula.toString(), pelicula);
 		}
 	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 }

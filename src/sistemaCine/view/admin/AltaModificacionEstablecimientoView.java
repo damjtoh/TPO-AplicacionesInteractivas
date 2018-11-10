@@ -46,9 +46,10 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 	private JButton btnCancelar;
 	private static Integer cuit = null;
 	private JLabel lblSalas;
-	private JButton btnEditarSala;
+	private JButton btnCrearSala;
 	private JComboBox<String> comboBoxSalas;
 	private JPanel panelSalas;
+	private JButton btnEditarSala;
 
 	/**
 	 * Launch the application.
@@ -132,9 +133,9 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 		lblCuit.setBounds(22, 13, 131, 14);
 		frame.getContentPane().add(lblCuit);
 
-		btnCrear = new JButton("Crear");
-		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCrear.setBounds(274, 199, 146, 25);
+		btnCrear = new JButton("Crear Establecimiento");
+		btnCrear.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnCrear.setBounds(225, 199, 195, 25);
 		frame.getContentPane().add(btnCrear);
 
 		btnCancelar = new JButton("Cancelar");
@@ -154,18 +155,21 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 		lblSalas.setBounds(12, 12, 70, 15);
 		panelSalas.add(lblSalas);
 
-		btnEditarSala = new JButton("Crear/Editar");
-		btnEditarSala.setBounds(12, 69, 138, 25);
-		panelSalas.add(btnEditarSala);
+		btnCrearSala = new JButton("Crear Sala");
+		btnCrearSala.setBounds(12, 69, 138, 25);
+		panelSalas.add(btnCrearSala);
 
 		comboBoxSalas = new JComboBox<>();
 		comboBoxSalas.setBounds(12, 33, 138, 24);
 		panelSalas.add(comboBoxSalas);
+		
+		btnEditarSala = new JButton("Editar Sala");
+		btnEditarSala.setBounds(12, 96, 138, 25);
+		panelSalas.add(btnEditarSala);
 		comboBoxSalas.addItem(null);
 		btnEliminar.setVisible(false);
 		btnCancelar.addActionListener(e -> {
-			instancia=null;
-			this.frame.dispose();
+			close();
 		});
 		if (cuit == null) {
 			btnCrear.addActionListener(new ActionListener() {
@@ -242,11 +246,17 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 		btnEditarSala.addActionListener(e -> {
 			if (comboBoxSalas.getSelectedItem()!=null) {
 				AltaModificacionSalaView.getInstancia(comboBoxSalas.getSelectedItem().toString(),cuit);
-			}else {
-				AltaModificacionSalaView.getInstancia(null,cuit);
-
 			}
+		});
+		btnCrearSala.addActionListener(e -> {
+				AltaModificacionSalaView.getInstancia(null,cuit);
 		});
 		panelSalas.setVisible(true);
 	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 }

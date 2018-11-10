@@ -34,6 +34,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static ABMFuncionesEstablecimientosView instancia;
+	private static boolean esPorPortal;
 	private JFrame frame;
 	private JButton btnSeleccionar;
 	private JComboBox<String> comboBoxHorario;
@@ -55,8 +56,10 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 
 	/**
 	 * Launch the application.
+	 * @param esPorPortal2 
 	 */
-	public static ABMFuncionesEstablecimientosView getInstancia() {
+	public static ABMFuncionesEstablecimientosView getInstancia(boolean esPorPortal2) {
+		esPorPortal = esPorPortal2;
 		if (instancia == null) {
 			instancia = new ABMFuncionesEstablecimientosView();
 		}
@@ -252,7 +255,7 @@ public class ABMFuncionesEstablecimientosView extends javax.swing.JFrame {
 		btnSeleccionar.addActionListener(e -> {
 			SeleccionarAsientosView.getInstance(
 					funciones.get(comboBoxDia.getSelectedItem()).get(comboBoxHorario.getSelectedItem()),
-					establecimientos.get(comboBoxEstablecimiento.getSelectedItem()));
+					establecimientos.get(comboBoxEstablecimiento.getSelectedItem()), esPorPortal);
 		});
 		comboBoxDia.addItem(null);
 		comboBoxHorario.addItem(null);

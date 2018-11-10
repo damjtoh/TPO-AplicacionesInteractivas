@@ -222,8 +222,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 
 
 		btnCancelar.addActionListener(e -> {
-			instancia = null;
-			frame.dispose();
+			close();
 		});
 
 		if (funcion.getPelicula() != null) {
@@ -354,4 +353,10 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 		funcion.getSala().setMapaDeAsientos(mapaDeAsientosFisicos);
 		funcion.setMapaDeAsientos(mapaDeAsientosVirtuales);
 	}
+
+	@Override
+	protected void deleteInstance() {
+		instancia = null;
+	}
+
 }
