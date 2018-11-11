@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`VENTA` (
   `numeroDeTarjeta` BIGINT(20) NOT NULL,
   `importe` DOUBLE NOT NULL,
   `TIPO_DE_PAGO_numero` INT NOT NULL,
+  `esPorPortal` BIT(1) NOT NULL,
   PRIMARY KEY (`id`, `TIPO_DE_PAGO_numero`),
   INDEX `fk_VENTA_TIPO_DE_PAGO_idx` (`TIPO_DE_PAGO_numero` ASC) VISIBLE,
   CONSTRAINT `fk_VENTA_TIPO_DE_PAGO`
