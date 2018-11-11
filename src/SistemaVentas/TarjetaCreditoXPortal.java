@@ -5,6 +5,7 @@ public class TarjetaCreditoXPortal extends Portal {
 	private int coutas;
 	private int fechaVencimientoDia;
 	private int FechaVencimientoMes;
+	private String TipoTarjeta;
 	
 	
 	
@@ -14,6 +15,7 @@ public class TarjetaCreditoXPortal extends Portal {
 		this.coutas = coutas;
 		this.fechaVencimientoDia = fechaVencimientoDia;
 		FechaVencimientoMes = fechaVencimientoMes;
+		this.TipoTarjeta = "Tarjeta de Credito";
 	}
 
 	public TarjetaCreditoXPortal() {

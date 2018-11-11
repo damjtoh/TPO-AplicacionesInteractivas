@@ -13,10 +13,10 @@ public class Venta {
 	private long numeroDeTarjeta;
 	private double importe;
 	private List<ObserverVenta> observers;
+	private boolean esPorPortal;
 
-	
-	
-	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta, double importe, int id) {
+	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroDeTarjeta,
+			double importe, int id) {
 		super();
 		this.id = id;
 		this.entradas = entradas;
@@ -25,24 +25,24 @@ public class Venta {
 		this.numeroDeTarjeta = numeroDeTarjeta;
 		this.importe = importe;
 	}
-	
-	
-	
 
+	public boolean isEsPorPortal() {
+		return esPorPortal;
+	}
 
-
+	public void setEsPorPortal(boolean esPorPortal) {
+		this.esPorPortal = esPorPortal;
+	}
 
 	public Venta(List<Entrada> entradas, LocalDate fechaYHora, ITipoDePago tipoDePago, long numeroTarjetaClub,
-			double importe) {
+			double importe, boolean esPorPortal) {
 		super();
 		this.entradas = entradas;
 		this.fechaYHora = fechaYHora;
 		this.tipoDePago = tipoDePago;
 		this.importe = importe;
+		this.esPorPortal = esPorPortal;
 	}
-
-
-
 
 	public void addObserver(ObserverVenta observer) {
 		observers.add(observer);

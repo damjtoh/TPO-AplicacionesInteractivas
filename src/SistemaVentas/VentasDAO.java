@@ -25,13 +25,14 @@ public class VentasDAO {
 			
 			int id = getId();
 
-			PreparedStatement query = coneccion.prepareStatement("insert into VENTA values (?,?,?,?,?)");
+			PreparedStatement query = coneccion.prepareStatement("insert into VENTA values (?,?,?,?,?,?)");
 
 			query.setInt(1, id);
 			query.setDate(2, java.sql.Date.valueOf(venta.getFechaYHora()));
 			query.setLong(3, venta.getNumeroDeTarjeta());
 			query.setDouble(4, venta.getImporte());
 			query.setInt(5, venta.getTipoDePago().getNro());
+			query.setBoolean(6, venta.isEsPorPortal());
 			query.execute();
 			venta.setId(id);
 			for (Entrada entrada : venta.getEntradas()) {

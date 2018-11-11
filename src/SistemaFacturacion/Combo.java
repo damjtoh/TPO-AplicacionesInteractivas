@@ -32,6 +32,10 @@ public class Combo extends Descuento{
 		// TODO Auto-generated constructor stub
 		super(usuarioLogueado,fechaInicio,fechaFin,descuentosPresentacion,nombre);
 	}
+	
+	public Combo() {
+		super();
+	}
 	public Collection<Descuento> getDescuentos() {
 		return descuentos;
 	}

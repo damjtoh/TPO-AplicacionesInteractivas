@@ -63,6 +63,12 @@ public abstract class Descuento {
 		this.fechaFin = fechaFin2;
 		this.nombre = nombre2;
 	}
+	
+	
+
+	public Descuento() {
+		super();
+	}
 
 	public int getId() {
 		return id;

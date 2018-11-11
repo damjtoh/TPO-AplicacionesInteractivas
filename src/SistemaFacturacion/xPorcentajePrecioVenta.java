@@ -19,6 +19,10 @@ public class xPorcentajePrecioVenta extends Descuento {
 		this.porcentaje = porcentaje;
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 	}
+	
+	public xPorcentajePrecioVenta() {
+		super();
+	}
 
 	public float getPorcentaje() {
 		return porcentaje;

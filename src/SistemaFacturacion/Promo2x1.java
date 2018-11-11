@@ -17,6 +17,10 @@ public class Promo2x1 extends Descuento {
 		this.tipo = ETipoDescuento.PROMO_2x1;
 	}
 
+	public Promo2x1() {
+		super();
+	}
+	
 	@Override
 	public void EfectuarDescuento(Venta venta) {
 		venta.setImporte(venta.getImporte() / 2);
