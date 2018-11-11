@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -129,9 +130,8 @@ public class MapperUsuario {
 		return u;
 	}
 
-	public static void insert(Object o) {
-		try
-		{
+	public static void insert(Object o) throws SQLException {
+
 			System.out.println("About to create: \n");
 			Usuario u = (Usuario)o;
 			System.out.println(u.toString());
@@ -166,11 +166,6 @@ public class MapperUsuario {
 				}
 			}
 			PoolConnection.getPoolConnection().realeaseConnection(con);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 		
 	}
 

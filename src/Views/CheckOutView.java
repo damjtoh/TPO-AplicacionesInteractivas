@@ -48,11 +48,11 @@ public class CheckOutView extends JFrame {
 		lblFechaYHora.setBounds(10, 69, 109, 14);
 		contentPane.add(lblFechaYHora);
 
-		JComboBox listaTiposDePago = new JComboBox();
+		JComboBox<ITipoDePago> listaTiposDePago = new JComboBox();
 		listaTiposDePago.setBounds(10, 141, 217, 20);
 		contentPane.add(listaTiposDePago);
-		listaTiposDePago.addItem(new TarjetaCreditoXPortal().toString());
-		listaTiposDePago.addItem(new TarjetaDebitoXPortal().toString());
+		listaTiposDePago.addItem(new TarjetaCreditoXPortal());
+		listaTiposDePago.addItem(new TarjetaDebitoXPortal());
 
 		JLabel lblCombo = new JLabel("Combo");
 		lblCombo.setBounds(10, 205, 109, 14);
