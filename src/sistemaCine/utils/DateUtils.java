@@ -1,10 +1,12 @@
 package sistemaCine.utils;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
 public final class DateUtils {
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static final Date getDateSinHora(Date fecha) {
 		Calendar date = Calendar.getInstance();
