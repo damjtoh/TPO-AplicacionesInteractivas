@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +21,7 @@ import SistemaVentas.ConfirmarVenta;
 import SistemaVentas.ITipoDePago;
 import SistemaVentas.TarjetaCreditoXPortal;
 import SistemaVentas.TarjetaDebitoXPortal;
+import SistemaVentas.Venta;
 import sistemaCine.clases.Entrada;
 import sistemaCine.clases.Funcion;
 
@@ -112,7 +114,7 @@ public class CheckOutView extends JFrame {
 		JTextArea txtImporte = new JTextArea();
 		txtImporte.setBounds(237, 182, 187, 22);
 		contentPane.add(txtImporte);
-		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
+//		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
 
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setBounds(237, 227, 187, 23);
@@ -126,11 +128,14 @@ public class CheckOutView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ConfirmarVenta cVenta = new ConfirmarVenta();
 				if (txtNumeroTarjeta.getText() != null) {
-					cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(),
+					Venta venta = cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(),
 							(ITipoDePago)listaTiposDePago.getSelectedItem(),
 							Long.parseLong(txtNumeroTarjeta.getText()), funcion.getValor() * entradas.size(),
 							esPorPortal);
-					getContentPane().setVisible(false);
+					if (esPorPortal) {
+						JOptionPane.showMessageDialog(null, "Su Venta es:" + venta.getId());
+					}
+					dispose();
 				}
 			}
 		});

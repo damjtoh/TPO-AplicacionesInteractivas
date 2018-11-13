@@ -66,7 +66,7 @@ public class VentasDAO {
 		try {			
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement query = coneccion
-					.prepareStatement("update VENTA set fechaYHora = ?, tipoDePago = ?,numeroDeTarjeta = ?, importe = ? where id = ?");
+					.prepareStatement("update VENTA set fechaYHora = ?, tipoDePago = ?,numeroDeTarjeta = ?, importe = ?,esPorPortal = ? where id = ?");
 
 			venta.getEntradas().clear();
 			
@@ -78,6 +78,7 @@ public class VentasDAO {
 			query.setObject(3, venta.getTipoDePago());
 			query.setLong(4, venta.getNumeroDeTarjeta());
 			query.setDouble(5, venta.getImporte());
+			query.setBoolean(6, venta.isEsPorPortal());
 			query.setInt(7, venta.getId());
 			query.execute();
 	
