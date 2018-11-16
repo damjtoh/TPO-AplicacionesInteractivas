@@ -2,9 +2,8 @@ package sistemaCine.view.admin;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Date;
@@ -20,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import sistemaCine.clases.AsientoFisico;
 import sistemaCine.clases.AsientoVirtual;
@@ -29,14 +29,11 @@ import sistemaCine.clases.Sala;
 import sistemaCine.services.EntradaService;
 import sistemaCine.services.FuncionServices;
 import sistemaCine.services.PeliculaServices;
-import sistemaCine.services.SalaServices;
 import sistemaCine.utils.DateUtils;
 import sistemaCine.utils.FilaColumna;
 import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
-import javax.swing.JTextField;
-import java.awt.Font;
 
 public class AltaModificacionFuncionView extends GeneralFrame {
 

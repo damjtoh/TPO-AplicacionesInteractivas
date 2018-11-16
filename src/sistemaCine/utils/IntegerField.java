@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class IntegerField extends JTextField {
 
 	public IntegerField(String string) {

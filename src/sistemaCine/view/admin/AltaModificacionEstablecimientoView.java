@@ -1,13 +1,22 @@
 package sistemaCine.view.admin;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sistemaCine.CineDAO.EstablecimientoDAO;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Sala;
 import sistemaCine.services.EstablecimientoService;
@@ -15,24 +24,6 @@ import sistemaCine.services.SalaServices;
 import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 import sistemaCine.utils.IsTest;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class AltaModificacionEstablecimientoView extends GeneralFrame {

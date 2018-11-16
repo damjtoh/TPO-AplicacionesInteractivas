@@ -16,7 +16,6 @@ public class Funcion {
 	private Date fechaYHora;
 	private Map<FilaColumna, AsientoVirtual> mapaDeAsientos;
 	private double valor;
-	private int salaId;
 
 	public Funcion(Pelicula pelicula, Sala sala, Date fechaYHora) {
 		super();

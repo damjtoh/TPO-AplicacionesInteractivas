@@ -1,15 +1,13 @@
 package sistemaCine.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import org.junit.Test;
 
 import sistemaCine.clases.AsientoFisico;
-import sistemaCine.clases.Funcion;
-import sistemaCine.clases.Pelicula;
 import sistemaCine.clases.Sala;
 
 public class SalaTest {

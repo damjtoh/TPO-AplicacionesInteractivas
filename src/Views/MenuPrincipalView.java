@@ -90,6 +90,7 @@ public class MenuPrincipalView extends JFrame {
 
 
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setBounds(391, 0, 85, 25);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -99,7 +100,7 @@ public class MenuPrincipalView extends JFrame {
 		menuBar.add(mnUsuarios);
 		this.mnUsuarios.setVisible(false);
 		
-		menuBar.add(btnSalir);
+		getContentPane().add(btnSalir);
 		
 		getContentPane().add(loginPanel);
 		this.setPanel(loginPanel);

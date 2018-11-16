@@ -2,27 +2,26 @@ package sistemaCine.view.admin;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Window;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IntegerField;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+@SuppressWarnings("serial")
 public class AltaModificacionPeliculaView extends GeneralFrame {
 
 	private JFrame frame;

@@ -16,8 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-import sistemaCine.CineDAO.PeliculaDAO;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;

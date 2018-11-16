@@ -114,7 +114,7 @@ public class FuncionDAO {
 
 			if (resFuncion.next()) {
 				funcion = new Funcion(PeliculaDAO.getById(resFuncion.getInt("id_pelicula")),
-						SalaDAO.getById(resFuncion.getInt("salaId")),
+						SalaDAO.selectSala(resFuncion.getString("nombre_sala"), resFuncion.getInt("cuit_establecimiento")),
 						new Date(resFuncion.getTimestamp("fecha_hora").getTime()));
 				funcion.setId(resFuncion.getInt(4));
 			}

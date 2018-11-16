@@ -1,6 +1,5 @@
 package sistemaCine.utils;
 
-import java.awt.HeadlessException;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;

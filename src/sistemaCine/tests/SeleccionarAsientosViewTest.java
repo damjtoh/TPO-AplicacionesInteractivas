@@ -1,7 +1,5 @@
 package sistemaCine.tests;
 
-import static org.junit.Assert.*;
-
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;

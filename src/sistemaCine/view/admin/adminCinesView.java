@@ -3,11 +3,8 @@ package sistemaCine.view.admin;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import sistemaCine.clases.Establecimiento;
-import sistemaCine.clases.Funcion;
 import sistemaCine.clases.Pelicula;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.GeneralFrame;
 import sistemaCine.utils.IsTest;
-import javax.swing.SwingConstants;
 
 public class adminCinesView extends GeneralFrame {
 
