@@ -10,8 +10,8 @@ public class ComboPresentacion extends DescuentoPresentacion{
 	
 	private Collection<DescuentoPresentacion> descuentos;
 
-	public ComboPresentacion(int id, Date fechaInicio, Date fechaFin, Collection<DescuentoPresentacion> descuentos, String nombre) {
-		super(id, fechaInicio, fechaFin,nombre);
+	public ComboPresentacion(int id, Date fechaInicio, Date fechaFin, Collection<DescuentoPresentacion> descuentos, String nombre, String establecimientoCuit, int activo) {
+		super(id, fechaInicio, fechaFin,nombre, establecimientoCuit, activo);
 		this.tipo = ETipoDescuento.COMBO;
 		this.descuentos = descuentos;
 	}

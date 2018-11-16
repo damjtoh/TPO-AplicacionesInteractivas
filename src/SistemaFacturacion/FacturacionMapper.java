@@ -85,6 +85,26 @@ public class FacturacionMapper {
 		return descuentos;
 	}
 	
+	public static ArrayList<Descuento> listDescuentos() {
+		ArrayList<Descuento> descuentos = new ArrayList<Descuento>();
+		try {
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT Descuentos.*, establecimientos.nombre\n" + 
+					"FROM Descuentos\n" + 
+					"INNER JOIN establecimientos ON Descuentos.establecimientoCuit = establecimientos.cuit\n" + 
+					"WHERE estaCombo = 0;");
+			ResultSet result = s.executeQuery();
+			while (result.next()) {
+				Descuento descuento = FacturacionMapper.parseResult(result);
+				descuentos.add(descuento);
+			}
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return descuentos;
+	}
+	
 	public static void crearComboDescuento(int comboId, Descuento descuento) {
 		
 	}
@@ -138,11 +158,11 @@ public class FacturacionMapper {
 		}
 	}
 
-	public static void activateDescuento(Descuento descuento) {
+	public static void activateDescuento(int id) {
 		try {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("UPDATE Descuentos SET activo = 1 WHERE descuentoId = ?;");
-			s.setInt(1, descuento.GetId());
+			s.setInt(1, id);
 			System.out.println("query: " + s.toString());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
@@ -152,6 +172,16 @@ public class FacturacionMapper {
 	}
 
 	public static void desactivateDescuento(int id) {
+		try {
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE Descuentos SET activo = 0 WHERE descuentoId = ?;");
+			s.setInt(1, id);
+			System.out.println("query: " + s.toString());
+			s.execute();
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

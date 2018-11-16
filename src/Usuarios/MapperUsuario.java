@@ -110,7 +110,7 @@ public class MapperUsuario {
 					"FROM Usuarios \r\n" + 
 					"INNER JOIN UsuarioRol ON Usuarios.usuarioId = UsuarioRol.usuarioId\r\n" + 
 					"INNER JOIN Roles ON UsuarioRol.rolId = Roles.rolId\r\n" + 
-					"WHERE id = ?;");		
+					"WHERE Usuarios.usuarioId = ?;");		
 			s.setInt(1,id);
 			ResultSet result = s.executeQuery();
 			ArrayList<Rol> roles = new ArrayList<Rol>();

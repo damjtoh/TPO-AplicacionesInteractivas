@@ -54,6 +54,10 @@ public class SistemaUsuarios {
 		return this.usuarioLogueado;
 	}
 	
+	public void logout() {
+		this.usuarioLogueado = null;
+	}
+	
 	public static void ModificarUsuario(Usuario usuario, String nuevoEmail, String nuevoPassword, String nuevoDomicilio)
 	{
 		usuario.setEmail(nuevoEmail);

@@ -12,12 +12,16 @@ public abstract class DescuentoPresentacion {
 	private Date fechaFin;
 	protected ETipoDescuento tipo;
 	private String nombre;
+	private String establecimientoCuit;
+	private int activo;
 	
-	public DescuentoPresentacion(int id, Date fechaInicio2, Date fechaFin2, String nombre) {
+	public DescuentoPresentacion(int id, Date fechaInicio2, Date fechaFin2, String nombre, String establecimientoCuit, int activo) {
 		this.id = id;
 		this.fechaInicio = fechaInicio2;
 		this.fechaFin = fechaFin2;
 		this.nombre = nombre;
+		this.establecimientoCuit = establecimientoCuit;
+		this.activo = activo;
 	}
 	
 	public DescuentoPresentacion(Date fechaInicio, Date fechaFin, String nombre) {
@@ -60,6 +64,22 @@ public abstract class DescuentoPresentacion {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getEstablecimientoCuit() {
+		return establecimientoCuit;
+	}
+
+	public void setEstablecimientoCuit(String establecimientoCuit) {
+		this.establecimientoCuit = establecimientoCuit;
+	}
+
+	public int getActivo() {
+		return activo;
+	}
+
+	public void setActivo(int activo) {
+		this.activo = activo;
 	}
 
 }

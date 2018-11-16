@@ -70,7 +70,7 @@ public class Combo extends Descuento{
 		for(Descuento descuento : descuentos)
 			descuentosPresentacion.add(descuento.ToPresentacion());
 		
-		return new ComboPresentacion(id,fechaInicio,fechaFin,descuentosPresentacion,nombre);
+		return new ComboPresentacion(id,fechaInicio,fechaFin,descuentosPresentacion,nombre, Integer.toString(establecimientoCuit), activo);
 	}
 	
 }
