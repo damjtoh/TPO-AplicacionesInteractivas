@@ -6,7 +6,8 @@ public class AsientoFisico {
 	private int nroFila;
 	private int nroColumna;
 	private boolean usable;
-	public AsientoFisico(String fila,String columna,int nroFila,int nroColumna) {
+
+	public AsientoFisico(String fila, String columna, int nroFila, int nroColumna) {
 		super();
 		this.columna = columna;
 		this.fila = fila;
@@ -14,7 +15,8 @@ public class AsientoFisico {
 		this.nroColumna = nroColumna;
 		this.usable = true;
 	}
-	public AsientoFisico( String fila,String columna,int nroFila,int nroColumna,boolean usable) {
+
+	public AsientoFisico(String fila, String columna, int nroFila, int nroColumna, boolean usable) {
 		super();
 		this.columna = columna;
 		this.fila = fila;
@@ -22,9 +24,11 @@ public class AsientoFisico {
 		this.nroFila = nroFila;
 		this.nroColumna = nroColumna;
 	}
+
 	public boolean isUsable() {
 		return usable;
 	}
+
 	public void setUsable(boolean esUsable) {
 		this.usable = esUsable;
 	}
@@ -32,30 +36,38 @@ public class AsientoFisico {
 	public String getColumna() {
 		return columna;
 	}
+
 	public String getFila() {
 		return fila;
 	}
+
 	public int getNroColumna() {
 		return nroColumna;
 	}
+
 	public void setNroColumna(int nroColumna) {
 		this.nroColumna = nroColumna;
 	}
+
 	public int getNroFila() {
 		return nroFila;
 	}
+
 	public void setNroFila(int nroFila) {
 		this.nroFila = nroFila;
 	}
+
 	@Override
 	public String toString() {
 		return fila + "-" + columna;
 	}
+
 	public void setColumna(String columna) {
 		this.columna = columna;
 	}
+
 	public void setFila(String fila) {
 		this.fila = fila;
 	}
-	
+
 }

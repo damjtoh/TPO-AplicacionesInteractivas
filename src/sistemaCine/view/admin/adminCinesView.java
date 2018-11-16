@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Pelicula;
+import sistemaCine.clases.SistemaCines;
 import sistemaCine.services.EstablecimientoService;
 import sistemaCine.services.PeliculaServices;
 import sistemaCine.utils.GeneralFrame;
@@ -26,15 +27,14 @@ public class adminCinesView extends GeneralFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static adminCinesView instancia;
+	private SistemaCines sistema;
 	private JFrame frame;
 	private JLabel lblEstablecimiento;
 	private JComboBox<String> comboBoxEstablecimiento;
-	private Map<String, Establecimiento> establecimientos;
 	private JButton btnCrearEstablecimiento;
 	private JButton btnCrearPelicula;
 	private JComboBox<String> comboBoxPeliculas;
 	private JLabel lblPelicula;
-	private Map<String, Pelicula> peliculas;
 	private JButton btnEditarEstablecimiento;
 	private JButton btnEditarPelicula;
 
@@ -123,7 +123,7 @@ public class adminCinesView extends GeneralFrame {
 		btnEditarPelicula.addActionListener(e -> {
 			if (comboBoxPeliculas.getSelectedItem() != null) {
 				AltaModificacionPeliculaView
-						.getInstancia(peliculas.get(comboBoxPeliculas.getSelectedItem().toString())).setOldGF(this);
+						.getInstancia(sistema.peliculas.get(comboBoxPeliculas.getSelectedItem().toString())).setOldGF(this);
 			}
 		});
 		btnCrearPelicula.addActionListener(e ->
@@ -137,15 +137,15 @@ public class adminCinesView extends GeneralFrame {
 		btnEditarEstablecimiento.addActionListener(e -> {
 			if (comboBoxEstablecimiento.getSelectedItem() != null) {
 				AltaModificacionEstablecimientoView
-						.getInstancia(establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit())
+						.getInstancia(sistema.establecimientos.get(comboBoxEstablecimiento.getSelectedItem()).getCuit())
 						.setOldGF(this);
 			}
 		});
 		comboBoxEstablecimiento.addItem(null);
 		if (!IsTest.is) {
 			try {
-				this.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
-				this.peliculas = PeliculaServices.getAllPeliculasMap();
+				this.sistema.establecimientos = EstablecimientoService.getAllEstablecimietosMap();
+				this.sistema.peliculas = PeliculaServices.getAllPeliculasMap();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -153,9 +153,9 @@ public class adminCinesView extends GeneralFrame {
 			myTest();
 		}
 		List<String> list = new ArrayList<>();
-		list.addAll(peliculas.keySet());
+		list.addAll(sistema.peliculas.keySet());
 		list.sort((a, b) -> a.compareToIgnoreCase(b));
-		for (String nombreEstablecimiento : establecimientos.keySet()) {
+		for (String nombreEstablecimiento : sistema.establecimientos.keySet()) {
 			comboBoxEstablecimiento.addItem(nombreEstablecimiento);
 		}
 		for (String key : list) {
@@ -165,19 +165,19 @@ public class adminCinesView extends GeneralFrame {
 	}
 
 	private void myTest() {
-		establecimientos = new HashMap<>();
+		sistema.establecimientos = new HashMap<>();
 		for (int i = 1; i < 10; i++) {
-			establecimientos.put(Integer.toString(i),
+			sistema.establecimientos.put(Integer.toString(i),
 					new Establecimiento(i, Integer.toString(i), Integer.toString(i), i));
 		}
-		peliculas = new HashMap<>();
+		sistema.peliculas = new HashMap<>();
 		for (int i = 1; i < 10; i++) {
 			Pelicula pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i,
 					Integer.toString(i), i % 2 == 0, i, Integer.toString(i));
-			peliculas.put(pelicula.toString(), pelicula);
+			sistema.peliculas.put(pelicula.toString(), pelicula);
 			pelicula = new Pelicula(Integer.toString(i), Integer.toString(i), Integer.toString(i), i,
 					Integer.toString(i), i % 2 != 0, i, Integer.toString(i));
-			peliculas.put(pelicula.toString(), pelicula);
+			sistema.peliculas.put(pelicula.toString(), pelicula);
 		}
 	}
 

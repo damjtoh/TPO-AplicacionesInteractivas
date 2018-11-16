@@ -29,8 +29,6 @@ public class Pelicula {
 		this.funciones = new ArrayList<>();
 	}
 
-	
-	
 	public Pelicula(Integer id, String nombre, String director, String genero, int duracion, String idioma,
 			Boolean subtitulos, double claificacion, String observaciones) {
 		super();
@@ -44,8 +42,6 @@ public class Pelicula {
 		this.clasificacion = claificacion;
 		this.observaciones = observaciones;
 	}
-
-
 
 	public double getClaificacion() {
 		return clasificacion;
@@ -151,8 +147,9 @@ public class Pelicula {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	@Override
 	public String toString() {
-		return nombre + " - " + idioma + ((subtitulos)?" - subtitulada":"");
+		return nombre + " - " + idioma + ((subtitulos) ? " - subtitulada" : "");
 	}
 }

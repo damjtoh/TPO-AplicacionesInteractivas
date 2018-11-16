@@ -1,9 +1,9 @@
 package sistemaCine.clases;
 
-import java.util.Collection;
+import java.util.Map;
 
 public class SistemaCines {
-	private Collection <Establecimiento> establecimientos;
-	private Collection <Pelicula> peliculas;
-
+	public static Map<String, Establecimiento> establecimientos;
+	public static Map<String, Pelicula> peliculas;
+	
 }

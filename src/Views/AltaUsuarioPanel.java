@@ -16,6 +16,7 @@ import Usuarios.Rol;
 import Usuarios.SistemaUsuarios;
 import Usuarios.Usuario;
 import Usuarios.Vendedor;
+import sistemaCine.utils.IntegerField;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -122,7 +123,7 @@ public class AltaUsuarioPanel extends JPanel {
 		lblDni.setBounds(21, 169, 99, 14);
 		this.add(lblDni);
 
-		txtDni = new JTextField();
+		txtDni = new IntegerField();
 		txtDni.setBounds(152, 169, 133, 20);
 		this.add(txtDni);
 		txtDni.setColumns(10);
@@ -131,7 +132,7 @@ public class AltaUsuarioPanel extends JPanel {
 		lblDia.setBounds(152, 196, 46, 14);
 		this.add(lblDia);
 
-		textDia = new JTextField();
+		textDia = new IntegerField();
 		textDia.setBounds(180, 196, 30, 20);
 		this.add(textDia);
 		textDia.setColumns(10);
@@ -141,7 +142,7 @@ public class AltaUsuarioPanel extends JPanel {
 		lblMes.setBounds(220, 196, 46, 14);
 		this.add(lblMes);
 
-		textMes = new JTextField();
+		textMes = new IntegerField();
 		textMes.setBounds(247, 196, 30, 20);
 		this.add(textMes);
 		textMes.setColumns(10);
@@ -151,7 +152,7 @@ public class AltaUsuarioPanel extends JPanel {
 		lblAo.setBounds(287, 196, 46, 14);
 		this.add(lblAo);
 
-		textAnio = new JTextField();
+		textAnio = new IntegerField();
 		textAnio.setBounds(313, 196, 46, 20);
 		this.add(textAnio);
 		textAnio.setColumns(10);
