@@ -61,12 +61,12 @@ public class SistemaFacturacion {
 		return VentasDAO.getById(idVenta);
 	}
 	
-	public void EfectuarDescuento(int idVenta, int idDescuento) {
-		Venta venta = BuscarVenta(idVenta);
-		
-		Descuento descuento = BuscarDescuento(idDescuento);
-		descuento.EfectuarDescuento(venta);
-	}
+//	public void EfectuarDescuento(int idVenta, int idDescuento) {
+//		Venta venta = BuscarVenta(idVenta);
+//		
+//		Descuento descuento = BuscarDescuento(idDescuento);
+//		descuento.EfectuarDescuento(venta);
+//	}
 	
 	public Collection<DescuentoPresentacion> GetDescuentosPresentacion(){
 		Collection<DescuentoPresentacion> descuentosPresentacion = new ArrayList<DescuentoPresentacion>();

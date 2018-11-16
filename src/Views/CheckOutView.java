@@ -2,7 +2,9 @@ package Views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,11 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import SistemaFacturacion.Combo;
 import SistemaFacturacion.Descuento;
+import SistemaFacturacion.ETipoDescuento;
+import SistemaFacturacion.FacturacionMapper;
 import SistemaFacturacion.Promo2x1;
 import SistemaFacturacion.xPorcentajePrecioVenta;
 import SistemaVentas.ConfirmarVenta;
@@ -22,18 +27,26 @@ import SistemaVentas.ITipoDePago;
 import SistemaVentas.TarjetaCreditoXPortal;
 import SistemaVentas.TarjetaDebitoXPortal;
 import SistemaVentas.Venta;
+import Usuarios.MapperUsuario;
+import Usuarios.Usuario;
 import sistemaCine.clases.Entrada;
 import sistemaCine.clases.Establecimiento;
 import sistemaCine.clases.Funcion;
 import javax.swing.JTextField;
+import javax.swing.JList;
 
 public class CheckOutView extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtEstablecimiento;
+	private ArrayList<Descuento> descuentos = new ArrayList<Descuento>();
+	private JTable table;
+	private Vector<Vector> tableData = new Vector<Vector>();
+	private double importe = 0;
 
 	public CheckOutView(List<Entrada> entradas, Funcion funcion, boolean esPorPortal, Establecimiento establecimiento) {
-		setBounds(100, 100, 450, 401);
+		this.importe = entradas.size() * funcion.getValor();
+		setBounds(100, 100, 450, 486);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -113,14 +126,42 @@ public class CheckOutView extends JFrame {
 		JLabel lblImporteAPagar = new JLabel("Importe a pagar");
 		lblImporteAPagar.setBounds(245, 236, 187, 14);
 		contentPane.add(lblImporteAPagar);
+		
+		
+		// Descuentos
+		
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("Descuento");
+		
+		this.descuentos = FacturacionMapper.listDescuentosByEstablecimiento(establecimiento.getCuit());
+		
+		for (Descuento descuento: this.descuentos) {
+			Vector row = new Vector();
+			row.add(descuento.getNombre());
+			tableData.add(row);
+			if (descuento.GetTipo() == ETipoDescuento.PROMO_2x1) {
+				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
+			} else if(descuento.GetTipo() == ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA) {
+				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
+			}
+		}
+		
+		table = new JTable(tableData, columnNames);
+		table.setDefaultEditor(Object.class, null);
+		table.setBounds(147, 343, 211, 85);
+		contentPane.add(table);
+		table.setVisible(true);
 
 		JTextArea txtImporte = new JTextArea();
 		txtImporte.setBounds(243, 263, 187, 22);
+		txtImporte.setText(Double.toString(this.importe));
+		txtImporte.setEditable(false);
+		
 		contentPane.add(txtImporte);
 //		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
 
 		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setBounds(243, 308, 187, 23);
+		btnConfirmar.setBounds(241, 440, 187, 23);
 		contentPane.add(btnConfirmar);
 
 		JLabel lblNumeroDeTarjeta = new JLabel("Numero de Tarjeta");
@@ -132,10 +173,16 @@ public class CheckOutView extends JFrame {
 		contentPane.add(lblEstablecimiento);
 		
 		txtEstablecimiento = new JTextField();
-		txtEstablecimiento.setText("Establecimiento");
+		txtEstablecimiento.setText(establecimiento.getNombre());
 		txtEstablecimiento.setBounds(6, 54, 130, 26);
+		txtEstablecimiento.setEditable(false);
 		contentPane.add(txtEstablecimiento);
 		txtEstablecimiento.setColumns(10);
+		
+		JLabel lblDescuentos = new JLabel("Descuentos");
+		lblDescuentos.setBounds(267, 312, 91, 16);
+		contentPane.add(lblDescuentos);
+		
 
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

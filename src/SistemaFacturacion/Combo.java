@@ -58,9 +58,11 @@ public class Combo extends Descuento{
 	}
 	
 	@Override
-	public void EfectuarDescuento(Venta venta) {
+	public double EfectuarDescuento(double importe, int cant) {
+		double total = importe;
 		for(Descuento descuento : descuentos)
-			descuento.EfectuarDescuento(venta);
+			total += descuento.EfectuarDescuento(importe, cant);
+		return total;
 	}
 
 	@Override
