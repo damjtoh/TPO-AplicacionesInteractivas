@@ -114,7 +114,7 @@ public class CheckOutView extends JFrame {
 		JTextArea txtImporte = new JTextArea();
 		txtImporte.setBounds(237, 182, 187, 22);
 		contentPane.add(txtImporte);
-		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
+//		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
 
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setBounds(237, 227, 187, 23);

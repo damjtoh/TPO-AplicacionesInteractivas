@@ -154,7 +154,8 @@ public class SeleccionarAsientosView extends GeneralFrame {
 				for (AsientoFisico asiento : asientosSeleccionados.values()) {
 					entradas.add(new Entrada(new AsientoVirtual(asiento.getColumna(), asiento.getFila()), funcion));
 				}
-				new CheckOutView(entradas, funcion,esPorPortal).setVisible(true);;
+				new CheckOutView(entradas, funcion,esPorPortal).setVisible(true);
+				this.dispose();
 			}
 		});
 

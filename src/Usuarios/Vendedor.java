@@ -9,7 +9,7 @@ public class Vendedor extends Rol {
 	}
 	@Override
 	public int Identificarme() {
-		return 3;
+		return Rol.VENDEDOR_ID;
 	}
 
 }

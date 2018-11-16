@@ -21,6 +21,7 @@ public class ImpresionDeEntradasView {
 
 	public ImpresionDeEntradasView() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**

@@ -9,6 +9,6 @@ public class Operador extends Rol {
 	
 	@Override
 	public int Identificarme() {
-		return 2;
+		return Rol.OPERADOR_ID;
 	}
 }

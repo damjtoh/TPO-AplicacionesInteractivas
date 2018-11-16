@@ -21,8 +21,7 @@ public class VentasDAO {
 	public static Venta insert(Venta venta) {
 		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			
-			
+
 			int id = getId();
 
 			PreparedStatement query = coneccion.prepareStatement("insert into VENTA values (?,?,?,?,?,?)");
@@ -48,44 +47,45 @@ public class VentasDAO {
 		return null;
 
 	}
+
 	private static int getId() throws SQLException {
 
-			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion.prepareStatement("select max(id)+1 from VENTA");
-			ResultSet res =query.executeQuery();
+		Connection coneccion = PoolConnection.getPoolConnection().getConnection();
+		PreparedStatement query = coneccion.prepareStatement("select max(id)+1 from VENTA");
+		ResultSet res = query.executeQuery();
 
-			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
-			if (res.next()) {
-				return res.getInt(1);
-			}
-			return 1;
+		PoolConnection.getPoolConnection().realeaseConnection(coneccion);
+		if (res.next()) {
+			return res.getInt(1);
+		}
+		return 1;
 
 	}
 
 	public static Venta update(Venta venta) {
-		try {			
+		try {
 			Connection coneccion = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement query = coneccion
-					.prepareStatement("update VENTA set fechaYHora = ?, tipoDePago = ?,numeroDeTarjeta = ?, importe = ?,esPorPortal = ? where id = ?");
+			PreparedStatement query = coneccion.prepareStatement(
+					"update VENTA set fechaYHora = ?, TIPO_DE_PAGO_numero = ?,numeroDeTarjeta = ?, importe = ?,esPorPortal = ? where id = ?");
 
 			venta.getEntradas().clear();
-			
+
 			for (Entrada entrada : venta.getEntradas()) {
 				venta.getEntradas().add(EntradasDAO.updateEntrada(entrada));
-			}	
-			
-			query.setString(2, venta.getFechaYHora().toString());
-			query.setObject(3, venta.getTipoDePago());
-			query.setLong(4, venta.getNumeroDeTarjeta());
-			query.setDouble(5, venta.getImporte());
-			query.setBoolean(6, venta.isEsPorPortal());
-			query.setInt(7, venta.getId());
+			}
+
+			query.setString(1, venta.getFechaYHora().toString());
+			query.setObject(2, venta.getTipoDePago().getNro());
+			query.setLong(3, venta.getNumeroDeTarjeta());
+			query.setDouble(4, venta.getImporte());
+			query.setBoolean(5, venta.isEsPorPortal());
+			query.setInt(6, venta.getId());
 			query.execute();
-	
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return venta;
 		} catch (Exception e) {
-			System.out.println(e.getMessage() + "Update fail");
+			System.out.println(e.getMessage() + " Update fail");
 		}
 		return null;
 	}
@@ -97,7 +97,7 @@ public class VentasDAO {
 			PreparedStatement query = coneccion.prepareStatement("delete from VENTA where id = ?");
 			query.setInt(1, venta.getId());
 			query.execute();
-	
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return true;
 		} catch (Exception e) {
@@ -113,12 +113,15 @@ public class VentasDAO {
 			query.setInt(1, id);
 			ResultSet res = query.executeQuery();
 			Venta venta = null;
-			
+
 			if (res.last()) {
 				venta = new Venta(EntradasDAO.getByVentaId(id), res.getDate("fechaYHora").toLocalDate(),
-						(ITipoDePago)res.getObject("tipoDePago"), res.getLong("numeroDeTarjeta"), res.getDouble("importe"), res.getInt("id"));
+						(ITipoDePago) (res.getInt("TIPO_DE_PAGO_numero") == 0 ? new TarjetaDebitoXPortal()
+								: new TarjetaCreditoXPortal()),
+						res.getLong("numeroDeTarjeta"), res.getDouble("importe"), res.getInt("id"));
+				venta.setEsPorPortal(res.getBoolean("esPorPortal"));
 			}
-			
+
 			PoolConnection.getPoolConnection().realeaseConnection(coneccion);
 			return venta;
 		} catch (Exception e) {

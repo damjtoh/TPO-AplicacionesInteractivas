@@ -9,7 +9,7 @@ public class Administrador extends Rol {
 	@Override
 	public int Identificarme() {
 		// TODO Auto-generated method stub
-		return 4;
+		return Rol.ADMINISTRADOR_ID;
 	}
 
 }

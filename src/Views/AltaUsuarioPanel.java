@@ -237,7 +237,7 @@ public class AltaUsuarioPanel extends JPanel {
 			chckbxAgenteComercial.setBounds(313, 122, 115, 23);
 			this.add(chckbxAgenteComercial);
 
-			chckbxVendedor = new JCheckBox("Agente Comercial");
+			chckbxVendedor = new JCheckBox("Vendedor");
 			chckbxVendedor.setBounds(313, 168, 115, 23);
 			this.add(chckbxVendedor);
 

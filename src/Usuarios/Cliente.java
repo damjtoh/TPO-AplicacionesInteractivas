@@ -9,7 +9,7 @@ public class Cliente extends Rol {
 
 	@Override
 	public int Identificarme() {
-		return 1;
+		return Rol.CLIENTE_ID;
 	}
 
 }

@@ -8,7 +8,7 @@ public class AgenteComercial extends Rol {
 
 	@Override
 	public int Identificarme() {
-		return 3;
+		return Rol.AGENTE_COMERCIAL_ID;
 	}
 
 }

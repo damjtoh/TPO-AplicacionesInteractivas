@@ -103,6 +103,15 @@ public class MenuPrincipalView extends JFrame {
 		
 		getContentPane().add(loginPanel);
 		this.setPanel(loginPanel);
+		
+		JButton btnImprimirEntradas = new JButton("Imprimir Entradas");
+		btnImprimirEntradas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ImpresionDeEntradasView impresionDeEntradasView = new ImpresionDeEntradasView();
+			}
+		});
+		btnImprimirEntradas.setBounds(165, 324, 146, 25);
+		contentPane.add(btnImprimirEntradas);
 		System.out.println(this.getContentPane().getName());
 
 
@@ -169,7 +178,7 @@ public class MenuPrincipalView extends JFrame {
 			menuVentas.add(subMenuVenderEntrada);
 			subMenuVenderEntrada.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					that.setPanel(new AltaUsuarioPanel());
+					ABMFuncionesEstablecimientosView.getInstancia(false);
 				}
 			});
 			this.menuBar.add(menuVentas);
