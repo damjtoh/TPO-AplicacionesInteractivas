@@ -115,7 +115,7 @@ public abstract class Descuento {
 
 	public abstract DescuentoPresentacion ToPresentacion();
 	
-	public abstract void EfectuarDescuento(Venta venta);
+	public abstract double EfectuarDescuento(double d, int cantidadEntradas);
 	
 	public ETipoDescuento GetTipo() {
 		return tipo;

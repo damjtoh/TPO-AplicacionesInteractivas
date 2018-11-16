@@ -21,9 +21,13 @@ public class Promo2x1 extends Descuento {
 		super();
 	}
 	
-	@Override
-	public void EfectuarDescuento(Venta venta) {
-		venta.setImporte(venta.getImporte() / 2);
+	public double EfectuarDescuento(double importe, int cantidadEntradas) {
+		if (cantidadEntradas >= 2) {
+			return importe/2;
+		} else {
+			return importe;
+		}
+		
 	}
 
 	@Override

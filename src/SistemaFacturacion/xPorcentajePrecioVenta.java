@@ -31,9 +31,9 @@ public class xPorcentajePrecioVenta extends Descuento {
 	public void setPorcentaje(float porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-
-	public void EfectuarDescuento(Venta venta) {
-		venta.setImporte(venta.getImporte() * (1 - (porcentaje / 100)));
+	@Override
+	public double EfectuarDescuento(double importe, int cantidadEntradas) {
+		return (importe * (1 - (porcentaje / 100)));
 	}
 
 	public DescuentoPresentacion ToPresentacion() {
