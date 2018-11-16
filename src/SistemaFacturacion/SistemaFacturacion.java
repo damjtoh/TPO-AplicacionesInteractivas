@@ -26,7 +26,7 @@ public class SistemaFacturacion {
 	private SistemaFacturacion() {
 		ventas = new ArrayList<Venta>();         //Traer ventas de la base de datos TODO
 		descuentos = new ArrayList<Descuento>(); //Traer descuentos de la base de datos
-		descuentos = DescuentoDAO.getInstancia().selectAllDescuentos();
+		descuentos = FacturacionMapper.listDescuentos();
 		
 		/* CARGA DE DATOS MANUAL PARA TESTING SIN BASE DE DATOS
 		
@@ -87,10 +87,10 @@ public class SistemaFacturacion {
 		}
 	}
 	
-	public void AltaDescuento2x1(Date fechaInicio, Date fechaFin, String nombre) {
+	public void AltaDescuento2x1(Date fechaInicio, Date fechaFin, String nombre, Integer establecimientoCuit) {
 		Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
 		if(usuarioLogueado.tieneRol(Rol.AGENTE_COMERCIAL_ID)) {
-			Descuento descuento = new Promo2x1(0, usuarioLogueado,fechaInicio,fechaFin,nombre, 0, 0, 0);
+			Descuento descuento = new Promo2x1(0, usuarioLogueado,fechaInicio,fechaFin,nombre, establecimientoCuit, 1, 0);
 			descuentos.add(descuento);
 			//Guardar en la base de datos
 			DescuentoDAO.Save(descuento);

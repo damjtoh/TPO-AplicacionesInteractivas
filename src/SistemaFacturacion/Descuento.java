@@ -16,8 +16,8 @@ public abstract class Descuento {
 	protected Date fechaFin;
 	protected String nombre;
 	protected ETipoDescuento tipo;
-	private int establecimientoCuit;
-	private int activo;
+	protected int establecimientoCuit;
+	protected int activo;
 	private int estaCombo;
 	public Descuento(int id, Usuario creadoPor, Date fechaInicio, Date fechaFin, String nombre, int establecimientoCuit, int activo, int estaCombo) {
 		this.id = id;

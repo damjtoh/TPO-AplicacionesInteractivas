@@ -93,7 +93,16 @@ public class MenuPrincipalView extends JFrame {
 		btnSalir.setBounds(391, 0, 85, 25);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				Usuario usuarioLogueado = SistemaUsuarios.getInstancia().getUsuarioLogueado();
+				if (usuarioLogueado == null) {
+					System.exit(0);	
+				} else {
+					SistemaUsuarios.getInstancia().logout();
+					that.instancia.dispose();
+					that.instancia = new MenuPrincipalView();
+
+				}
+				
 			}
 		});
 		

@@ -37,7 +37,7 @@ public class xPorcentajePrecioVenta extends Descuento {
 	}
 
 	public DescuentoPresentacion ToPresentacion() {
-		return new xPorcentajePrecioVentaPresentacion(id, fechaInicio, fechaFin, porcentaje, nombre);
+		return new xPorcentajePrecioVentaPresentacion(id, fechaInicio, fechaFin, porcentaje, nombre, Integer.toString(establecimientoCuit), activo);
 	}
 
 }

@@ -20,8 +20,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import SistemaFacturacion.Descuento;
+import SistemaFacturacion.FacturacionMapper;
 import SistemaFacturacion.SistemaFacturacion;
 import presentacion.DescuentoPresentacion;
+import sistemaCine.view.admin.adminCinesView;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
@@ -30,13 +34,23 @@ public class DescuentosView extends JFrame {
 	/**
 	 * 
 	 */
+	private static DescuentosView instancia;
 	private static final long serialVersionUID = 1L;
 	private JFrame frmDescuentos;
 	private JTable table;
+	JPanel panel = new JPanel();
+	DescuentosView that = this;
 
 	public DescuentosView() {
 		initialize();
 		this.frmDescuentos.setVisible(true);
+	}
+	
+	public static DescuentosView getInstancia() {
+		if (instancia == null) {
+			instancia = new DescuentosView();
+		}
+		return instancia;
 	}
 
 	private void initialize() {
@@ -47,7 +61,6 @@ public class DescuentosView extends JFrame {
 		frmDescuentos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDescuentos.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 550, 225);
 		frmDescuentos.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
@@ -60,7 +73,7 @@ public class DescuentosView extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID", "Nombre", "Tipo", "Fecha Inicio", "Fecha Fin"
+				"ID", "Nombre", "Tipo", "Fecha Inicio", "Fecha Fin", "CUIT", "Activo"
 			}
 		) {
 			/**
@@ -82,26 +95,28 @@ public class DescuentosView extends JFrame {
 		JButton btnAltaDescuentox = new JButton("Alta Descuento 2x1");
 		btnAltaDescuentox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String nombre = JOptionPane.showInputDialog("Ingrese el nombre del descuento");
-				if(nombre!=null && nombre.length()>0) {
-					String fechaInicioStr = JOptionPane.showInputDialog("Ingrese la fecha de inicio (dd/mm/aaaa)");
-					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
-						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la fecha de fin (dd/mm/aaaa)");
-						if(fechaFinStr!=null && fechaFinStr.length()>0) {
-							
-							DateFormat formatter;
-							try{
-								formatter = new SimpleDateFormat("dd/MM/yyyy");
-								Date fechainicio = (Date) formatter.parse(fechaInicioStr);
-								Date fechaFin = (Date) formatter.parse(fechaFinStr);
-								SistemaFacturacion.GetInstancia().AltaDescuento2x1(fechainicio, fechaFin, nombre);
-								LoadTable();
-							}catch(Exception e) {
-								JOptionPane.showMessageDialog(null,"Por favor ingresar la fecha correctamente");
-							}
-						}
-					}
-				}
+				Alta2x1View alta2x1View = new Alta2x1View();
+				alta2x1View.setVisible(true);
+//				String nombre = JOptionPane.showInputDialog("Ingrese el nombre del descuento");
+//				if(nombre!=null && nombre.length()>0) {
+//					String fechaInicioStr = JOptionPane.showInputDialog("Ingrese la fecha de inicio (dd/mm/aaaa)");
+//					if(fechaInicioStr!=null && fechaInicioStr.length()>0) {
+//						String fechaFinStr = JOptionPane.showInputDialog("Ingrese la fecha de fin (dd/mm/aaaa)");
+//						if(fechaFinStr!=null && fechaFinStr.length()>0) {
+//							
+//							DateFormat formatter;
+//							try{
+//								formatter = new SimpleDateFormat("dd/MM/yyyy");
+//								Date fechainicio = (Date) formatter.parse(fechaInicioStr);
+//								Date fechaFin = (Date) formatter.parse(fechaFinStr);
+//								SistemaFacturacion.GetInstancia().AltaDescuento2x1(fechainicio, fechaFin, nombre);
+//								LoadTable();
+//							}catch(Exception e) {
+//								JOptionPane.showMessageDialog(null,"Por favor ingresar la fecha correctamente");
+//							}
+//						}
+//					}
+//				}
 			}
 		});
 		btnAltaDescuentox.setBounds(29, 267, 187, 23);
@@ -218,13 +233,34 @@ public class DescuentosView extends JFrame {
 		btnModificarDescuentoSeleccionado.setBounds(285, 302, 239, 23);
 		frmDescuentos.getContentPane().add(btnModificarDescuentoSeleccionado);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(229, 237, 121, 24);
-		frmDescuentos.getContentPane().add(comboBox);
-		
-		JLabel lblEstablecimiento = new JLabel("Establecimiento");
-		lblEstablecimiento.setBounds(94, 237, 128, 15);
-		frmDescuentos.getContentPane().add(lblEstablecimiento);
+		JButton btnDesactivarDescuentoSeleccionado = new JButton("Activar/Desactivar Descuento");
+		btnDesactivarDescuentoSeleccionado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int columna = 0;
+				int fila = table.getSelectedRow();
+				
+				if(fila>=0) {
+					int id = Integer.parseInt(table.getModel().getValueAt(fila, columna).toString());
+					Descuento descuento = SistemaFacturacion.GetInstancia().BuscarDescuento(id);
+					if (descuento.getActivo() == 1) {
+						FacturacionMapper.desactivateDescuento(id);
+						descuento.setActivo(0);
+						JOptionPane.showMessageDialog(null,"Descuento desactivado con éxito");
+					} else {
+						FacturacionMapper.activateDescuento(id);
+						descuento.setActivo(1);
+						JOptionPane.showMessageDialog(null,"Descuento activado con éxito");
+					}
+					
+					that.LoadTable();
+					
+				} else {
+					JOptionPane.showMessageDialog(null,"Por favor primero seleccionar un descuento");
+				}
+			}
+		});
+		btnDesactivarDescuentoSeleccionado.setBounds(285, 334, 239, 23);
+		frmDescuentos.getContentPane().add(btnDesactivarDescuentoSeleccionado);
 	}
 	
 	public void LoadTable() {
@@ -240,6 +276,8 @@ public class DescuentosView extends JFrame {
 			fila[2] = descuento.GetTipoDescuento().toString();
 			fila[3] = descuento.getFechaInicio().toString();
 			fila[4] = descuento.getFechaFin().toString();
+			fila[5] = descuento.getEstablecimientoCuit().toString();
+			fila[6] = Integer.toString(descuento.getActivo());
 			((DefaultTableModel) table.getModel()).addRow(fila);
 		}
 	}

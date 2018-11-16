@@ -7,8 +7,8 @@ import SistemaFacturacion.ETipoDescuento;
 
 public class Promo2x1Presentacion extends DescuentoPresentacion{
 
-	public Promo2x1Presentacion(int id, Date fechaInicio, Date fechaFin, String nombre) {
-		super(id, fechaInicio, fechaFin,nombre);
+	public Promo2x1Presentacion(int id, Date fechaInicio, Date fechaFin, String nombre, String establecimientoCuit, int activo) {
+		super(id, fechaInicio, fechaFin,nombre, establecimientoCuit, activo);
 		this.tipo = ETipoDescuento.PROMO_2x1;
 	}
 	

@@ -9,8 +9,8 @@ public class xPorcentajePrecioVentaPresentacion extends DescuentoPresentacion{
 
 	private float porcentaje;
 	
-	public xPorcentajePrecioVentaPresentacion(int id, Date fechaInicio, Date fechaFin, float porcentaje, String nombre) {
-		super(id, fechaInicio, fechaFin,nombre);
+	public xPorcentajePrecioVentaPresentacion(int id, Date fechaInicio, Date fechaFin, float porcentaje, String nombre, String establecimientoCuit, int activo) {
+		super(id, fechaInicio, fechaFin,nombre, establecimientoCuit, activo);
 		this.tipo = ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA;
 		this.porcentaje = porcentaje;
 	}
