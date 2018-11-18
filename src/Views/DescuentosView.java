@@ -58,7 +58,7 @@ public class DescuentosView extends JFrame {
 		frmDescuentos.setResizable(false);
 		frmDescuentos.setTitle("Descuentos");
 		frmDescuentos.setBounds(100, 100, 556, 402);
-		frmDescuentos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frmDescuentos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDescuentos.getContentPane().setLayout(null);
 		
 		panel.setBounds(0, 0, 550, 225);
