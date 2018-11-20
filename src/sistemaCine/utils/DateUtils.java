@@ -6,7 +6,9 @@ import java.util.Calendar;
 
 public final class DateUtils {
 	@SuppressWarnings("unused")
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	private static final SimpleDateFormat sdfNoTime = new SimpleDateFormat("dd-MM-yyyy");
+	private static final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
 
 	public static final Date getDateSinHora(Date fecha) {
 		Calendar date = Calendar.getInstance();
@@ -46,11 +48,16 @@ public final class DateUtils {
 //		return (Date) fecha;
 //	}
 	public static String getHoraString(Date fechaYHora) {
-		Calendar date = Calendar.getInstance();
-		date.setTime(fechaYHora);
-		return ((date.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + date.get(Calendar.HOUR_OF_DAY)
-				: date.get(Calendar.HOUR_OF_DAY)) + ":"
-				+ ((date.get(Calendar.MINUTE) < 10) ? "0" + date.get(Calendar.MINUTE) : date.get(Calendar.MINUTE));
+//		Calendar date = Calendar.getInstance();
+//		date.setTime(fechaYHora);
+//		return ((date.get(Calendar.HOUR_OF_DAY) < 10) ? "0" + date.get(Calendar.HOUR_OF_DAY)
+//				: date.get(Calendar.HOUR_OF_DAY)) + ":"
+//				+ ((date.get(Calendar.MINUTE) < 10) ? "0" + date.get(Calendar.MINUTE) : date.get(Calendar.MINUTE));
+		return sdfTime.format(fechaYHora);
+	}
+
+	public static String getDateSinHoraString(Date fechaYHora) {
+		return sdfNoTime.format(fechaYHora);
 	}
 
 }

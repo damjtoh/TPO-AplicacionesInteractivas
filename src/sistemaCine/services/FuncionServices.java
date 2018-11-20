@@ -37,11 +37,12 @@ public class FuncionServices {
 		List<Funcion> funcionesObtenidas = FuncionDAO.selectFunciones(pelicula, fecha, cuitEstablecimiento);
 		Map<String, Map<String, Funcion>>  funcionesMap = new HashMap<>();
 		for (Funcion funcion : funcionesObtenidas) {
-			if (!funcionesMap.containsKey(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString())) {
-				funcionesMap.put(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString(),
+			if (!funcionesMap.containsKey(DateUtils.getDateSinHoraString(funcion.getFechaYHora()))) {
+				funcionesMap.put(DateUtils.getDateSinHoraString(funcion.getFechaYHora()),
 						new HashMap<String, Funcion>());
 			}
-			funcionesMap.get(DateUtils.getDateSinHora(funcion.getFechaYHora()).toString())
+			System.out.println(DateUtils.getDateSinHoraString(funcion.getFechaYHora()));
+			funcionesMap.get(DateUtils.getDateSinHoraString(funcion.getFechaYHora()))
 					.put(DateUtils.getHoraString(funcion.getFechaYHora()), funcion);
 		}
 		return funcionesMap;

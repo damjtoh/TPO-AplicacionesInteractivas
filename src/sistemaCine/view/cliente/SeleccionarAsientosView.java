@@ -155,7 +155,7 @@ public class SeleccionarAsientosView extends GeneralFrame {
 					entradas.add(new Entrada(new AsientoVirtual(asiento.getColumna(), asiento.getFila()), funcion));
 				}
 				new CheckOutView(entradas, funcion,esPorPortal, establecimiento).setVisible(true);
-				this.dispose();
+				frame.dispose();
 			}
 		});
 
