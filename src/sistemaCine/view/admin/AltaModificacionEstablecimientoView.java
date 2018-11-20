@@ -174,6 +174,7 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 										compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
 						btnCancelar.doClick();
 					} catch (NumberFormatException | SQLException e1) {
+						JOptionPane.showMessageDialog(frame, "La no se pudo crear es establecimiento", "Creacion Fallida", JOptionPane.ERROR_MESSAGE);
 						btnCrear.setBackground(Color.RED);
 						e1.printStackTrace();
 					}
@@ -222,6 +223,7 @@ public class AltaModificacionEstablecimientoView extends GeneralFrame {
 							compNombre.getText(), compDireccion.getText(), Integer.parseInt(compCapacidad.getText())));
 				} catch (NumberFormatException | SQLException e1) {
 					btnCrear.setBackground(Color.RED);
+					JOptionPane.showMessageDialog(frame, "La creacion fallo", "Creacion Fallida", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}

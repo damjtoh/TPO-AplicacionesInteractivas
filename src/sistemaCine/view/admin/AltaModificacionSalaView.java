@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -211,6 +212,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 					btnCancelar.doClick();
 				} catch (Exception e1) {
 					btnCrear.setBackground(Color.RED);
+					JOptionPane.showMessageDialog(this, "La sala ya existe", "Creacion Fallida", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			});
@@ -231,6 +233,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 				SalaServices.eliminarSala(new Sala(oldSalaName), cuit);
 				btnCancelar.doClick();
 			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Eliminacion Fallida", JOptionPane.ERROR_MESSAGE);
 				btnEliminar.setBackground(Color.RED);
 				e1.printStackTrace();
 			}
@@ -262,6 +265,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 				SalaServices.updateSala(sala, cuit, oldSalaName);
 				btnCancelar.doClick();
 			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Modificación Fallida", JOptionPane.ERROR_MESSAGE);
 				btnCrear.setBackground(Color.RED);
 				e1.printStackTrace();
 			}
@@ -278,7 +282,7 @@ public class AltaModificacionSalaView extends GeneralFrame {
 				comboBoxFunciones.addItem(funcion.toString());
 			}
 		} catch (SQLException e1) {
-
+			JOptionPane.showMessageDialog(this, e1.getMessage(), "Lectura Fallida", JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
 

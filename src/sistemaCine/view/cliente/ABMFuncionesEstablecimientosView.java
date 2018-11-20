@@ -53,7 +53,8 @@ public class ABMFuncionesEstablecimientosView extends GeneralFrame {
 
 	/**
 	 * Launch the application.
-	 * @param esPorPortal2 
+	 * 
+	 * @param esPorPortal2
 	 */
 	public static ABMFuncionesEstablecimientosView getInstancia(boolean esPorPortal2) {
 		esPorPortal = esPorPortal2;
@@ -268,7 +269,7 @@ public class ABMFuncionesEstablecimientosView extends GeneralFrame {
 	@Override
 	protected void deleteInstance() {
 		instancia = null;
-		
+
 	}
 
 }

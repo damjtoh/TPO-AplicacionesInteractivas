@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -120,7 +121,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 				this.peliculas = PeliculaServices.getAllPeliculasMap();
 				funcion.setMapaDeAsientos(EntradaService.getMapaAsientosFuncion(funcion));
 			} catch (SQLException e1) {
-
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Lectura Fallida", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 
@@ -234,6 +235,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 					btnCancelar.doClick();
 				} catch (SQLException | IllegalArgumentException e1) {
 					btnCrear.setBackground(Color.RED);
+					JOptionPane.showMessageDialog(this, e1.getMessage(), "Creacion Fallida", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 
@@ -260,6 +262,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 				FuncionServices.eliminarFuncion(funcion);
 				btnCancelar.doClick();
 			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Eliminacion Fallida", JOptionPane.ERROR_MESSAGE);
 				btnEliminar.setBackground(Color.RED);
 				e1.printStackTrace();
 			}
@@ -273,6 +276,7 @@ public class AltaModificacionFuncionView extends GeneralFrame {
 				FuncionServices.updateFuncion(funcion, cuit);
 				btnCancelar.doClick();
 			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), "Modificación Fallida", JOptionPane.ERROR_MESSAGE);
 				btnCrear.setBackground(Color.RED);
 				e1.printStackTrace();
 			}

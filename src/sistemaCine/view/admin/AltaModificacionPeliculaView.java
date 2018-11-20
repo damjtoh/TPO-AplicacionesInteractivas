@@ -187,6 +187,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 					btnCancelar.doClick();
 				} catch (Exception ex) {
 					btnCrear.setBackground(Color.RED);
+					JOptionPane.showMessageDialog(this, ex.getMessage(), "Creacion Fallida", JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();
 				}
 			});
@@ -217,6 +218,7 @@ public class AltaModificacionPeliculaView extends GeneralFrame {
 				btnCancelar.doClick();
 			} catch (Exception ex) {
 				btnCrear.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Modificación Fallida", JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
 			}
 		});
