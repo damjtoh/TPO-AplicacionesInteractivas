@@ -81,7 +81,7 @@ public class CheckOutView extends JFrame {
 		listaTiposDePago.addItem(new TarjetaCreditoXPortal());
 		listaTiposDePago.addItem(new TarjetaDebitoXPortal());
 
-		JLabel lblCombo = new JLabel("Combo");
+		JLabel lblCombo = new JLabel("Descuentos");
 		lblCombo.setBounds(16, 286, 109, 14);
 		contentPane.add(lblCombo);
 

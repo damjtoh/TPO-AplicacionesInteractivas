@@ -201,8 +201,10 @@ public class SeleccionarAsientosView extends GeneralFrame {
 				if (!asiento.isUsable() || funcion.getMapaDeAsientos()
 						.get(new FilaColumna(asiento.getFila(), asiento.getColumna())).isOcupado()) {
 					btnAsiento.setBackground(Color.RED);
+					btnAsiento.setOpaque(true);
 				} else {
 					btnAsiento.setBackground(Color.GREEN);
+					btnAsiento.setOpaque(true);
 					btnAsiento.addActionListener(new ActionListener() {
 
 						@Override
@@ -219,6 +221,7 @@ public class SeleccionarAsientosView extends GeneralFrame {
 
 	private void seleccionarAsiento(JButton btnAsiento, AsientoFisico asiento) {
 		btnAsiento.setBackground(Color.BLUE);
+		btnAsiento.setOpaque(true);
 		asientosSeleccionados.put(new FilaColumna(asiento.getFila(), asiento.getColumna()), asiento);
 		btnAsiento.addActionListener(new ActionListener() {
 

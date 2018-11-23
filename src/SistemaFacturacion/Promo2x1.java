@@ -22,9 +22,12 @@ public class Promo2x1 extends Descuento {
 	}
 	
 	public double EfectuarDescuento(double importe, int cantidadEntradas) {
-		if (cantidadEntradas >= 2) {
+		if (cantidadEntradas%2 == 0) {
 			return importe/2;
 		} else {
+			if(cantidadEntradas>2) {
+				return (importe/cantidadEntradas)*(cantidadEntradas-1)/2 + (importe/cantidadEntradas);
+			}else
 			return importe;
 		}
 		
