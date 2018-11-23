@@ -46,7 +46,7 @@ public class CheckOutView extends JFrame {
 
 	public CheckOutView(List<Entrada> entradas, Funcion funcion, boolean esPorPortal, Establecimiento establecimiento) {
 		this.importe = entradas.size() * funcion.getValor();
-		setBounds(100, 100, 450, 486);
+		setBounds(100, 100, 470, 526);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -102,7 +102,7 @@ public class CheckOutView extends JFrame {
 		txtFechaYHora.setEditable(false);
 
 		JLabel lblAsientos = new JLabel("Asientos");
-		lblAsientos.setBounds(241, 92, 46, 14);
+		lblAsientos.setBounds(241, 92, 147, 14);
 		contentPane.add(lblAsientos);
 
 		JTextArea txtAsientos = new JTextArea();
@@ -148,7 +148,7 @@ public class CheckOutView extends JFrame {
 		
 		table = new JTable(tableData, columnNames);
 		table.setDefaultEditor(Object.class, null);
-		table.setBounds(147, 343, 211, 85);
+		table.setBounds(97, 344, 211, 85);
 		contentPane.add(table);
 		table.setVisible(true);
 
@@ -161,7 +161,7 @@ public class CheckOutView extends JFrame {
 //		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
 
 		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setBounds(241, 440, 187, 23);
+		btnConfirmar.setBounds(108, 443, 187, 23);
 		contentPane.add(btnConfirmar);
 
 		JLabel lblNumeroDeTarjeta = new JLabel("Numero de Tarjeta");
@@ -180,7 +180,7 @@ public class CheckOutView extends JFrame {
 		txtEstablecimiento.setColumns(10);
 		
 		JLabel lblDescuentos = new JLabel("Descuentos");
-		lblDescuentos.setBounds(267, 312, 91, 16);
+		lblDescuentos.setBounds(245, 323, 91, 16);
 		contentPane.add(lblDescuentos);
 		
 

@@ -155,8 +155,7 @@ public class MapperUsuario {
 				//SELECT LAST_INSERT_ID();
 				System.out.println("Latest user id: "+userId.toString());
 				ArrayList<Integer> rolesIds = u.getRolesIds();
-				System.out.println(rolesIds.stream().map(Object::toString)
-                        .collect(Collectors.joining(", ")));
+			System.out.println(rolesIds.stream().map(Object::toString).collect(Collectors.joining(", ")));
 				for (Integer rolId : rolesIds) {
 					PreparedStatement sRoles = con.prepareStatement("INSERT INTO UsuarioRol (usuarioRolId, rolId, usuarioId) VALUES (null, ?, ?);");
 					sRoles.setInt(1, rolId);

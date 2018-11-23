@@ -1,6 +1,5 @@
 package Usuarios;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -17,9 +16,8 @@ public class Usuario {
 	private boolean activo = true;
 	private ArrayList<Rol> roles;
 
- 
-
-	public Usuario(Integer id, String nombre, String email, String password, String nombreUsuario, String domicilio, int dni, LocalDate fechaNac) {
+	public Usuario(Integer id, String nombre, String email, String password, String nombreUsuario, String domicilio,
+			int dni, LocalDate fechaNac) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -36,7 +34,7 @@ public class Usuario {
 		return this.id;
 	}
 
-	//Getters y Setters
+	// Getters y Setters
 	public String getNombre() {
 		return nombre;
 	}
@@ -92,7 +90,7 @@ public class Usuario {
 	public ArrayList<Rol> getRoles() {
 		return roles;
 	}
-	
+
 	public void addRol(Rol rol) {
 		this.roles.add(rol);
 	}
@@ -100,26 +98,26 @@ public class Usuario {
 	public void setRoles(ArrayList<Rol> roles) {
 		this.roles = roles;
 	}
-	
-	//Metodos
-	
-	public boolean esUsuario(String Usuario)
-	{
+
+	// Metodos
+
+	public boolean esUsuario(String Usuario) {
 		return (Usuario == nombreUsuario);
 	}
 
 	public boolean esPassword(String Password) {
 		return (Password.equals(password));
 	}
-	
+
 	public ArrayList<Integer> getRolesIds() {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		for (Rol rol : this.roles) {
 			ids.add(rol.Identificarme());
-		};
+		}
+		;
 		return ids;
 	}
-	
+
 	public boolean tieneRol(int rolId) {
 		for (Rol rol : this.roles) {
 			if (rol.Identificarme() == rolId) {
@@ -128,18 +126,13 @@ public class Usuario {
 		}
 		return false;
 	}
-	
+
 	public String toString() {
-        return "ID:" + String.valueOf(this.id) + "\n"
-        		+ "Nombre:" + this.nombre + "\n"
-                + "Email:" + this.email + "\n"
-                + "Password:" + this.password + "\n"
-                + "Usuario:" + this.nombreUsuario + "\n"
-                + "Domicilio:" + this.domicilio + "\n"
-                + "DNI:" + String.valueOf(this.dni) + "\n"
-        		+ "Fecha nac:" + String.valueOf(this.fechaNacimiento) + "\n"
-        		+ "Roles:"+ this.roles.stream().map(Object::toString)
-                .collect(Collectors.joining(", "))+"\n";
-    }
-	
+		return "ID:" + String.valueOf(this.id) + "\n" + "Nombre:" + this.nombre + "\n" + "Email:" + this.email + "\n"
+				+ "Password:" + this.password + "\n" + "Usuario:" + this.nombreUsuario + "\n" + "Domicilio:"
+				+ this.domicilio + "\n" + "DNI:" + String.valueOf(this.dni) + "\n" + "Fecha nac:"
+				+ String.valueOf(this.fechaNacimiento) + "\n" + "Roles:"
+				+ this.roles.stream().map(Object::toString).collect(Collectors.joining(", ")) + "\n";
+	}
+
 }

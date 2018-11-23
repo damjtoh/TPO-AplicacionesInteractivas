@@ -1,10 +1,5 @@
 package Usuarios;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Vector;
-
 public class SistemaUsuarios {
 	
 	private Usuario usuarioLogueado;
