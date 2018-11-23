@@ -71,8 +71,11 @@ public class SistemaFacturacion {
 	public Collection<DescuentoPresentacion> GetDescuentosPresentacion(){
 		Collection<DescuentoPresentacion> descuentosPresentacion = new ArrayList<DescuentoPresentacion>();
 		
-		for(Descuento descuento : descuentos)
-			descuentosPresentacion.add(descuento.ToPresentacion());
+		for(Descuento descuento : descuentos) {
+			if (descuento != null) {				
+				descuentosPresentacion.add(descuento.ToPresentacion());
+			}
+		}
 		
 		return descuentosPresentacion;
 	}

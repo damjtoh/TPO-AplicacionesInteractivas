@@ -35,4 +35,11 @@ public class Promo2x1 extends Descuento {
 		return new Promo2x1Presentacion(id, fechaInicio, fechaFin, nombre, Integer.toString(establecimientoCuit), activo);
 	}
 
+	@Override
+	public String toString() {
+		return "Promo2x1: "+this.nombre;
+	}
+	
+	
+
 }

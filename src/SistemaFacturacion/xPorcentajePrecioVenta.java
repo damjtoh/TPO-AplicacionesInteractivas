@@ -33,11 +33,15 @@ public class xPorcentajePrecioVenta extends Descuento {
 	}
 	@Override
 	public double EfectuarDescuento(double importe, int cantidadEntradas) {
-		return (importe * (1 - (porcentaje / 100)));
+		return (importe * (1 - (porcentaje)));
 	}
 
 	public DescuentoPresentacion ToPresentacion() {
 		return new xPorcentajePrecioVentaPresentacion(id, fechaInicio, fechaFin, porcentaje, nombre, Integer.toString(establecimientoCuit), activo);
+	}
+	
+	public String toString() {
+		return "Descuento del "+Double.toString(porcentaje*100)+"%";
 	}
 
 }

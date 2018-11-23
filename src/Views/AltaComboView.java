@@ -124,8 +124,8 @@ public class AltaComboView extends JFrame {
 							
 							try {
 								formatter = new SimpleDateFormat("dd/MM/yyyy");
-								Date fechaInicio = (Date) formatter.parse(fechaInicioStr);
-								Date fechaFin = (Date) formatter.parse(fechaFinStr);	
+								Date fechaInicio = new Date(formatter.parse(fechaInicioStr).getTime());
+								Date fechaFin = new Date(formatter.parse(fechaFinStr).getTime());	
 								
 								if(!descuentosPresentacion.isEmpty()) {
 									for(DescuentoPresentacion descuento : descuentosPresentacion) {
@@ -138,12 +138,13 @@ public class AltaComboView extends JFrame {
 									
 									SistemaFacturacion.GetInstancia().AltaDescuentoCombo(fechaInicio, fechaFin, descuentosPresentacion, nombre);
 									
-									descuentosView.LoadTable();
+									descuentosView.getInstancia().LoadTable();
 									frmDescuentos.dispose();
 								}else {
 									JOptionPane.showMessageDialog(null,"Por favor ingrese al menos un descuento");
 								}
 							}catch(Exception e) {
+								e.printStackTrace();
 								JOptionPane.showMessageDialog(null,"Por favor ingresar la fecha correctamente");
 							}
 						}

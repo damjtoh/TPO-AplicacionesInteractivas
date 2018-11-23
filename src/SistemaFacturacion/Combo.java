@@ -69,10 +69,17 @@ public class Combo extends Descuento{
 	public DescuentoPresentacion ToPresentacion() {
 		Collection<DescuentoPresentacion> descuentosPresentacion = new ArrayList<DescuentoPresentacion>();
 		
-		for(Descuento descuento : descuentos)
+		for(Descuento descuento : descuentos) {			
 			descuentosPresentacion.add(descuento.ToPresentacion());
+		}
 		
 		return new ComboPresentacion(id,fechaInicio,fechaFin,descuentosPresentacion,nombre, Integer.toString(establecimientoCuit), activo);
 	}
+	@Override
+	public String toString() {
+		return "Combo: "+this.nombre;
+	}
+	
+	
 	
 }

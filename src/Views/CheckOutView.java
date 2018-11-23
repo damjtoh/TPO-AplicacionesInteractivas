@@ -40,13 +40,15 @@ public class CheckOutView extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtEstablecimiento;
 	private ArrayList<Descuento> descuentos = new ArrayList<Descuento>();
-	private JTable table;
 	private Vector<Vector> tableData = new Vector<Vector>();
 	private double importe = 0;
+	private double importeOriginal = 0;
+	CheckOutView that = this;
 
 	public CheckOutView(List<Entrada> entradas, Funcion funcion, boolean esPorPortal, Establecimiento establecimiento) {
 		this.importe = entradas.size() * funcion.getValor();
 		setBounds(100, 100, 470, 526);
+		this.importeOriginal = this.importe = entradas.size() * funcion.getValor();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,6 +67,13 @@ public class CheckOutView extends JFrame {
 		JLabel lblFechaYHora = new JLabel("Fecha y hora");
 		lblFechaYHora.setBounds(16, 150, 109, 14);
 		contentPane.add(lblFechaYHora);
+		
+		JTextArea txtImporte = new JTextArea();
+		txtImporte.setBounds(243, 263, 187, 22);
+		txtImporte.setText(Double.toString(this.importe));
+		txtImporte.setEditable(false);
+		
+		contentPane.add(txtImporte);
 
 		JComboBox<ITipoDePago> listaTiposDePago = new JComboBox();
 		listaTiposDePago.setBounds(16, 222, 217, 20);
@@ -77,12 +86,35 @@ public class CheckOutView extends JFrame {
 		contentPane.add(lblCombo);
 
 		JComboBox listCombos = new JComboBox();
+		listCombos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(listCombos.getSelectedItem());
+				Object selectedItem = listCombos.getSelectedItem();
+//				System.out.print(selectedItem);
+				if (selectedItem instanceof String) {
+					txtImporte.setText(Double.toString(importeOriginal));
+					importe = importeOriginal;
+				} else {
+					System.out.print(selectedItem.getClass().getName());
+					Descuento descuento = (Descuento) selectedItem;
+					importe = descuento.EfectuarDescuento(importeOriginal, entradas.size());
+					txtImporte.setText(Double.toString(importe));
+				}
+				
+			}
+		});
 		listCombos.setBounds(16, 311, 217, 20);
 		contentPane.add(listCombos);
-		listCombos.addItem(new Combo());
-		listCombos.addItem(new xPorcentajePrecioVenta());
-		listCombos.addItem(new Promo2x1());
-		listCombos.addItem(new Object());
+		this.descuentos = FacturacionMapper.listDescuentosByEstablecimiento(establecimiento.getCuit());
+		listCombos.addItem(new String("Sin descuento"));
+		for (Descuento descuento: this.descuentos) {
+//			if (descuento.GetTipo() == ETipoDescuento.PROMO_2x1) {
+//				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
+//			} else if(descuento.GetTipo() == ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA) {
+//				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
+//			}
+			listCombos.addItem(descuento);
+		}
 
 		JTextArea txtNumeroTarjeta = new JTextArea();
 		txtNumeroTarjeta.setText("Ingresar numero de tarjeta");
@@ -126,38 +158,9 @@ public class CheckOutView extends JFrame {
 		JLabel lblImporteAPagar = new JLabel("Importe a pagar");
 		lblImporteAPagar.setBounds(245, 236, 187, 14);
 		contentPane.add(lblImporteAPagar);
-		
-		
-		// Descuentos
-		
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Descuento");
-		
-		this.descuentos = FacturacionMapper.listDescuentosByEstablecimiento(establecimiento.getCuit());
-		
-		for (Descuento descuento: this.descuentos) {
-			Vector row = new Vector();
-			row.add(descuento.getNombre());
-			tableData.add(row);
-			if (descuento.GetTipo() == ETipoDescuento.PROMO_2x1) {
-				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
-			} else if(descuento.GetTipo() == ETipoDescuento.X_PORCENTAJE_PRECIO_VENTA) {
-				this.importe = descuento.EfectuarDescuento(this.importe, entradas.size());
-			}
-		}
-		
-		table = new JTable(tableData, columnNames);
-		table.setDefaultEditor(Object.class, null);
-		table.setBounds(97, 344, 211, 85);
-		contentPane.add(table);
-		table.setVisible(true);
 
-		JTextArea txtImporte = new JTextArea();
-		txtImporte.setBounds(243, 263, 187, 22);
-		txtImporte.setText(Double.toString(this.importe));
-		txtImporte.setEditable(false);
+
 		
-		contentPane.add(txtImporte);
 //		txtImporte.setText((Descuento)listaTiposDePago.getSelectedItem().(funcion.getValor() * entradas.size())); ///NICO
 
 		JButton btnConfirmar = new JButton("Confirmar");
@@ -178,11 +181,7 @@ public class CheckOutView extends JFrame {
 		txtEstablecimiento.setEditable(false);
 		contentPane.add(txtEstablecimiento);
 		txtEstablecimiento.setColumns(10);
-		
-		JLabel lblDescuentos = new JLabel("Descuentos");
-		lblDescuentos.setBounds(245, 323, 91, 16);
-		contentPane.add(lblDescuentos);
-		
+
 
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -190,12 +189,12 @@ public class CheckOutView extends JFrame {
 				if (txtNumeroTarjeta.getText() != null) {
 					Venta venta = cVenta.CrearVenta(entradas, funcion.getFechaYHora().toLocalDate(),
 							(ITipoDePago)listaTiposDePago.getSelectedItem(),
-							Long.parseLong(txtNumeroTarjeta.getText()), funcion.getValor() * entradas.size(),
+							Long.parseLong(txtNumeroTarjeta.getText()), importe,
 							esPorPortal);
 					if (esPorPortal) {
 						JOptionPane.showMessageDialog(null, "Su Venta es:" + venta.getId());
 					}
-					dispose();
+					that.dispose();
 				}
 			}
 		});
